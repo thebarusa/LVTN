@@ -41,6 +41,19 @@ void merge_array(float *des, int16_t *ndes, float *temp, int16_t ntemp)
 	
 }
 
+void linspace(float a, float b, uint16_t n, float u[])
+{
+    float c;
+    uint16_t i;
+      
+    /* step size */
+    c = (b - a)/(n - 1);  
+    /* fill vector */
+    for(i = 0; i < n - 1; ++i)
+        u[i] = a + i*c;   
+    /* fix last entry to b */
+    u[n - 1] = b;
+}
 
 void endcut(float *y, float *x, int16_t n, float es, int16_t *ly, int16_t lx)
 {
@@ -74,33 +87,41 @@ void endcut(float *y, float *x, int16_t n, float es, int16_t *ly, int16_t lx)
 	}
 }
 
-void mel_filterbank(uint16_t p, uint16_t n, uint16_t fs)
+
+void mel_filterbank(uint16_t p, uint16_t n, uint16_t fs, float fbank[])
 {
-	uint16_t fn2, b[4];
-	float f0, lr;
-  float bl[4], pf[150], fp[150], pm[150];
+	float mel_points[p+2], hz_points[p+2], f[p+2];
+	float mel_low, mel_high; 
+	uint16_t fm_left, fm_center, fm_right;
+	uint16_t fb_length = floor(n/2)+1;
 	
-	f0  = 700.0f / (float)fs;
-	fn2 = floor(n / 2);
-	lr  = log((1.0f + 0.5f/f0)) / ((float)p + 1.0f);
-	/* convert to fft bin numbers with 0 for DC term */
-	bl[0] = (float)n * (f0 * (float)(exp(0) * lr) - 1);
-	bl[1] = (float)n * (f0 * (float)(exp(1) * lr) - 1);
-	bl[2] = (float)n * (f0 * (float)(exp(p) * lr) - 1);
-	bl[3] = (float)n * (f0 * (float)(exp(p+1) * lr) - 1);	
-	
-	b[0] = floor(bl[0]) + 1;
-	b[1] = ceil(bl[1]);
-	b[2] = floor(bl[2]);
-	b[3] = fmin(fn2, ceil(bl[3])) - 1;
-	
-	for(int8_t i = b[0]; i < b[3]; i++)
+	mel_low = 0;
+	mel_high = 2595.0f * log10f(1.0f + (((float)fs / 2.0f)/700.0f));
+  linspace(mel_low, mel_high, p+2, mel_points);
+	for(uint16_t i = 0; i < (p+2); i++)
 	{
-	  pf[i] = log(1 + b[i] / (float)n / f0) / lr;
-		fp[i] = floor(pf[i]);
-		pm[i] = pf[i] - fp[i];
+		hz_points[i] = 700 * (powf(10.0f, (mel_points[i]/2595.0f)) - 1);
+	}
+	for(uint16_t i = 0; i < (p+2); i++)
+	{
+		f[i] = floor((n+1)*hz_points[i]/fs);
 	}
 	
-	
+	f[0] = 1;
+	for(uint16_t m = 1; m < (p+1); m++)
+	{
+		fm_left   = f[m-1];
+		fm_center = f[m];
+		fm_right  = f[m+1];
+		for(uint16_t k = fm_left; k < (fm_center+1); k++)
+		{
+			fbank[(m-1)*fb_length+k-1] = ((float)k - f[m-1])/(f[m]-f[m-1]);
+		}
+		fbank[(m-1)*fb_length+fm_center] = 1;
+		for(uint16_t k = fm_center; k < (fm_right+1); k++)
+		{
+			fbank[(m-1)*fb_length+k-1] = (f[m+1] - k)/(f[m+1] - f[m]);
+		}
+	} 	
 }
 /* End of file -------------------------------------------------------- */

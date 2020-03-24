@@ -52,17 +52,8 @@
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
-static void MX_GPIO_Init(void);
 /* USER CODE BEGIN PFP */
-struct __FILE
-{
-  int handle;
-};
-int fputc(int ch, FILE *f) 
-	{
-    ITM_SendChar(ch);  //send method for SWV
-    return(ch);
-}
+
 
 /* USER CODE END PFP */
 
@@ -98,15 +89,16 @@ int main(void)
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
-  MX_GPIO_Init();
   /* USER CODE BEGIN 2 */
-	volatile float f0, fn2, lr;
-	volatile uint16_t p;
-	
-	f0 = 700 / 8000.0;
-	p = 20;
-	p = floor(9/2);
-	printf("%d",p);
+	float fb[20*129];
+	volatile float check;
+  volatile uint32_t lt;
+	volatile uint32_t rt;
+	lt = HAL_GetTick();
+	mel_filterbank(20, 256, 8000, fb);
+	check = fb[2577];
+	HAL_Delay(20);
+  rt = HAL_GetTick();
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -162,20 +154,6 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
-}
-
-/**
-  * @brief GPIO Initialization Function
-  * @param None
-  * @retval None
-  */
-static void MX_GPIO_Init(void)
-{
-
-  /* GPIO Ports Clock Enable */
-  __HAL_RCC_GPIOA_CLK_ENABLE();
-  __HAL_RCC_GPIOB_CLK_ENABLE();
-
 }
 
 /* USER CODE BEGIN 4 */

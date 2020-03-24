@@ -21,18 +21,18 @@ Target DLL:      STLink\ST-LINKIII-KEIL_SWO.dll V3.0.7.0
 Dialog DLL:      TCM.DLL V1.36.5.0
  
 <h2>Project:</h2>
-C:\Users\Hung\Desktop\TEST\MDK-ARM\TEST.uvprojx
-Project File Date:  03/21/2020
+D:\Repository\LVTN\C projects\Test C ARM\MDK-ARM\TEST.uvprojx
+Project File Date:  03/23/2020
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 6 (build 750)', folder: 'D:\Programs\KEIL\ARM\ARMCC\Bin'
 Build target 'TEST'
-compiling dsp.c...
-..\Src\dsp.c(81): warning:  #550-D: variable "pm"  was set but never used
-    float bl[4], pf[150], fp[150], pm[150];
-..\Src\dsp.c: 1 warning, 0 errors
+compiling main.c...
+../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h(52): warning:  #47-D: incompatible redefinition of macro "__FPU_PRESENT" 
+  #define __FPU_PRESENT             1U       /*!< FPU present                                   */
+../Src/main.c: 1 warning, 0 errors
 linking...
-Program Size: Code=3644 RO-data=440 RW-data=20 ZI-data=1028  
+Program Size: Code=6328 RO-data=824 RW-data=28 ZI-data=24580  
 FromELF: creating hex file...
 "TEST\TEST.axf" - 0 Error(s), 1 Warning(s).
 
@@ -61,9 +61,9 @@ Package Vendor: Keil
    * Component: ARM::CMSIS:CORE:5.3.0
 
    * Component: ARM::CMSIS:DSP:Library:1.7.0
-      Include file:  CMSIS\DSP\Include\arm_math.h
       Library file:  CMSIS\DSP\Lib\ARM\arm_cortexM4lf_math.lib
-Build Time Elapsed:  00:00:01
+      Include file:  CMSIS\DSP\Include\arm_math.h
+Build Time Elapsed:  00:00:02
 </pre>
 </body>
 </html>
