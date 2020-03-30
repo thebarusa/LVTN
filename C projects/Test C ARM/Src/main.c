@@ -90,15 +90,10 @@ int main(void)
 
   /* Initialize all configured peripherals */
   /* USER CODE BEGIN 2 */
-	float fb[20*129];
-	volatile float check;
-  volatile uint32_t lt;
-	volatile uint32_t rt;
-	lt = HAL_GetTick();
-	mel_filterbank(20, 256, 8000, fb);
-	check = fb[2577];
-	HAL_Delay(20);
-  rt = HAL_GetTick();
+	float h[20];
+	volatile uint16_t check;  
+	
+	hamming(h, 20);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -108,7 +103,7 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-
+    
   }
   /* USER CODE END 3 */
 }

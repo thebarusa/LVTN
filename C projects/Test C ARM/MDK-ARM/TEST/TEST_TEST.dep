@@ -1,8 +1,8 @@
 Dependencies for Project 'TEST', Target 'TEST': (DO NOT MODIFY !)
 CompilerVersion: 5060750::V5.06 update 6 (build 750)::ARMCC
 F (startup_stm32f407xx.s)(0x5E78A7C5)(--cpu Cortex-M4.fp.sp -g --apcs=interwork --pd "__MICROLIB SETA 1"-I.\RTE\_TEST-IC:\Users\Hung\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Users\Hung\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\DSP\Include-IC:\Users\Hung\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.14.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include--pd "__UVISION_VERSION SETA 529" --pd "_RTE_ SETA 1" --pd "STM32F407xx SETA 1"--list startup_stm32f407xx.lst --xref -o test\startup_stm32f407xx.o --depend test\startup_stm32f407xx.d)
-F (..\Src\dsp.c)(0x5E78B813)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_TEST-IC:\Users\Hung\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Users\Hung\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\DSP\Include-IC:\Users\Hung\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.14.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="529" -D_RTE_ -DSTM32F407xx -DUSE_HAL_DRIVER -DSTM32F407xx -DARM_MATH_CM4 -D__FPU_PRESENT-o test\dsp.o --omf_browse test\dsp.crf --depend test\dsp.d)
-I (../Inc/dsp.h)(0x5E78A726)
+F (..\Src\dsp.c)(0x5E81B65D)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_TEST-IC:\Users\Hung\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Users\Hung\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\DSP\Include-IC:\Users\Hung\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.14.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="529" -D_RTE_ -DSTM32F407xx -DUSE_HAL_DRIVER -DSTM32F407xx -DARM_MATH_CM4 -D__FPU_PRESENT-o test\dsp.o --omf_browse test\dsp.crf --depend test\dsp.d)
+I (../Inc/dsp.h)(0x5E81B51F)
 I (D:\Programs\KEIL\ARM\ARMCC\include\stdint.h)(0x5D9AE028)
 I (../Inc/arm_math.h)(0x5C5BF271)
 I (../Drivers/CMSIS/Include/core_cm4.h)(0x5E70C37C)
@@ -11,7 +11,7 @@ I (../Drivers/CMSIS/Include/cmsis_compiler.h)(0x5E70C37C)
 I (../Drivers/CMSIS/Include/cmsis_armcc.h)(0x5E70C37C)
 I (D:\Programs\KEIL\ARM\ARMCC\include\string.h)(0x5D9AE028)
 I (D:\Programs\KEIL\ARM\ARMCC\include\math.h)(0x5D9AE022)
-F (../Src/main.c)(0x5E78D112)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_TEST-IC:\Users\Hung\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Users\Hung\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\DSP\Include-IC:\Users\Hung\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.14.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="529" -D_RTE_ -DSTM32F407xx -DUSE_HAL_DRIVER -DSTM32F407xx -DARM_MATH_CM4 -D__FPU_PRESENT-o test\main.o --omf_browse test\main.crf --depend test\main.d)
+F (../Src/main.c)(0x5E81B537)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_TEST-IC:\Users\Hung\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Users\Hung\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\DSP\Include-IC:\Users\Hung\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.14.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="529" -D_RTE_ -DSTM32F407xx -DUSE_HAL_DRIVER -DSTM32F407xx -DARM_MATH_CM4 -D__FPU_PRESENT-o test\main.o --omf_browse test\main.crf --depend test\main.d)
 I (../Inc/main.h)(0x5E78A7C2)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h)(0x5E70C37D)
 I (../Inc/stm32f4xx_hal_conf.h)(0x5E78A7C2)
@@ -45,7 +45,7 @@ I (D:\Programs\KEIL\ARM\ARMCC\include\string.h)(0x5D9AE028)
 I (D:\Programs\KEIL\ARM\ARMCC\include\math.h)(0x5D9AE022)
 I (D:\Programs\KEIL\ARM\ARMCC\include\stdio.h)(0x5D9AE02A)
 I (D:\Programs\KEIL\ARM\ARMCC\include\stdlib.h)(0x5D9AE02A)
-I (../Inc/dsp.h)(0x5E78A726)
+I (../Inc/dsp.h)(0x5E81B51F)
 F (../Src/stm32f4xx_it.c)(0x5E78A7C2)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_TEST-IC:\Users\Hung\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Users\Hung\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\DSP\Include-IC:\Users\Hung\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.14.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="529" -D_RTE_ -DSTM32F407xx -DUSE_HAL_DRIVER -DSTM32F407xx -DARM_MATH_CM4 -D__FPU_PRESENT-o test\stm32f4xx_it.o --omf_browse test\stm32f4xx_it.crf --depend test\stm32f4xx_it.d)
 I (../Inc/main.h)(0x5E78A7C2)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h)(0x5E70C37D)

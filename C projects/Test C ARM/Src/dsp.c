@@ -55,6 +55,14 @@ void linspace(float a, float b, uint16_t n, float u[])
     u[n - 1] = b;
 }
 
+void hamming(float h[], int16_t n)
+{
+	for(uint16_t i = 0; i < n; i++)
+	{
+		h[i] = 0.54 - 0.46 * cosf(2.0 * PI * (float)i / (float)(n-1));
+	}
+}
+
 void endcut(float *y, float *x, int16_t n, float es, int16_t *ly, int16_t lx)
 {
 	float t1[10], t2[10],  avr, e1, e;
