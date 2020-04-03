@@ -24,13 +24,13 @@
 
 
 /* Public variables --------------------------------------------------- */
-
+float *fbank;
 
 /* Private variables -------------------------------------------------- */
 
 
 /* Private function prototypes ---------------------------------------- */
-void merge_array(float *des, int16_t *ndes, float *temp, int16_t ntemp)
+void merge_array(float des[], int16_t *ndes, float temp[], int16_t ntemp)
 {
 	int16_t m = *ndes, k;
 	*ndes += ntemp;
@@ -59,13 +59,29 @@ void hamming(float h[], int16_t n)
 {
 	for(uint16_t i = 0; i < n; i++)
 	{
-		h[i] = 0.54 - 0.46 * cosf(2.0 * PI * (float)i / (float)(n-1));
+		h[i] = 0.54f - 0.46f * cosf(2.0f * PI * (float)i / (float)(n-1));
+	}
+}
+
+void block_frames(float mdes[], float src[], float h[], uint16_t nsrc, uint16_t m, uint16_t n)
+{
+	uint16_t len = nsrc;
+	uint16_t nbFrame = floor((len-n)/m)+1;
+	uint16_t i, j, k = 0;
+	float32_t mat1[n*nbFrame], mat2[n*nbFrame];
+	
+	for(i = 0; i < n; i++)
+	{
+		for(j = 0; j < nbFrame; j++)
+		{
+			mdes[k++] = src[((j)*m)+i];
+		}
 	}
 }
 
 void endcut(float *y, float *x, int16_t n, float es, int16_t *ly, int16_t lx)
 {
-	float t1[10], t2[10],  avr, e1, e;
+	float t1[n], t2[n],  avr, e1, e;
 	int16_t i, ln, k, lt;
 	
 	*ly = 0;
@@ -96,8 +112,9 @@ void endcut(float *y, float *x, int16_t n, float es, int16_t *ly, int16_t lx)
 }
 
 
-void mel_filterbank(uint16_t p, uint16_t n, uint16_t fs, float fbank[])
+void mel_filterbank(arm_matrix_instance_f32 *fb,  float32_t *fbank, uint16_t p, uint16_t n, uint16_t fs)
 {
+	
 	float mel_points[p+2], hz_points[p+2], f[p+2];
 	float mel_low, mel_high; 
 	uint16_t fm_left, fm_center, fm_right;
@@ -130,6 +147,8 @@ void mel_filterbank(uint16_t p, uint16_t n, uint16_t fs, float fbank[])
 		{
 			fbank[(m-1)*fb_length+k-1] = (f[m+1] - k)/(f[m+1] - f[m]);
 		}
-	} 	
+	} 
+  arm_mat_init_f32(fb, p, fb_length, (float32_t*)fbank);
+
 }
 /* End of file -------------------------------------------------------- */

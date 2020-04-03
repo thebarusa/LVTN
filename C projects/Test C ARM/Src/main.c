@@ -91,9 +91,15 @@ int main(void)
   /* Initialize all configured peripherals */
   /* USER CODE BEGIN 2 */
 	float h[20];
-	volatile uint16_t check;  
+	volatile uint16_t n = 4;  
+	float signal[] = {1,2,3,4,5,6,7,8,9}, dest[24];
+	float ham[n];
+
 	
-	hamming(h, 20);
+	hamming(ham, n);
+  block_frames(dest, signal, ham, sizeof(signal)/sizeof(float), 1, n);
+
+	//hamming(h, 20);
   /* USER CODE END 2 */
 
   /* Infinite loop */

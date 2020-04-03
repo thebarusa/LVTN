@@ -19,11 +19,13 @@
 #include <stdint.h>
 #include "arm_math.h"
 #include <math.h>
+
 /* Public defines ----------------------------------------------------- */
-#define FFT_LENGTH   256
-#define MELFB_NUM    20
-#define SAMPLE_RATE  8000
-#define MELFB_LENGTH (FFT_LENGTH/2 + 1)
+#define FFT_LENGTH    256
+#define MELFB_NUM     20
+#define SAMPLE_RATE   8000
+#define MELFB_LENGTH  (FFT_LENGTH/2 + 1)
+#define SAMPLE_LENGTH 16000U
 /* Public enumerate/structure ----------------------------------------- */
 
 
@@ -34,11 +36,12 @@
 
 
 /* Public function prototypes ----------------------------------------- */
-void merge_array(float32_t *des, int16_t *ndes, float32_t *temp, int16_t ntemp);
+void merge_array(float32_t des[], int16_t *ndes, float32_t temp[], int16_t ntemp);
 void linspace(float a, float b, uint16_t n, float u[]);
 void hamming(float h[], int16_t n);
 void endcut(float32_t *y, float32_t *x, int16_t n, float32_t es, int16_t *ly, int16_t lx);
-void mel_filterbank(uint16_t p, uint16_t n, uint16_t fs, float fbank[]);
+void block_frames(float mdes[], float src[], float h[], uint16_t nsrc, uint16_t m, uint16_t n);
+void mel_filterbank(arm_matrix_instance_f32 *fb,  float32_t *fbank, uint16_t p, uint16_t n, uint16_t fs);
 #endif // __DSP_H
 
 /* End of file -------------------------------------------------------- */
