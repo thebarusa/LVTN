@@ -90,16 +90,18 @@ int main(void)
 
   /* Initialize all configured peripherals */
   /* USER CODE BEGIN 2 */
-	float h[20];
-	volatile uint16_t n = 4;  
-	float signal[] = {1,2,3,4,5,6,7,8,9}, dest[24];
+	volatile uint16_t n = 32;  
+	float signal[64] = {1,2,3,4,5,6,7,8,9}, dest[32*33];
 	float ham[n];
-
+	arm_rfft_fast_instance_f32 rf;
 	
+  float mtest[8] = {1,2,3,4,5,6,7,8}, mkq[8];
+	arm_cmplx_mag_squared_f32(mtest, mkq, 4);
+	//arm_rfft_fast_init_f32(&rf, 32);
+	//arm_rfft_fast_f32(&rf, signal, dest, 0);
 	hamming(ham, n);
   block_frames(dest, signal, ham, sizeof(signal)/sizeof(float), 1, n);
-
-	//hamming(h, 20);
+  
   /* USER CODE END 2 */
 
   /* Infinite loop */

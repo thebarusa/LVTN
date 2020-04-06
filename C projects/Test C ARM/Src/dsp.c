@@ -63,20 +63,38 @@ void hamming(float h[], int16_t n)
 	}
 }
 
-void block_frames(float mdes[], float src[], float h[], uint16_t nsrc, uint16_t m, uint16_t n)
+uint8_t block_frames(float mdes[], float src[], float h[], uint16_t nsrc, uint16_t m, uint16_t n)
 {
 	uint16_t len = nsrc;
 	uint16_t nbFrame = floor((len-n)/m)+1;
 	uint16_t i, j, k = 0;
-	float32_t mat1[n*nbFrame], mat2[n*nbFrame];
+	float32_t fft_1[n], fft_2[n+1], fft_3[n];
+	arm_rfft_fast_instance_f32 real_fft;
 	
-	for(i = 0; i < n; i++)
+	if(arm_rfft_fast_init_f32(&real_fft, n) != ARM_MATH_SUCCESS)
 	{
-		for(j = 0; j < nbFrame; j++)
-		{
-			mdes[k++] = src[((j)*m)+i];
-		}
+		return DSP_ERROR;
 	}
+	
+	for(i = 0; i < nbFrame; i++)
+	{
+		for(j = 0; j < n; j++)
+		{
+			fft_1[j] = src[((j)*m)+i] * h[j];
+			//mdes[j*nbFrame + i] = fft_1[j];
+		}
+		arm_rfft_fast_f32(&real_fft, fft_1, fft_2, 0);
+		fft_2[n] = fft_2[1];
+		fft_2[1] = 0;
+		arm_cmplx_mag_squared_f32(fft_2, fft_3, n/2 + 1);
+		for(j = 0; j < (n + 1); j++)
+		{
+			mdes[k++] = fft_3[j];
+			//mdes[j*nbFrame + i] = fft_1[j];
+		}
+		return DSP_OK;
+	}
+	return DSP_OK;
 }
 
 void endcut(float *y, float *x, int16_t n, float es, int16_t *ly, int16_t lx)
