@@ -91,7 +91,7 @@ int main(void)
   /* Initialize all configured peripherals */
   /* USER CODE BEGIN 2 */
 	volatile uint16_t n = 32;  
-	float signal[64] = {1,2,3,4,5,6,7,8,9}, dest[32*33];
+	float signal[64] = {1,2,3,4,5,6,7,8,9}, dest[17*33];
 	float ham[n];
 	arm_rfft_fast_instance_f32 rf;
 	
