@@ -37,6 +37,10 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
+#define FFT_N 256
+#define FFT_M 100
+#define SIG_LEN 4000
+
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -47,7 +51,14 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-
+	volatile uint16_t n = FFT_N, m = FFT_M;  
+	float signal[SIG_LEN] = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15}; 
+	volatile float frame[129*48];
+	volatile float melb[20*129];
+	volatile float result[20*48];
+	volatile float ham[FFT_N];
+	volatile dsp_return status1;
+	volatile arm_status status2;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -90,17 +101,17 @@ int main(void)
 
   /* Initialize all configured peripherals */
   /* USER CODE BEGIN 2 */
-	volatile uint16_t n = 32;  
-	float signal[64] = {1,2,3,4,5,6,7,8,9}, dest[17*33];
-	float ham[n];
-	arm_rfft_fast_instance_f32 rf;
+  arm_matrix_instance_f32 fb;
+	arm_matrix_instance_f32 fr;
+	arm_matrix_instance_f32 res;
 	
-  float mtest[8] = {1,2,3,4,5,6,7,8}, mkq[8];
-	arm_cmplx_mag_squared_f32(mtest, mkq, 4);
-	//arm_rfft_fast_init_f32(&rf, 32);
-	//arm_rfft_fast_f32(&rf, signal, dest, 0);
+  arm_mat_init_f32(&fr, 129, 48, frame);
+	arm_mat_init_f32(&res, 20, 48, result);
 	hamming(ham, n);
-  block_frames(dest, signal, ham, sizeof(signal)/sizeof(float), 1, n);
+  status1 = block_frames(frame, signal, ham, sizeof(signal)/sizeof(float), m, n);
+	mel_filterbank(&fb, melb, 20, 256, 8000);
+  status2 = arm_mat_mult_f32(&fb, &fr, &res);
+	
   
   /* USER CODE END 2 */
 

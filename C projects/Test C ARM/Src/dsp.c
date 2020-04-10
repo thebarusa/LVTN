@@ -63,10 +63,9 @@ void hamming(float h[], int16_t n)
 	}
 }
 
-uint8_t block_frames(float mdes[], float src[], float h[], uint16_t nsrc, uint16_t m, uint16_t n)
+dsp_return block_frames(float mdes[], float src[], float h[], uint16_t nsrc, uint16_t m, uint16_t n)
 {
-	uint16_t len = nsrc;
-	uint16_t nbFrame = floor((len-n)/m)+1;
+	uint16_t nbFrame = floor((nsrc-n)/m)+1;
 	uint16_t i, j, k = 0;
 	float32_t fft_1[n+1], fft_2[n+1];
 	arm_rfft_fast_instance_f32 real_fft;
@@ -80,15 +79,16 @@ uint8_t block_frames(float mdes[], float src[], float h[], uint16_t nsrc, uint16
 	{
 		for(j = 0; j < n; j++)
 		{
-			fft_1[j] = src[((j)*m)+i] * h[j];
+			fft_1[j] = src[i*m+j] * h[j];					
 		}
-		arm_rfft_fast_f32(&real_fft, fft_1, fft_2, 0);
+		arm_rfft_fast_f32(&real_fft, fft_1, fft_2, 0);	
 		fft_2[n] = fft_2[1];
 		fft_2[1] = 0;
 		arm_cmplx_mag_squared_f32(fft_2, fft_1, n/2 + 1);
 		for(j = 0; j < (n/2 + 1); j++)
 		{
 			mdes[j*nbFrame + i] = fft_1[j];
+		  //mdes[k++] = fft_1[j];
 		}
 	}
 	return DSP_OK;

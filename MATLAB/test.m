@@ -2,28 +2,16 @@ close all
 clc
 clear all
 
-s = zeros(1,64);
-s(1:9) = [1 2 3 4 5 6 7 8 9];
-n = 32;
-m = 1;
+fs = 8000;
+s = zeros(1,4000);
+s(1:15) = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
+n = 256;
+m = 100;
 
 n2 = 1 + floor(n / 2);
-dt = [1 2 3 4];
-df = fft(dt,32);
-
-
-l = length(s);
-nbFrame = floor((l - n) / m) + 1;
-for i = 1:n
-    for j = 1:nbFrame
-        m1(i, j) = s(((j - 1) * m) + i); 
-    end
-end
-h = hamming(n);
-h1 = diag(h);
-m2 = diag(h) * m1;
-for i = 1:nbFrame
-    m3(:, i) = fft(m2(:, i)); 
-end
-
-m4 = abs(m3(1:n2, :)).^2;
+frame=blockFrames(s, fs, m, n);
+frame_amp=abs(frame(1:n2, :)).^2;
+mel = melfb_v2(20, n, fs);
+n2 = 1 + floor(n / 2);
+z = mel * frame_amp;
+r = dct(log(z));

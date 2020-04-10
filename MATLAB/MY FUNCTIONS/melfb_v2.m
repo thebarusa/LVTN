@@ -22,5 +22,6 @@ for m =2:p+1
         fbank(m-1,k) = (f(m+1) - k)/(f(m+1) - f(m));
     end
 end
-s = sparse(fbank);
+%s = sparse(fbank);
+s = fbank;
 end
