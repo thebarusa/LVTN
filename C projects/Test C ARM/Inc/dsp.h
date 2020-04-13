@@ -45,7 +45,7 @@ void linspace(float a, float b, uint16_t n, float u[]);
 void hamming(float h[], int16_t n);
 void endcut(float32_t *y, float32_t *x, int16_t n, float32_t es, int16_t *ly, int16_t lx);
 dsp_return block_frames(float mdes[], float src[], float h[], uint16_t nsrc, uint16_t m, uint16_t n);
-void mel_filterbank(arm_matrix_instance_f32 *fb,  float32_t *fbank, uint16_t p, uint16_t n, uint16_t fs);
+void mel_filterbank(float32_t *fbank, uint16_t p, uint16_t n, uint16_t fs);
 #endif // __DSP_H
 
 /* End of file -------------------------------------------------------- */

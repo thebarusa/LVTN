@@ -127,7 +127,7 @@ void endcut(float *y, float *x, int16_t n, float es, int16_t *ly, int16_t lx)
 }
 
 
-void mel_filterbank(arm_matrix_instance_f32 *fb,  float32_t *fbank, uint16_t p, uint16_t n, uint16_t fs)
+void mel_filterbank(float32_t *fbank, uint16_t p, uint16_t n, uint16_t fs)
 {
 	
 	float mel_points[p+2], hz_points[p+2], f[p+2];
@@ -163,7 +163,6 @@ void mel_filterbank(arm_matrix_instance_f32 *fb,  float32_t *fbank, uint16_t p, 
 			fbank[(m-1)*fb_length+k-1] = (f[m+1] - k)/(f[m+1] - f[m]);
 		}
 	} 
-  arm_mat_init_f32(fb, p, fb_length, (float32_t*)fbank);
 
 }
 /* End of file -------------------------------------------------------- */

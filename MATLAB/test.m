@@ -12,6 +12,6 @@ n2 = 1 + floor(n / 2);
 frame=blockFrames(s, fs, m, n);
 frame_amp=abs(frame(1:n2, :)).^2;
 mel = melfb_v2(20, n, fs);
-n2 = 1 + floor(n / 2);
+
 z = mel * frame_amp;
 r = dct(log(z));
