@@ -67,7 +67,7 @@ dsp_return block_frames(float mdes[], float src[], float h[], uint16_t nsrc, uin
 {
 	uint16_t nbFrame = floor((nsrc-n)/m)+1;
 	uint16_t i, j, k = 0;
-	float32_t fft_1[n+1], fft_2[n+1];
+	float fft_1[n+1], fft_2[n+1];
 	arm_rfft_fast_instance_f32 real_fft;
 	
 	if(arm_rfft_fast_init_f32(&real_fft, n) != ARM_MATH_SUCCESS)
@@ -127,7 +127,7 @@ void endcut(float *y, float *x, int16_t n, float es, int16_t *ly, int16_t lx)
 }
 
 
-void mel_filterbank(float32_t *fbank, uint16_t p, uint16_t n, uint16_t fs)
+void mel_filterbank(float *fbank, uint16_t p, uint16_t n, uint16_t fs)
 {
 	
 	float mel_points[p+2], hz_points[p+2], f[p+2];
@@ -165,4 +165,23 @@ void mel_filterbank(float32_t *fbank, uint16_t p, uint16_t n, uint16_t fs)
 	} 
 
 }
+
+// DCT type II, unscaled.
+// See: https://en.wikipedia.org/wiki/Discrete_cosine_transform#DCT-II
+void dct_log_transform(float outvect[], float invect[], size_t len) 
+{
+	float factor = PI / (float)len;
+	float scale = sqrtf(2.0f/(float)len);
+	for (size_t i = 0; i < len; i++) 
+	{
+		float sum = 0;
+		for (size_t j = 0; j < len; j++)
+			sum += logf(invect[j]) * cos((j + 0.5) * i * factor);
+		if(i == 0)
+			outvect[i] = sum*scale*1.0f/sqrtf(2.0f);
+		else
+			outvect[i] = sum*scale;
+	}
+}
+
 /* End of file -------------------------------------------------------- */

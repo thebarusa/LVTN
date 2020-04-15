@@ -22,7 +22,7 @@ Dialog DLL:      TCM.DLL V1.36.5.0
  
 <h2>Project:</h2>
 D:\Repository\LVTN\C projects\Test C ARM\MDK-ARM\TEST.uvprojx
-Project File Date:  04/11/2020
+Project File Date:  04/13/2020
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 6 (build 750)', folder: 'D:\Programs\KEIL\ARM\ARMCC\Bin'
@@ -30,19 +30,19 @@ Build target 'TEST'
 compiling main.c...
 ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h(52): warning:  #47-D: incompatible redefinition of macro "__FPU_PRESENT" 
   #define __FPU_PRESENT             1U       /*!< FPU present                                   */
-../Src/main.c(107): warning:  #167-D: argument of type "volatile float *" is incompatible with parameter of type "float32_t *"
-  	arm_mat_init_f32(&fb, 20, 129, melb);
 ../Src/main.c(109): warning:  #167-D: argument of type "volatile float *" is incompatible with parameter of type "float32_t *"
-  	arm_mat_init_f32(&res, 20, 48, result);
+  	arm_mat_init_f32(&res, 20, 18, result);
 ../Src/main.c(112): warning:  #167-D: argument of type "volatile float *" is incompatible with parameter of type "float *"
   	hamming(ham, n);
 ../Src/main.c(113): warning:  #167-D: argument of type "volatile float *" is incompatible with parameter of type "float *"
     status1 = block_frames(frame, signal, ham, sizeof(signal)/sizeof(float), m, n);
 ../Src/main.c(114): warning:  #167-D: argument of type "volatile float *" is incompatible with parameter of type "float32_t *"
   	mel_filterbank(melb, 20, 256, 8000);
+../Src/main.c(119): warning:  #167-D: argument of type "volatile float *" is incompatible with parameter of type "float *"
+    dct_log_transform(outdct, indct,8);
 ../Src/main.c: 6 warnings, 0 errors
 linking...
-Program Size: Code=12200 RO-data=78672 RW-data=16036 ZI-data=76820  
+Program Size: Code=15832 RO-data=79056 RW-data=8036 ZI-data=58936  
 FromELF: creating hex file...
 "TEST\TEST.axf" - 0 Error(s), 6 Warning(s).
 
@@ -71,8 +71,8 @@ Package Vendor: Keil
    * Component: ARM::CMSIS:CORE:5.3.0
 
    * Component: ARM::CMSIS:DSP:Library:1.7.0
-      Library file:  CMSIS\DSP\Lib\ARM\arm_cortexM4lf_math.lib
       Include file:  CMSIS\DSP\Include\arm_math.h
+      Library file:  CMSIS\DSP\Lib\ARM\arm_cortexM4lf_math.lib
 Build Time Elapsed:  00:00:02
 </pre>
 </body>
