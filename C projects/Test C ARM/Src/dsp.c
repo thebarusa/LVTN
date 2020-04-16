@@ -176,7 +176,7 @@ void dct_log_transform(float outvect[], float invect[], size_t len)
 	{
 		float sum = 0;
 		for (size_t j = 0; j < len; j++)
-			sum += logf(invect[j]) * cos((j + 0.5) * i * factor);
+			sum += logf(invect[j]) * cosf(((float)j + 0.5f) * (float)i * factor);
 		if(i == 0)
 			outvect[i] = sum*scale*1.0f/sqrtf(2.0f);
 		else

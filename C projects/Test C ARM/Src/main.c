@@ -56,6 +56,7 @@
 	float frame[129*18];
 	volatile float melb[20*129];
 	volatile float result[20*18];
+	volatile float final[20*18];
 	volatile float ham[FFT_N];
 	volatile dsp_return status1;
 	volatile arm_status status2;
@@ -114,9 +115,24 @@ int main(void)
 	mel_filterbank(melb, 20, 256, 8000);
 	
   status2 = arm_mat_mult_f32(&fb, &fr, &res);
-	float indct[8] = {5,6,7,8,9,10,11,12};
-	volatile float outdct[8];
-  dct_log_transform(outdct, indct,8);
+	
+	volatile float invect[20], outvect[20];
+	uint8_t k = 0;
+	for(uint8_t j = 0; j < 18; j++)
+	{
+		k = 0;
+		for(uint8_t i = 0; i < 20; i++)
+		{
+			invect[k++] = result[i*18+j];
+		}
+		dct_log_transform(outvect, invect, 20);
+		k = 0;
+		for(uint8_t i = 0; i < 20; i++)
+		{
+			final[i*18+j] = outvect[k++];
+		}		
+	}
+	volatile float fec = 0.0f/0.0f;
 
   /* USER CODE END 2 */
 
