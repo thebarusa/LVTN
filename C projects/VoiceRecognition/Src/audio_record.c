@@ -36,7 +36,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "audio_record.h"
 #include "string.h"
-
+#include "stdlib.h"
 /** @addtogroup STM32F4xx_HAL_Examples
   * @{
   */
@@ -65,9 +65,8 @@ typedef enum
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
 uint8_t pHeaderBuff[44];
-extern uint16_t WrBuffer[WR_BUFFER_SIZE];
-
-static uint16_t RecBuf[2*PCM_OUT_SIZE];
+extern float OutBuf[WR_BUFFER_SIZE/2];
+static int16_t RecBuf[2*PCM_OUT_SIZE];
 static uint16_t InternalBuffer[INTERNAL_BUFF_SIZE];
 __IO uint32_t ITCounter = 0;
 Audio_BufferTypeDef  BufferCtl;
@@ -108,7 +107,7 @@ void AudioRecord_Test(void)
 
   /* Turn ON LED3: start record */
   BSP_LED_On(LED3);
-  
+
   /* Start the record */
   if (BSP_AUDIO_IN_Record((uint16_t*)&InternalBuffer[0], INTERNAL_BUFF_SIZE) != AUDIO_OK)
   {
@@ -119,6 +118,8 @@ void AudioRecord_Test(void)
   
   AUDIODataReady = 0; 
 
+	uint16_t k = 0;
+	
   /* Wait for the data to be ready with PCM form */
   while (AUDIODataReady != 2) 
   {
@@ -128,8 +129,14 @@ void AudioRecord_Test(void)
       BSP_AUDIO_IN_PDMToPCM((uint16_t*)&InternalBuffer[0], (uint16_t*)&RecBuf[0]);
       
       /* Copy PCM data in internal buffer */
-      memcpy((uint16_t*)&WrBuffer[ITCounter * (PCM_OUT_SIZE*2)], RecBuf, PCM_OUT_SIZE*4);
-      
+			k = ITCounter * (PCM_OUT_SIZE);
+			
+      for(uint16_t i = k; i < (k + PCM_OUT_SIZE); i++)
+	    {
+				//OutBuf[i] = ((float)RecBuf[(i-k)<<1]-32768.0f)/(65528.0f-32768.0f);
+				OutBuf[i] = (float)RecBuf[(i-k)<<1] / 32768.0f;
+			}
+			
       BufferCtl.offset = BUFFER_OFFSET_NONE;
       
       if(ITCounter == (WR_BUFFER_SIZE/(PCM_OUT_SIZE*4))-1)
@@ -157,8 +164,14 @@ void AudioRecord_Test(void)
       BSP_AUDIO_IN_PDMToPCM((uint16_t*)&InternalBuffer[INTERNAL_BUFF_SIZE/2], (uint16_t*)&RecBuf[0]);
       
       /* Copy PCM data in internal buffer */
-      memcpy((uint16_t*)&WrBuffer[ITCounter * (PCM_OUT_SIZE*2)], RecBuf, PCM_OUT_SIZE*4);
-      
+      k = ITCounter * (PCM_OUT_SIZE);
+			
+      for(uint16_t i = k; i < (k + PCM_OUT_SIZE); i++)
+	    {
+				//OutBuf[i] = ((float)RecBuf[(i-k)<<1]-32768.0f)/(65528.0f-32768.0f);
+				OutBuf[i] = (float)RecBuf[(i-k)<<1] / 32678.0f;
+			}
+			
       BufferCtl.offset = BUFFER_OFFSET_NONE;
       
       if(ITCounter == (WR_BUFFER_SIZE/(PCM_OUT_SIZE*4))-1)
@@ -186,43 +199,22 @@ void AudioRecord_Test(void)
     /* Record Error */
     Error_Handler();
   }
-
-  /* Turn OFF LED3: record stopped */
-  BSP_LED_Off(LED3);
-  /* Turn ON LED6: play recorded file */
-  BSP_LED_On(LED6);
-  
-  /* Play in the loop the recorded file */
-
+	
   /* Set variable to indicate play from record buffer */ 
   AudioTest = 1;
   
   /*Set variable used to stop player before starting */
   UserPressButton = 0;
-
-//  /* Initialize audio IN at REC_FREQ */ 
-//  BSP_AUDIO_OUT_Init(OUTPUT_DEVICE_AUTO, 70, DEFAULT_AUDIO_IN_FREQ);  
-//  
-//  /* Set the total number of data to be played */
-//  AudioTotalSize = AUDIODATA_SIZE * WR_BUFFER_SIZE;  
-//  /* Update the remaining number of data to be played */
-//  AudioRemSize = 0;  
-//  /* Update the WrBuffer audio pointer position */
-//  CurrentPos = (uint16_t *)(WrBuffer);
-//  
-//  /* Play the recorded buffer */
-//  BSP_AUDIO_OUT_Play(WrBuffer , AudioTotalSize);
+	
+  /* Turn OFF LED3: record stopped */
+  BSP_LED_Off(LED3);
+  /* Turn ON LED6: play recorded file */
+  BSP_LED_On(LED6);
   
   while(!UserPressButton)
   { 
   }
-  
-//  /* Stop Player before close Test */
-//  if (BSP_AUDIO_OUT_Stop(CODEC_PDWN_SW) != AUDIO_OK)
-//  {
-//    /* Audio Stop error */
-//    Error_Handler();
-//  }
+
 }
 
 /**
@@ -256,6 +248,12 @@ void BSP_AUDIO_IN_Error_Callback(void)
   Error_Handler();
 }
 
+/*--------------------------------
+Callbacks implementation:
+The callbacks prototypes are defined in the stm32f4_discovery_audio.h file
+and their implementation should be done in the user code if they are needed.
+Below some examples of callback implementations.
+--------------------------------------------------------*/
 /**
 * @brief  Calculates the remaining file size and new position of the pointer.
 * @param  None

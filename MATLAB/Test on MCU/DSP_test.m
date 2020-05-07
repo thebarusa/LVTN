@@ -12,8 +12,8 @@ sound_id=length(data_save);
 
 %% Read binary file %%
 fileID = fopen('Wr.bin');
-rec_data = fread(fileID,[4096*2 1],'int16');
-%rec_data = fread(fileID,[4096*2 1],'float');
+%rec_data = fread(fileID,[4096*2 1],'int16');
+rec_data = fread(fileID,[4096*2 1],'float');
 fclose(fileID);
 %figure
 %plot(rec_data);

@@ -57,7 +57,7 @@ __IO uint32_t PauseResumeStatus = IDLE_STATUS;
 
 /* Counter for User button presses*/
 __IO uint32_t PressCount = 0;
-__IO uint16_t WrBuffer[WR_BUFFER_SIZE];
+__IO float OutBuf[WR_BUFFER_SIZE/2];
 uint8_t check;
 HAL_StatusTypeDef state;
 /* USER CODE END PV */
@@ -79,8 +79,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
 	if(huart->Instance==USART2)
 	{
-		if(check == '1')
-		  state = HAL_UART_Transmit(&huart2, (uint8_t*)WrBuffer, WR_BUFFER_SIZE, 3000);
+
 	}
 }
 /* USER CODE END 0 */
@@ -136,7 +135,7 @@ int main(void)
   BSP_LED_Off(LED5);
   BSP_LED_Off(LED6);
 	
-	HAL_UART_Receive_IT(&huart2, &check, sizeof(check));
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -145,10 +144,6 @@ int main(void)
   {
 		UserPressButton = 0;
     AudioRecord_Test();
-		for(uint16_t i = 0; i < WR_BUFFER_SIZE/2; i++)
-		{
-			WrBuffer[i] = WrBuffer[i<<1];
-		}
     /* Toggle LEDs between each Test */
     UserPressButton = 0;
     while (!UserPressButton) Toggle_Leds();
