@@ -16,7 +16,7 @@ while i<=ln
 t=x(i:i+n-1);
 e1=mean(t.^2);
 if ~( (e1<es) | (abs(e1-e)<es) )
-y = [y;t];
+y = [y; t];
 end;
 i=i+n;
 end;
