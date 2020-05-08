@@ -1,7 +1,7 @@
 function y = endcut(x, n, es, zcr)
 % cat khoang lang ra khoi x.
 % n là do dài frame, es là nguong nang luong.
-x = x - mean(x);
+%x = x - mean(x);
 
 if nargin < 3
   es = 0.1E-3;

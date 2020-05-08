@@ -19,10 +19,6 @@ end
       
   if distmin < saiso
     min_index = k1;
-    dis = sprintf('Ban vua noi "%s" khop voi file so %d', data_save{min_index,3},min_index );
-    msgbox(dis);
-    data_play = audioplayer(data_save{min_index,5},fs);
-    play(data_play);
     id = min_index;
   else
     id = NaN;

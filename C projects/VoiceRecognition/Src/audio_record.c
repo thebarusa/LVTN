@@ -37,6 +37,7 @@
 #include "audio_record.h"
 #include "string.h"
 #include "stdlib.h"
+#include "arm_math.h"
 /** @addtogroup STM32F4xx_HAL_Examples
   * @{
   */
@@ -119,6 +120,7 @@ void AudioRecord_Test(void)
   AUDIODataReady = 0; 
 
 	uint16_t k = 0;
+	float    temp = 0; // bien chua x[n-1]
 	
   /* Wait for the data to be ready with PCM form */
   while (AUDIODataReady != 2) 
@@ -133,8 +135,9 @@ void AudioRecord_Test(void)
 			
       for(uint16_t i = k; i < (k + PCM_OUT_SIZE); i++)
 	    {
-				//OutBuf[i] = ((float)RecBuf[(i-k)<<1]-32768.0f)/(65528.0f-32768.0f);
-				OutBuf[i] = (float)RecBuf[(i-k)<<1] / 32768.0f;
+				//OutBuf[i] = (float)RecBuf[(i-k)<<1];
+				OutBuf[i] = (float)RecBuf[(i-k)<<1] / 32768.0f - 0.95*temp;
+				temp = OutBuf[i] + 0.95*temp;
 			}
 			
       BufferCtl.offset = BUFFER_OFFSET_NONE;
@@ -168,8 +171,9 @@ void AudioRecord_Test(void)
 			
       for(uint16_t i = k; i < (k + PCM_OUT_SIZE); i++)
 	    {
-				//OutBuf[i] = ((float)RecBuf[(i-k)<<1]-32768.0f)/(65528.0f-32768.0f);
-				OutBuf[i] = (float)RecBuf[(i-k)<<1] / 32678.0f;
+				//OutBuf[i] = (float)RecBuf[(i-k)<<1];
+				OutBuf[i] = (float)RecBuf[(i-k)<<1] / 32768.0f - 0.95*temp;
+				temp = OutBuf[i] + 0.95*temp;
 			}
 			
       BufferCtl.offset = BUFFER_OFFSET_NONE;
@@ -205,16 +209,19 @@ void AudioRecord_Test(void)
   
   /*Set variable used to stop player before starting */
   UserPressButton = 0;
-	
+//	for(uint16_t i = 1; i < sizeof(OutBuf)/sizeof(float); i++)
+//	{
+//		OutBuf[i] = OutBuf[i] - 0.95f * OutBuf[i-1];
+//	}
   /* Turn OFF LED3: record stopped */
   BSP_LED_Off(LED3);
   /* Turn ON LED6: play recorded file */
   BSP_LED_On(LED6);
-  
+
   while(!UserPressButton)
   { 
   }
-
+ 
 }
 
 /**
