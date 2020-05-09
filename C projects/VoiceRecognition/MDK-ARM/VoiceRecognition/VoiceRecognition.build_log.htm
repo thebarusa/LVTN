@@ -27,7 +27,24 @@ Project File Date:  05/09/2020
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 6 (build 750)', folder: 'D:\Programs\KEIL\ARM\ARMCC\Bin'
 Build target 'VoiceRecognition'
-"VoiceRecognition\VoiceRecognition.axf" - 0 Error(s), 0 Warning(s).
+compiling audio_record.c...
+../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h(52): warning:  #47-D: incompatible redefinition of macro "__FPU_PRESENT" 
+  #define __FPU_PRESENT             1U       /*!< FPU present                                   */
+..\Src\audio_record.c(141): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+  				TempBuf[i] = (float)RecBuf[i<<1] / 32768.0f - 0.95*temp;
+..\Src\audio_record.c(144): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+  				temp = TempBuf[i] + 0.95*temp;
+..\Src\audio_record.c(176): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+  				TempBuf[i] = (float)RecBuf[(i-PCM_OUT_SIZE)<<1] / 32768.0f - 0.95*temp;
+..\Src\audio_record.c(179): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+  				temp = TempBuf[i] + 0.95*temp;
+..\Src\audio_record.c(182): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+  			if ((frame_power/(2*PCM_OUT_SIZE) > MIN_ENERGY) && ((zero_cross/(float)(2*PCM_OUT_SIZE)) > MIN_ZCR))
+..\Src\audio_record.c: 6 warnings, 0 errors
+linking...
+Program Size: Code=23312 RO-data=788 RW-data=1128 ZI-data=42504  
+FromELF: creating hex file...
+"VoiceRecognition\VoiceRecognition.axf" - 0 Error(s), 6 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -56,7 +73,7 @@ Package Vendor: Keil
    * Component: ARM::CMSIS:DSP:Library:1.7.0
       Include file:  CMSIS\DSP\Include\arm_math.h
       Library file:  CMSIS\DSP\Lib\ARM\arm_cortexM4lf_math.lib
-Build Time Elapsed:  00:00:00
+Build Time Elapsed:  00:00:03
 </pre>
 </body>
 </html>

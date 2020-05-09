@@ -1,5 +1,8 @@
 clc
 
+%rec_data(1:32) = 0;
+playrec = audioplayer(rec_data,fs);
+play(playrec);
 N = 16;
 for k=1:length(rec_data)/N,
     Es(k) = rec_data((k-1)*N+1:k*N)'*rec_data((k-1)*N+1:k*N)/N;

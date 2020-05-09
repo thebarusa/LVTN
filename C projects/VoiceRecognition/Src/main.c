@@ -57,7 +57,7 @@ __IO uint32_t PauseResumeStatus = IDLE_STATUS;
 
 /* Counter for User button presses*/
 __IO uint32_t PressCount = 0;
-__IO float OutBuf[2*PCM_OUT_SIZE*256];
+__IO float OutBuf[OUT_BUFFER_SIZE];
 uint8_t check;
 HAL_StatusTypeDef state;
 /* USER CODE END PV */
@@ -384,6 +384,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
   if (KEY_BUTTON_PIN == GPIO_Pin)
   {
+		HAL_Delay(10);
     while (BSP_PB_GetState(BUTTON_KEY) != RESET);
     UserPressButton = 1;
   }

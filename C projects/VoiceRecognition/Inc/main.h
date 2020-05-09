@@ -49,7 +49,7 @@ extern "C" {
 /* USER CODE BEGIN EC */
 /* Size of the recorder buffer (Multiple of 4096, RAM_BUFFER_SIZE used in BSP) */
 #define WR_BUFFER_SIZE           4096*4
-
+#define OUT_BUFFER_SIZE          2*PCM_OUT_SIZE*200
 /* Defines for the Audio playing process */
 #define PAUSE_STATUS     ((uint32_t)0x00) /* Audio Player in Pause Status */
 #define RESUME_STATUS    ((uint32_t)0x01) /* Audio Player in Resume Status */
