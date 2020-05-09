@@ -38,6 +38,7 @@
 #include "string.h"
 #include "stdlib.h"
 #include "arm_math.h"
+#include "dsp.h"
 /** @addtogroup STM32F4xx_HAL_Examples
   * @{
   */
@@ -48,7 +49,9 @@
 
 /* Private typedef -----------------------------------------------------------*/
 #define AUDIO_BUFFER_SIZE   8192
-
+#define MIN_ENERGY          5.0e-4f
+#define MIN_ZCR             0.06
+          
 typedef struct {
   int32_t offset;
   uint32_t fptr;
@@ -66,8 +69,9 @@ typedef enum
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
 uint8_t pHeaderBuff[44];
-extern float OutBuf[WR_BUFFER_SIZE/2];
-static int16_t RecBuf[2*PCM_OUT_SIZE];
+extern float    OutBuf[2*PCM_OUT_SIZE*256];
+static float    TempBuf[2*PCM_OUT_SIZE];
+static int16_t  RecBuf[2*PCM_OUT_SIZE];
 static uint16_t InternalBuffer[INTERNAL_BUFF_SIZE];
 __IO uint32_t ITCounter = 0;
 Audio_BufferTypeDef  BufferCtl;
@@ -85,7 +89,7 @@ extern __IO uint8_t UserPressButton;
 static uint32_t AudioTotalSize; /* This variable holds the total size of the audio file */
 static uint32_t AudioRemSize;   /* This variable holds the remaining data in audio file */
 static uint16_t *CurrentPos ;   /* This variable holds the current position of audio pointer */
-
+volatile float zero_cross = 0;
 /* Private function prototypes -----------------------------------------------*/
 
 /* Private functions ---------------------------------------------------------*/
@@ -121,7 +125,7 @@ void AudioRecord_Test(void)
 
 	uint16_t k = 0;
 	float    temp = 0; // bien chua x[n-1]
-	
+	float    frame_power = 0;
   /* Wait for the data to be ready with PCM form */
   while (AUDIODataReady != 2) 
   {
@@ -130,14 +134,13 @@ void AudioRecord_Test(void)
       /* PDM to PCM data convert */
       BSP_AUDIO_IN_PDMToPCM((uint16_t*)&InternalBuffer[0], (uint16_t*)&RecBuf[0]);
       
-      /* Copy PCM data in internal buffer */
-			k = ITCounter * (PCM_OUT_SIZE);
-			
-      for(uint16_t i = k; i < (k + PCM_OUT_SIZE); i++)
+      /* Copy PCM data in internal buffer */			
+      for(uint16_t i = 0; i < PCM_OUT_SIZE; i++)
 	    {
-				//OutBuf[i] = (float)RecBuf[(i-k)<<1];
-				OutBuf[i] = (float)RecBuf[(i-k)<<1] / 32768.0f - 0.95*temp;
-				temp = OutBuf[i] + 0.95*temp;
+				TempBuf[i] = (float)RecBuf[i<<1] / 32768.0f - 0.95*temp;
+				if((TempBuf[i] * temp) < 0)
+					zero_cross++;
+				temp = TempBuf[i] + 0.95*temp;
 			}
 			
       BufferCtl.offset = BUFFER_OFFSET_NONE;
@@ -167,14 +170,20 @@ void AudioRecord_Test(void)
       BSP_AUDIO_IN_PDMToPCM((uint16_t*)&InternalBuffer[INTERNAL_BUFF_SIZE/2], (uint16_t*)&RecBuf[0]);
       
       /* Copy PCM data in internal buffer */
-      k = ITCounter * (PCM_OUT_SIZE);
-			
-      for(uint16_t i = k; i < (k + PCM_OUT_SIZE); i++)
+		  for(uint16_t i = PCM_OUT_SIZE; i < 2*PCM_OUT_SIZE; i++)
 	    {
-				//OutBuf[i] = (float)RecBuf[(i-k)<<1];
-				OutBuf[i] = (float)RecBuf[(i-k)<<1] / 32768.0f - 0.95*temp;
-				temp = OutBuf[i] + 0.95*temp;
+				TempBuf[i] = (float)RecBuf[(i-PCM_OUT_SIZE)<<1] / 32768.0f - 0.95*temp;
+				if((TempBuf[i] * temp) < 0)
+					zero_cross++;
+				temp = TempBuf[i] + 0.95*temp;
 			}
+			arm_power_f32(TempBuf, 2*PCM_OUT_SIZE, &frame_power);
+			if ((frame_power/(2*PCM_OUT_SIZE) > MIN_ENERGY) && ((zero_cross/(float)(2*PCM_OUT_SIZE)) > MIN_ZCR))
+			{
+        memcpy((float*)&OutBuf[k * (PCM_OUT_SIZE*2)], TempBuf, 2*PCM_OUT_SIZE*4);
+				k++;
+		  }
+			zero_cross = 0;
 			
       BufferCtl.offset = BUFFER_OFFSET_NONE;
       
@@ -209,10 +218,7 @@ void AudioRecord_Test(void)
   
   /*Set variable used to stop player before starting */
   UserPressButton = 0;
-//	for(uint16_t i = 1; i < sizeof(OutBuf)/sizeof(float); i++)
-//	{
-//		OutBuf[i] = OutBuf[i] - 0.95f * OutBuf[i-1];
-//	}
+
   /* Turn OFF LED3: record stopped */
   BSP_LED_Off(LED3);
   /* Turn ON LED6: play recorded file */

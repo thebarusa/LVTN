@@ -22,27 +22,12 @@ Dialog DLL:      TCM.DLL V1.36.5.0
  
 <h2>Project:</h2>
 D:\Repository\LVTN\C projects\VoiceRecognition\MDK-ARM\VoiceRecognition.uvprojx
-Project File Date:  05/07/2020
+Project File Date:  05/09/2020
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 6 (build 750)', folder: 'D:\Programs\KEIL\ARM\ARMCC\Bin'
 Build target 'VoiceRecognition'
-compiling audio_record.c...
-../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h(52): warning:  #47-D: incompatible redefinition of macro "__FPU_PRESENT" 
-  #define __FPU_PRESENT             1U       /*!< FPU present                                   */
-..\Src\audio_record.c(139): warning:  #1035-D: single-precision operand implicitly converted to double-precision
-  				OutBuf[i] = (float)RecBuf[(i-k)<<1] / 32768.0f - 0.95*temp;
-..\Src\audio_record.c(140): warning:  #1035-D: single-precision operand implicitly converted to double-precision
-  				temp = OutBuf[i] + 0.95*temp;
-..\Src\audio_record.c(175): warning:  #1035-D: single-precision operand implicitly converted to double-precision
-  				OutBuf[i] = (float)RecBuf[(i-k)<<1] / 32768.0f - 0.95*temp;
-..\Src\audio_record.c(176): warning:  #1035-D: single-precision operand implicitly converted to double-precision
-  				temp = OutBuf[i] + 0.95*temp;
-..\Src\audio_record.c: 5 warnings, 0 errors
-linking...
-Program Size: Code=22940 RO-data=788 RW-data=1124 ZI-data=62412  
-FromELF: creating hex file...
-"VoiceRecognition\VoiceRecognition.axf" - 0 Error(s), 5 Warning(s).
+"VoiceRecognition\VoiceRecognition.axf" - 0 Error(s), 0 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -71,7 +56,7 @@ Package Vendor: Keil
    * Component: ARM::CMSIS:DSP:Library:1.7.0
       Include file:  CMSIS\DSP\Include\arm_math.h
       Library file:  CMSIS\DSP\Lib\ARM\arm_cortexM4lf_math.lib
-Build Time Elapsed:  00:00:02
+Build Time Elapsed:  00:00:00
 </pre>
 </body>
 </html>

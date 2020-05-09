@@ -57,7 +57,7 @@ __IO uint32_t PauseResumeStatus = IDLE_STATUS;
 
 /* Counter for User button presses*/
 __IO uint32_t PressCount = 0;
-__IO float OutBuf[WR_BUFFER_SIZE/2];
+__IO float OutBuf[2*PCM_OUT_SIZE*256];
 uint8_t check;
 HAL_StatusTypeDef state;
 /* USER CODE END PV */

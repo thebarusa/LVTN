@@ -20,7 +20,7 @@ ln = length(x) - n+1;
 while i <= ln
   t  = x(i:i+n-1);
   e1 = mean(t.^2);
-  zc = zerocross(t);
+  zc = zerocross(t,n);
   if ~((e1<es) | (abs(e1-e)<es) | (zc < zcr))
     y = [y;t];
   end
