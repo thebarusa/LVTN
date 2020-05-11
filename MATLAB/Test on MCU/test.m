@@ -9,10 +9,11 @@ for k=1:length(rec_data)/N,
     Ezc(k) = zerocross(rec_data((k-1)*N+1:k*N), N);
 end
 
-imx = max(Es);
-imn = min(Es);
-I1 = 0.03*( imx - imn ) + imn;
-I2 = 4 * imn;
-ITL = min (I1,I2);
-ITU = 5* ITL;
-
+m = 100;
+n = 256;
+frame=blockFrames(rec_data, fs, m, n);
+m = melfb_v2(20, n, fs);
+n2 = 1 + floor(n / 2);
+fr_amp = abs(frame(1:n2, :)).^2;
+z = m * fr_amp;
+r = dct(log(z));

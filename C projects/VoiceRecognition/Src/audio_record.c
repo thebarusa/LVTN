@@ -68,8 +68,9 @@ typedef enum
 /* Private define ------------------------------------------------------------*/
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
-uint8_t pHeaderBuff[44];
+
 extern float    OutBuf[OUT_BUFFER_SIZE];
+
 static float    TempBuf[2*PCM_OUT_SIZE];
 static int16_t  RecBuf[2*PCM_OUT_SIZE];
 static uint16_t InternalBuffer[INTERNAL_BUFF_SIZE];
@@ -86,10 +87,9 @@ static uint32_t AudioTest;
 extern __IO uint8_t UserPressButton;
 
 /* Variables used in normal mode to manage audio file during DMA transfer */
-static uint32_t AudioTotalSize; /* This variable holds the total size of the audio file */
+extern uint32_t AudioTotalSize; /* This variable holds the total size of the audio file */
 static uint32_t AudioRemSize;   /* This variable holds the remaining data in audio file */
 static uint16_t *CurrentPos ;   /* This variable holds the current position of audio pointer */
-float    zero_cross = 0;     // ty le qua diem 0
 
 /* Private function prototypes -----------------------------------------------*/
 
@@ -124,6 +124,7 @@ void AudioRecord_Test(void)
   
   AUDIODataReady = 0; 
 
+	float    zero_cross = 0;     // ty le qua diem 0
 	uint16_t k = 0; 
 	float    temp = 0; // bien chua x[n-1]
 	float    frame_power = 0;
@@ -179,10 +180,10 @@ void AudioRecord_Test(void)
 				temp = TempBuf[i] + 0.95*temp;
 			}
 			arm_power_f32(TempBuf, 2*PCM_OUT_SIZE, &frame_power);
-			if ((frame_power/(2*PCM_OUT_SIZE) > MIN_ENERGY) && ((zero_cross/(float)(2*PCM_OUT_SIZE)) > MIN_ZCR))
+			if ((frame_power/(float)(2*PCM_OUT_SIZE) > MIN_ENERGY) && ((zero_cross/(float)(2*PCM_OUT_SIZE)) > MIN_ZCR))
 			{
-				if(k > 1) // 2 frame dau co nhieu rat lon
-					memcpy((float*)&OutBuf[(k-2) * (PCM_OUT_SIZE*2)], TempBuf, 2*PCM_OUT_SIZE*4);
+				if((k > 1) && (k <= MAX_FRAME))// 2 frame dau co nhieu rat lon
+				  arm_copy_f32(TempBuf, (float*)&OutBuf[(k-2) * (PCM_OUT_SIZE*2)], 2*PCM_OUT_SIZE);
 				k++;
 		  }
 			zero_cross = 0;
@@ -215,7 +216,13 @@ void AudioRecord_Test(void)
     Error_Handler();
   }
 	
-	OutBuf[OUT_BUFFER_SIZE-1] = (k-2) * PCM_OUT_SIZE * 2;
+	//AudioTotalSize = (k-2);
+	if (k < MAX_FRAME)
+		AudioTotalSize = (k-2) * PCM_OUT_SIZE * 2;
+	else 
+		AudioTotalSize = OUT_BUFFER_SIZE;
+	
+	OutBuf[OUT_BUFFER_SIZE-1] = AudioTotalSize;
   /* Set variable to indicate play from record buffer */ 
   AudioTest = 1;
   

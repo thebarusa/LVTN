@@ -153,47 +153,37 @@
         <Ww>
           <count>0</count>
           <WinNumber>1</WinNumber>
-          <ItemText>UserPressButton,0x0A</ItemText>
+          <ItemText>nbFrame,0x0A</ItemText>
         </Ww>
         <Ww>
           <count>1</count>
           <WinNumber>1</WinNumber>
-          <ItemText>ITCounter</ItemText>
+          <ItemText>&amp;AudioTotalSize,0x0A</ItemText>
         </Ww>
         <Ww>
           <count>2</count>
           <WinNumber>1</WinNumber>
-          <ItemText>BufferCtl.offset</ItemText>
+          <ItemText>\\VoiceRecognition\../Src/main.c\OutBuf</ItemText>
         </Ww>
         <Ww>
           <count>3</count>
           <WinNumber>1</WinNumber>
-          <ItemText>check</ItemText>
+          <ItemText>\\VoiceRecognition\../Src/main.c\frame</ItemText>
         </Ww>
         <Ww>
           <count>4</count>
           <WinNumber>1</WinNumber>
-          <ItemText>state,0x0A</ItemText>
+          <ItemText>\\VoiceRecognition\../Src/main.c\result</ItemText>
         </Ww>
         <Ww>
           <count>5</count>
           <WinNumber>1</WinNumber>
-          <ItemText>OutBuf</ItemText>
+          <ItemText>final</ItemText>
         </Ww>
         <Ww>
           <count>6</count>
           <WinNumber>1</WinNumber>
-          <ItemText>zero_cross</ItemText>
-        </Ww>
-        <Ww>
-          <count>7</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>k,0x0A</ItemText>
-        </Ww>
-        <Ww>
-          <count>8</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>nframes,0x0A</ItemText>
+          <ItemText>OutBuf[3199]</ItemText>
         </Ww>
       </WatchWindow1>
       <Tracepoint>

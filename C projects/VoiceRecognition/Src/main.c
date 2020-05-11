@@ -23,7 +23,8 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "dsp.h"
+#include "arm_math.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -58,7 +59,14 @@ __IO uint32_t PauseResumeStatus = IDLE_STATUS;
 /* Counter for User button presses*/
 __IO uint32_t PressCount = 0;
 __IO float OutBuf[OUT_BUFFER_SIZE];
-uint8_t check;
+__IO float HamWindow[256];
+__IO float frame[129*30];
+__IO float melfb[20*129];
+__IO float result[20*30];
+
+__IO uint16_t nbFrame;
+__IO uint32_t AudioTotalSize;
+//uint8_t check;
 HAL_StatusTypeDef state;
 /* USER CODE END PV */
 
@@ -123,7 +131,14 @@ int main(void)
   /* USER CODE BEGIN 2 */
   /* Configure USER Button */
   BSP_PB_Init(BUTTON_KEY, BUTTON_MODE_EXTI);
-  
+	/* Init dsp */
+  hamming((float32_t*)&HamWindow[0], 256);
+	mel_filterbank((float32_t*)&melfb[0], 20, 256, 8000);
+	arm_matrix_instance_f32 fb;
+	arm_matrix_instance_f32 fr;
+	arm_matrix_instance_f32 res;
+	arm_mat_init_f32(&fb, 20, 129, (float32_t *)melfb);
+
   /* Toggle LEDs between each Test */
   while (!UserPressButton)
   {
@@ -144,6 +159,15 @@ int main(void)
   {
 		UserPressButton = 0;
     AudioRecord_Test();
+		if(AudioTotalSize > 1000)
+		{
+			nbFrame = (AudioTotalSize - 256) / 100 + 1;
+			arm_mat_init_f32(&fr, 129, nbFrame, (float32_t *)frame);
+			arm_mat_init_f32(&res, 20, nbFrame, (float32_t *)result);
+			block_frames(frame, OutBuf, HamWindow, (uint16_t)AudioTotalSize, 100, 256);
+			arm_mat_mult_f32(&fb, &fr, &res);
+			mfcc(result, result, 20, nbFrame);
+		}
     /* Toggle LEDs between each Test */
     UserPressButton = 0;
     while (!UserPressButton) Toggle_Leds();

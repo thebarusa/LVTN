@@ -94,39 +94,6 @@ dsp_return block_frames(float mdes[], float src[], float h[], uint16_t nsrc, uin
 	return DSP_OK;
 }
 
-void endcut(float *y, float *x, int16_t n, float es, int16_t *ly, int16_t lx)
-{
-	float t1[n], t2[n],  avr, e1, e;
-	int16_t i, ln, k, lt;
-	
-	*ly = 0;
-	arm_mean_f32(x, (uint32_t)lx, &avr);	            // mean(x)
-	arm_offset_f32(x, -avr, x, (uint32_t)lx);         // x = x - mean(x)
-	arm_copy_f32(x, t1, (uint32_t)n);                 // t1 = x(1:n)
-	arm_mult_f32(t1, t1, t2, (uint32_t)n);            // t2 = t1.^2
-	arm_mean_f32(t2, (uint32_t)n, &e);                // e = mean(t1.^2)
-	i  = n + 1;
-	ln = lx - n + 1;
-	
-	while (i <= ln)
-	{
-		lt = 0;
-		for (k=i-1; k<(i+n-1); k++)                     // t = x(i:i+n-1) 
-		{
-	    t1[lt++] = x[k];
-		}
-		arm_mult_f32(t1, t1, t2, (uint32_t)n);          // t2 = t1.^2
-		arm_mean_f32(t2, (uint32_t)n, &e1);             // e1 = mean(t1.^2)
-		if (~((e1 < es) | (fabsf(e1 - e) < es)))
-		{
-			merge_array(y, ly, t1, n);                    // y = [y;t] 
-			*ly += n;
-		}
-		i = i + n;	
-	}
-}
-
-
 void mel_filterbank(float *fbank, uint16_t p, uint16_t n, uint16_t fs)
 {
 	
@@ -181,6 +148,26 @@ void dct_log_transform(float outvect[], float invect[], size_t len)
 			outvect[i] = sum*scale*1.0f/sqrtf(2.0f);
 		else
 			outvect[i] = sum*scale;
+	}
+}
+
+void mfcc(float matdes[], float matsrc[], uint16_t row, uint16_t col)
+{
+	float invect[row], outvect[row];
+	uint8_t k = 0;
+	for(uint8_t j = 0; j < col; j++)
+	{
+		k = 0;
+		for(uint8_t i = 0; i < row; i++)
+		{
+			invect[k++] = matsrc[i*col+j];
+		}
+		dct_log_transform(outvect, invect, row);
+		k = 0;
+		for(uint8_t i = 0; i < row; i++)
+		{
+			matdes[i*col+j] = outvect[k++];
+		}		
 	}
 }
 
