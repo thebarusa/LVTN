@@ -50,7 +50,7 @@
 /* Private typedef -----------------------------------------------------------*/
 #define AUDIO_BUFFER_SIZE   8192
 #define MIN_ENERGY          5.0e-4f
-#define MIN_ZCR             0.06
+#define MIN_ZCR             0.06f
           
 typedef struct {
   int32_t offset;
@@ -71,9 +71,6 @@ typedef enum
 
 extern float    OutBuf[OUT_BUFFER_SIZE];
 
-static float    TempBuf[2*PCM_OUT_SIZE];
-static int16_t  RecBuf[2*PCM_OUT_SIZE];
-static uint16_t InternalBuffer[INTERNAL_BUFF_SIZE];
 __IO uint32_t ITCounter = 0;
 Audio_BufferTypeDef  BufferCtl;
 
@@ -104,6 +101,10 @@ static uint16_t *CurrentPos ;   /* This variable holds the current position of a
   */
 void AudioRecord_Test(void)
 {
+	float    TempBuf[2*PCM_OUT_SIZE];
+	int16_t  RecBuf[2*PCM_OUT_SIZE];
+	uint16_t InternalBuffer[INTERNAL_BUFF_SIZE];
+	
   BufferCtl.offset = BUFFER_OFFSET_NONE;
   if(BSP_AUDIO_IN_Init(DEFAULT_AUDIO_IN_FREQ, DEFAULT_AUDIO_IN_BIT_RESOLUTION, DEFAULT_AUDIO_IN_CHANNEL_NBR) != AUDIO_OK)
   {

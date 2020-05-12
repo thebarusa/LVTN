@@ -43,7 +43,7 @@ typedef enum
 void merge_array(float32_t des[], int16_t *ndes, float32_t temp[], int16_t ntemp);
 void linspace(float a, float b, uint16_t n, float u[]);
 void hamming(float h[], int16_t n);
-dsp_return block_frames(float mdes[], float src[], float h[], uint16_t nsrc, uint16_t m, uint16_t n);
+dsp_return block_frames(float mdes[], float src[], const float h[], uint16_t nsrc, uint16_t m, uint16_t n);
 void mel_filterbank(float32_t *fbank, uint16_t p, uint16_t n, uint16_t fs);
 void dct_log_transform(float outvect[], float invect[], size_t len);
 void mfcc(float matdes[], float matsrc[], uint16_t row, uint16_t col);

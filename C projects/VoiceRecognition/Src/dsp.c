@@ -63,7 +63,7 @@ void hamming(float h[], int16_t n)
 	}
 }
 
-dsp_return block_frames(float mdes[], float src[], float h[], uint16_t nsrc, uint16_t m, uint16_t n)
+dsp_return block_frames(float mdes[], float src[], const float h[], uint16_t nsrc, uint16_t m, uint16_t n)
 {
 	uint16_t nbFrame = floor((nsrc-n)/m)+1;
 	uint16_t i, j, k = 0;

@@ -422,6 +422,11 @@
               <FileType>1</FileType>
               <FilePath>..\Src\dsp.c</FilePath>
             </File>
+            <File>
+              <FileName>dsp_coeffs.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\dsp_coeffs.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
