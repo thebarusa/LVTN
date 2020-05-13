@@ -21,11 +21,12 @@
 #include <math.h>
 #include <stdlib.h>
 /* Public defines ----------------------------------------------------- */
-#define FFT_LENGTH    256
-#define MELFB_NUM     20
-#define SAMPLE_RATE   8000
-#define MELFB_LENGTH  (FFT_LENGTH/2 + 1)
-#define SAMPLE_LENGTH 16000U
+#define FFT_LENGTH       256
+#define FRAME_OVERLAP    100
+#define MELFB_NUM     	 20
+#define SAMPLE_RATE      8000
+#define MELFB_LENGTH     (FFT_LENGTH/2 + 1)
+#define SAMPLE_LENGTH    16000U
 /* Public enumerate/structure ----------------------------------------- */
 typedef enum 
 {
@@ -42,11 +43,9 @@ typedef enum
 /* Public function prototypes ----------------------------------------- */
 void merge_array(float32_t des[], int16_t *ndes, float32_t temp[], int16_t ntemp);
 void linspace(float a, float b, uint16_t n, float u[]);
-void hamming(float h[], int16_t n);
 dsp_return block_frames(float mdes[], float src[], const float h[], uint16_t nsrc, uint16_t m, uint16_t n);
-void mel_filterbank(float32_t *fbank, uint16_t p, uint16_t n, uint16_t fs);
 void dct_log_transform(float outvect[], float invect[], size_t len);
-void mfcc(float matdes[], float matsrc[], uint16_t row, uint16_t col);
+dsp_return mfcc(float mfcc_mat[], float signal[], const float hamming[], const float melfb[], uint32_t siglen);
 #endif // __DSP_H
 
 /* End of file -------------------------------------------------------- */

@@ -168,27 +168,22 @@
         <Ww>
           <count>3</count>
           <WinNumber>1</WinNumber>
-          <ItemText>\\VoiceRecognition\../Src/main.c\frame</ItemText>
+          <ItemText>OutBuf[3199]</ItemText>
         </Ww>
         <Ww>
           <count>4</count>
           <WinNumber>1</WinNumber>
-          <ItemText>\\VoiceRecognition\../Src/main.c\result</ItemText>
+          <ItemText>HamWindow</ItemText>
         </Ww>
         <Ww>
           <count>5</count>
           <WinNumber>1</WinNumber>
-          <ItemText>OutBuf[3199]</ItemText>
+          <ItemText>MelFb</ItemText>
         </Ww>
         <Ww>
           <count>6</count>
           <WinNumber>1</WinNumber>
-          <ItemText>HamWindow</ItemText>
-        </Ww>
-        <Ww>
-          <count>7</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>MelFb</ItemText>
+          <ItemText>mfcc_data</ItemText>
         </Ww>
       </WatchWindow1>
       <Tracepoint>

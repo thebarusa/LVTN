@@ -26,8 +26,153 @@ Project File Date:  05/12/2020
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 6 (build 750)', folder: 'D:\Programs\KEIL\ARM\ARMCC\Bin'
-Build target 'VoiceRecognition'
-"VoiceRecognition\VoiceRecognition.axf" - 0 Error(s), 0 Warning(s).
+Rebuild target 'VoiceRecognition'
+assembling startup_stm32f407xx.s...
+compiling dsp.c...
+..\Src\dsp.c(144): warning:  #940-D: missing return statement at end of non-void function "mfcc" 
+  }
+..\Src\dsp.c(109): warning:  #177-D: variable "ret"  was declared but never referenced
+  	dsp_return ret; 
+..\Src\dsp.c: 2 warnings, 0 errors
+compiling dsp_coeffs.c...
+../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h(52): warning:  #47-D: incompatible redefinition of macro "__FPU_PRESENT" 
+  #define __FPU_PRESENT             1U       /*!< FPU present                                   */
+..\Src\dsp_coeffs.c: 1 warning, 0 errors
+compiling stm32f4xx_hal_i2c_ex.c...
+../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h(52): warning:  #47-D: incompatible redefinition of macro "__FPU_PRESENT" 
+  #define __FPU_PRESENT             1U       /*!< FPU present                                   */
+../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_i2c_ex.c: 1 warning, 0 errors
+compiling stm32f4xx_hal_i2c.c...
+../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h(52): warning:  #47-D: incompatible redefinition of macro "__FPU_PRESENT" 
+  #define __FPU_PRESENT             1U       /*!< FPU present                                   */
+../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_i2c.c: 1 warning, 0 errors
+compiling stm32f4xx_it.c...
+../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h(52): warning:  #47-D: incompatible redefinition of macro "__FPU_PRESENT" 
+  #define __FPU_PRESENT             1U       /*!< FPU present                                   */
+../Src/stm32f4xx_it.c: 1 warning, 0 errors
+compiling main.c...
+../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h(52): warning:  #47-D: incompatible redefinition of macro "__FPU_PRESENT" 
+  #define __FPU_PRESENT             1U       /*!< FPU present                                   */
+../Src/main.c: 1 warning, 0 errors
+compiling audio_record.c...
+../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h(52): warning:  #47-D: incompatible redefinition of macro "__FPU_PRESENT" 
+  #define __FPU_PRESENT             1U       /*!< FPU present                                   */
+..\Src\audio_record.c(143): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+  				TempBuf[i] = (float)RecBuf[i<<1] / 32768.0f - 0.95*temp;
+..\Src\audio_record.c(146): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+  				temp = TempBuf[i] + 0.95*temp;
+..\Src\audio_record.c(178): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+  				TempBuf[i] = (float)RecBuf[(i-PCM_OUT_SIZE)<<1] / 32768.0f - 0.95*temp;
+..\Src\audio_record.c(181): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+  				temp = TempBuf[i] + 0.95*temp;
+..\Src\audio_record.c: 5 warnings, 0 errors
+compiling stm32f4xx_hal_msp.c...
+../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h(52): warning:  #47-D: incompatible redefinition of macro "__FPU_PRESENT" 
+  #define __FPU_PRESENT             1U       /*!< FPU present                                   */
+../Src/stm32f4xx_hal_msp.c: 1 warning, 0 errors
+compiling mems.c...
+../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h(52): warning:  #47-D: incompatible redefinition of macro "__FPU_PRESENT" 
+  #define __FPU_PRESENT             1U       /*!< FPU present                                   */
+..\Src\mems.c: 1 warning, 0 errors
+compiling stm32f4xx_hal_rcc.c...
+../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h(52): warning:  #47-D: incompatible redefinition of macro "__FPU_PRESENT" 
+  #define __FPU_PRESENT             1U       /*!< FPU present                                   */
+../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc.c: 1 warning, 0 errors
+compiling stm32f4xx_hal_flash_ramfunc.c...
+../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h(52): warning:  #47-D: incompatible redefinition of macro "__FPU_PRESENT" 
+  #define __FPU_PRESENT             1U       /*!< FPU present                                   */
+../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash_ramfunc.c: 1 warning, 0 errors
+compiling stm32f4xx_hal_flash_ex.c...
+../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h(52): warning:  #47-D: incompatible redefinition of macro "__FPU_PRESENT" 
+  #define __FPU_PRESENT             1U       /*!< FPU present                                   */
+../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash_ex.c: 1 warning, 0 errors
+compiling stm32f4xx_hal_flash.c...
+../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h(52): warning:  #47-D: incompatible redefinition of macro "__FPU_PRESENT" 
+  #define __FPU_PRESENT             1U       /*!< FPU present                                   */
+../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash.c: 1 warning, 0 errors
+compiling stm32f4xx_hal_gpio.c...
+../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h(52): warning:  #47-D: incompatible redefinition of macro "__FPU_PRESENT" 
+  #define __FPU_PRESENT             1U       /*!< FPU present                                   */
+../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.c: 1 warning, 0 errors
+compiling stm32f4xx_hal_dma.c...
+../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h(52): warning:  #47-D: incompatible redefinition of macro "__FPU_PRESENT" 
+  #define __FPU_PRESENT             1U       /*!< FPU present                                   */
+../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma.c: 1 warning, 0 errors
+compiling stm32f4xx_hal_dma_ex.c...
+../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h(52): warning:  #47-D: incompatible redefinition of macro "__FPU_PRESENT" 
+  #define __FPU_PRESENT             1U       /*!< FPU present                                   */
+../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma_ex.c: 1 warning, 0 errors
+compiling stm32f4xx_hal_rcc_ex.c...
+../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h(52): warning:  #47-D: incompatible redefinition of macro "__FPU_PRESENT" 
+  #define __FPU_PRESENT             1U       /*!< FPU present                                   */
+../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c: 1 warning, 0 errors
+compiling stm32f4xx_hal_i2s_ex.c...
+../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h(52): warning:  #47-D: incompatible redefinition of macro "__FPU_PRESENT" 
+  #define __FPU_PRESENT             1U       /*!< FPU present                                   */
+../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_i2s_ex.c: 1 warning, 0 errors
+compiling stm32f4xx_hal_exti.c...
+../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h(52): warning:  #47-D: incompatible redefinition of macro "__FPU_PRESENT" 
+  #define __FPU_PRESENT             1U       /*!< FPU present                                   */
+../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_exti.c: 1 warning, 0 errors
+compiling stm32f4xx_hal_cortex.c...
+../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h(52): warning:  #47-D: incompatible redefinition of macro "__FPU_PRESENT" 
+  #define __FPU_PRESENT             1U       /*!< FPU present                                   */
+../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.c: 1 warning, 0 errors
+compiling stm32f4xx_hal.c...
+../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h(52): warning:  #47-D: incompatible redefinition of macro "__FPU_PRESENT" 
+  #define __FPU_PRESENT             1U       /*!< FPU present                                   */
+../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.c: 1 warning, 0 errors
+compiling stm32f4xx_hal_pwr.c...
+../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h(52): warning:  #47-D: incompatible redefinition of macro "__FPU_PRESENT" 
+  #define __FPU_PRESENT             1U       /*!< FPU present                                   */
+../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c: 1 warning, 0 errors
+compiling stm32f4xx_hal_pwr_ex.c...
+../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h(52): warning:  #47-D: incompatible redefinition of macro "__FPU_PRESENT" 
+  #define __FPU_PRESENT             1U       /*!< FPU present                                   */
+../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr_ex.c: 1 warning, 0 errors
+compiling lis302dl.c...
+compiling lis3dsh.c...
+compiling cs43l22.c...
+compiling stm32f4xx_hal_i2s.c...
+../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h(52): warning:  #47-D: incompatible redefinition of macro "__FPU_PRESENT" 
+  #define __FPU_PRESENT             1U       /*!< FPU present                                   */
+../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_i2s.c: 1 warning, 0 errors
+compiling stm32f4xx_hal_spi.c...
+../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h(52): warning:  #47-D: incompatible redefinition of macro "__FPU_PRESENT" 
+  #define __FPU_PRESENT             1U       /*!< FPU present                                   */
+../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_spi.c: 1 warning, 0 errors
+compiling system_stm32f4xx.c...
+../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h(52): warning:  #47-D: incompatible redefinition of macro "__FPU_PRESENT" 
+  #define __FPU_PRESENT             1U       /*!< FPU present                                   */
+../Src/system_stm32f4xx.c: 1 warning, 0 errors
+compiling stm32f4xx_hal_tim.c...
+../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h(52): warning:  #47-D: incompatible redefinition of macro "__FPU_PRESENT" 
+  #define __FPU_PRESENT             1U       /*!< FPU present                                   */
+../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim.c: 1 warning, 0 errors
+compiling stm32f4_discovery_accelerometer.c...
+../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h(52): warning:  #47-D: incompatible redefinition of macro "__FPU_PRESENT" 
+  #define __FPU_PRESENT             1U       /*!< FPU present                                   */
+..\Drivers\BSP\STM32F4-Discovery\stm32f4_discovery_accelerometer.c: 1 warning, 0 errors
+compiling stm32f4xx_hal_uart.c...
+../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h(52): warning:  #47-D: incompatible redefinition of macro "__FPU_PRESENT" 
+  #define __FPU_PRESENT             1U       /*!< FPU present                                   */
+../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_uart.c: 1 warning, 0 errors
+compiling stm32f4_discovery.c...
+../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h(52): warning:  #47-D: incompatible redefinition of macro "__FPU_PRESENT" 
+  #define __FPU_PRESENT             1U       /*!< FPU present                                   */
+..\Drivers\BSP\STM32F4-Discovery\stm32f4_discovery.c: 1 warning, 0 errors
+compiling stm32f4xx_hal_tim_ex.c...
+../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h(52): warning:  #47-D: incompatible redefinition of macro "__FPU_PRESENT" 
+  #define __FPU_PRESENT             1U       /*!< FPU present                                   */
+../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim_ex.c: 1 warning, 0 errors
+compiling stm32f4_discovery_audio.c...
+../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h(52): warning:  #47-D: incompatible redefinition of macro "__FPU_PRESENT" 
+  #define __FPU_PRESENT             1U       /*!< FPU present                                   */
+..\Drivers\BSP\STM32F4-Discovery\stm32f4_discovery_audio.c: 1 warning, 0 errors
+linking...
+Program Size: Code=30476 RO-data=90028 RW-data=1132 ZI-data=52876  
+FromELF: creating hex file...
+"VoiceRecognition\VoiceRecognition.axf" - 0 Error(s), 37 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -54,9 +199,9 @@ Package Vendor: Keil
    * Component: ARM::CMSIS:CORE:5.3.0
 
    * Component: ARM::CMSIS:DSP:Library:1.7.0
-      Library file:  CMSIS\DSP\Lib\ARM\arm_cortexM4lf_math.lib
       Include file:  CMSIS\DSP\Include\arm_math.h
-Build Time Elapsed:  00:00:00
+      Library file:  CMSIS\DSP\Lib\ARM\arm_cortexM4lf_math.lib
+Build Time Elapsed:  00:00:41
 </pre>
 </body>
 </html>

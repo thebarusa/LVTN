@@ -23,8 +23,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "dsp.h"
-#include "arm_math.h"
+
 
 /* USER CODE END Includes */
 
@@ -53,20 +52,16 @@ UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN PV */
 __IO uint8_t UserPressButton = 0;
-
+__IO float mfcc_data[20*30];
+extern const float HamWindow[256];
+extern const float MelFb[20*129];
+__IO float OutBuf[OUT_BUFFER_SIZE];
+__IO uint32_t AudioTotalSize;
 /* Wave Player Pause/Resume Status. Defined as external in waveplayer.c file */
 __IO uint32_t PauseResumeStatus = IDLE_STATUS;   
 
 /* Counter for User button presses*/
 __IO uint32_t PressCount = 0;
-__IO float OutBuf[OUT_BUFFER_SIZE];
-extern const float HamWindow[256];
-__IO float frame[129*30];
-extern const float MelFb[20*129];
-__IO float result[20*30];
-
-__IO uint16_t nbFrame;
-__IO uint32_t AudioTotalSize;
 //uint8_t check;
 HAL_StatusTypeDef state;
 /* USER CODE END PV */
@@ -132,11 +127,6 @@ int main(void)
   /* USER CODE BEGIN 2 */
   /* Configure USER Button */
   BSP_PB_Init(BUTTON_KEY, BUTTON_MODE_EXTI);
-	/* Init dsp */
-	arm_matrix_instance_f32 fb;
-	arm_matrix_instance_f32 fr;
-	arm_matrix_instance_f32 res;
-	arm_mat_init_f32(&fb, 20, 129, (float32_t *)MelFb);
 
   /* Toggle LEDs between each Test */
   while (!UserPressButton)
@@ -158,15 +148,7 @@ int main(void)
   {
 		UserPressButton = 0;
     AudioRecord_Test();
-		if(AudioTotalSize > 1000)
-		{
-			nbFrame = (AudioTotalSize - 256) / 100 + 1;
-			arm_mat_init_f32(&fr, 129, nbFrame, (float32_t *)frame);
-			arm_mat_init_f32(&res, 20, nbFrame, (float32_t *)result);
-			block_frames(frame, OutBuf, HamWindow, (uint16_t)AudioTotalSize, 100, 256);
-			arm_mat_mult_f32(&fb, &fr, &res);
-			mfcc(result, result, 20, nbFrame);
-		}
+    dsp_return check = mfcc((float32_t*)&mfcc_data[0], (float32_t*)&OutBuf[0], HamWindow, MelFb, AudioTotalSize);
     /* Toggle LEDs between each Test */
     UserPressButton = 0;
     while (!UserPressButton) Toggle_Leds();

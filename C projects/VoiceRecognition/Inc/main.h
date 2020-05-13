@@ -38,6 +38,8 @@ extern "C" {
 #include "mems.h"
 #include "audio_record.h"
 #include <stdio.h>
+#include "dsp.h"
+#include "arm_math.h"
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/

@@ -13,7 +13,7 @@
 
 /* Includes ----------------------------------------------------------- */
 #include "dsp.h"
-
+//#include "dsp_coeffs.c"
 
 /* Private defines ---------------------------------------------------- */
 
@@ -24,7 +24,6 @@
 
 
 /* Public variables --------------------------------------------------- */
-float *fbank;
 
 /* Private variables -------------------------------------------------- */
 
@@ -55,18 +54,10 @@ void linspace(float a, float b, uint16_t n, float u[])
     u[n - 1] = b;
 }
 
-void hamming(float h[], int16_t n)
-{
-	for(uint16_t i = 0; i < n; i++)
-	{
-		h[i] = 0.54f - 0.46f * cosf(2.0f * PI * (float)i / (float)(n-1));
-	}
-}
-
 dsp_return block_frames(float mdes[], float src[], const float h[], uint16_t nsrc, uint16_t m, uint16_t n)
 {
 	uint16_t nbFrame = floor((nsrc-n)/m)+1;
-	uint16_t i, j, k = 0;
+	uint16_t i, j;
 	float fft_1[n+1], fft_2[n+1];
 	arm_rfft_fast_instance_f32 real_fft;
 	
@@ -94,44 +85,6 @@ dsp_return block_frames(float mdes[], float src[], const float h[], uint16_t nsr
 	return DSP_OK;
 }
 
-void mel_filterbank(float *fbank, uint16_t p, uint16_t n, uint16_t fs)
-{
-	
-	float mel_points[p+2], hz_points[p+2], f[p+2];
-	float mel_low, mel_high; 
-	uint16_t fm_left, fm_center, fm_right;
-	uint16_t fb_length = floor(n/2)+1;
-	
-	mel_low = 0;
-	mel_high = 2595.0f * log10f(1.0f + (((float)fs / 2.0f)/700.0f));
-  linspace(mel_low, mel_high, p+2, mel_points);
-	for(uint16_t i = 0; i < (p+2); i++)
-	{
-		hz_points[i] = 700 * (powf(10.0f, (mel_points[i]/2595.0f)) - 1);
-	}
-	for(uint16_t i = 0; i < (p+2); i++)
-	{
-		f[i] = floor((n+1)*hz_points[i]/fs);
-	}
-	
-	f[0] = 1;
-	for(uint16_t m = 1; m < (p+1); m++)
-	{
-		fm_left   = f[m-1];
-		fm_center = f[m];
-		fm_right  = f[m+1];
-		for(uint16_t k = fm_left; k < (fm_center+1); k++)
-		{
-			fbank[(m-1)*fb_length+k-1] = ((float)k - f[m-1])/(f[m]-f[m-1]);
-		}
-		fbank[(m-1)*fb_length+fm_center] = 1;
-		for(uint16_t k = fm_center; k < (fm_right+1); k++)
-		{
-			fbank[(m-1)*fb_length+k-1] = (f[m+1] - k)/(f[m+1] - f[m]);
-		}
-	} 
-
-}
 
 // DCT type II, unscaled.
 // See: https://en.wikipedia.org/wiki/Discrete_cosine_transform#DCT-II
@@ -151,23 +104,42 @@ void dct_log_transform(float outvect[], float invect[], size_t len)
 	}
 }
 
-void mfcc(float matdes[], float matsrc[], uint16_t row, uint16_t col)
+dsp_return mfcc(float mfcc_mat[], float signal[], const float hamming[], const float melfb[], uint32_t siglen)
 {
-	float invect[row], outvect[row];
+	dsp_return ret; 
+	uint32_t nbFrame;
+	float frame[MELFB_LENGTH*30];
+	float result[MELFB_NUM*30];
+	float invect[MELFB_NUM], outvect[MELFB_NUM];
 	uint8_t k = 0;
-	for(uint8_t j = 0; j < col; j++)
+	arm_matrix_instance_f32 fb;
+	arm_matrix_instance_f32 fr;
+	arm_matrix_instance_f32 res;
+	
+	arm_mat_init_f32(&fb, MELFB_NUM, MELFB_LENGTH, (float32_t *)melfb);
+	
+	if(siglen > 1000)
 	{
-		k = 0;
-		for(uint8_t i = 0; i < row; i++)
+		nbFrame = (siglen - FFT_LENGTH) / FRAME_OVERLAP + 1;
+		arm_mat_init_f32(&fr, MELFB_LENGTH, nbFrame, (float32_t *)frame);
+		arm_mat_init_f32(&res, MELFB_NUM, nbFrame, (float32_t *)result);
+		block_frames(frame, signal, hamming, (uint16_t)siglen, FRAME_OVERLAP, FFT_LENGTH);
+		if(arm_mat_mult_f32(&fb, &fr, &res) != ARM_MATH_SUCCESS)
+			return DSP_ERROR;
+		for(uint8_t j = 0; j < nbFrame; j++)
 		{
-			invect[k++] = matsrc[i*col+j];
+			k = 0;
+			for(uint8_t i = 0; i < MELFB_NUM; i++)
+			{
+				invect[k++] = result[i*nbFrame+j];
+			}
+			dct_log_transform(outvect, invect, MELFB_NUM);
+			k = 0;
+			for(uint8_t i = 0; i < MELFB_NUM; i++)
+			{
+				mfcc_mat[i*nbFrame+j] = outvect[k++];
+			}		
 		}
-		dct_log_transform(outvect, invect, row);
-		k = 0;
-		for(uint8_t i = 0; i < row; i++)
-		{
-			matdes[i*col+j] = outvect[k++];
-		}		
 	}
 }
 
