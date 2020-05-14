@@ -143,4 +143,42 @@ dsp_return mfcc(float mfcc_mat[], float signal[], const float hamming[], const f
 	}
 }
 
+float euclidean(float Avect[], float Bvect[], uint32_t len)
+{
+	float Cvect[len];
+	float result;
+	
+	arm_sub_f32(Avect, Bvect, Cvect, len);
+	arm_rms_f32(Cvect, len, &result);
+	return (result * sqrtf(len));
+}
+
+float voice_recognition(float Amat[], float Bmat[], uint32_t row, uint32_t colA, uint32_t colB)
+{
+	float d_mat[colA][colB];
+	float min_sum = 0, min;
+	uint32_t id;
+	float AmatT[row*colA];
+	float BmatT[row*colB];
+	arm_matrix_instance_f32 A, B, AT, BT;
+
+	arm_mat_init_f32(&A, row, colA, Amat);
+	arm_mat_init_f32(&B, row, colB, Bmat);
+	arm_mat_init_f32(&AT, colA, row, AmatT);
+	arm_mat_init_f32(&BT, colB, row, BmatT);
+	
+	arm_mat_trans_f32(&A, &AT);
+	arm_mat_trans_f32(&B, &BT);
+	for(uint32_t i = 0; i < colA; i++)
+	{
+		for(uint32_t j = 0; j < colB; j++)
+		{
+      d_mat[i][j] = euclidean(&AmatT[i * row], &BmatT[j * row], row);
+		}
+		arm_min_f32(d_mat[i], colB, &min, &id);
+		min_sum += min;
+	}
+	
+	return (min_sum / (float)colA);
+}
 /* End of file -------------------------------------------------------- */

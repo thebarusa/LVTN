@@ -34,7 +34,7 @@ d = zeros(N, P);
 for ii=1:N 
 for jj=1:P 
 %d(ii,jj)=sum((x(:,ii)-y(:,jj)).^2).^0.5; 
-d(ii,jj) = mydistance(x(:,ii),y(:,jj),2); 
+d(ii,jj) = mydistance(x(:,ii),y(:,jj),0); 
 end 
 end
 %-------------------------------------------------------------------------- 

@@ -2,12 +2,13 @@
 clc
 close all
 
+size = (floor((len-256)/100) + 1);
 file = fopen('mfcc_data.bin');
-mfcc_data1 = fread(file,[600 1],'float');
+mfcc_data1 = fread(file,[size 20],'float');
 fclose(file);
 
-size = (floor((len-256)/100) + 1);
-mfcc_data1 = mfcc_data1(1:(size*20));
-z_data = reshape(mfcc_data1, [29 20])';
-%r_data = dct(log(z_data));
-speech_id = nhandang(z_data, 30, fs);
+
+mfcc_data1 = mfcc_data1';
+%z_data = reshape(mfcc_data1, [29 20])';
+speech_id = nhandang(mfcc_data1, 30, fs);
+

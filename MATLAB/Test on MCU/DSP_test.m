@@ -39,12 +39,15 @@ while (isplaying(data_play1))
   pause(0.5);
 end
 
-subplot(2,1,1)
+subplot(3,1,1)
 plot(rec_data);
 grid on
 title('Pre-emphasis & tach tu');
 
-
-subplot(2,1,2)
+subplot(3,1,2)
 plot(mfcc_data);
 title('MFCC');
+
+subplot(3,1,3)
+plot(data_save{speech_id, 1});
+title('database');

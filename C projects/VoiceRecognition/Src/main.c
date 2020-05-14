@@ -51,18 +51,25 @@ SPI_HandleTypeDef hspi1;
 UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN PV */
+//extern Audio_DataTypedef AUDIO_database[];
+extern const float Word[9][20*16];
+
 __IO uint8_t UserPressButton = 0;
-__IO float mfcc_data[20*30];
+float mfcc_data[20*30];
 extern const float HamWindow[256];
 extern const float MelFb[20*129];
 __IO float OutBuf[OUT_BUFFER_SIZE];
+__IO float dist[9];
 __IO uint32_t AudioTotalSize;
+
 /* Wave Player Pause/Resume Status. Defined as external in waveplayer.c file */
 __IO uint32_t PauseResumeStatus = IDLE_STATUS;   
 
 /* Counter for User button presses*/
 __IO uint32_t PressCount = 0;
-//uint8_t check;
+
+__IO float recog;
+__IO uint32_t voiceid;
 HAL_StatusTypeDef state;
 /* USER CODE END PV */
 
@@ -139,7 +146,7 @@ int main(void)
   BSP_LED_Off(LED5);
   BSP_LED_Off(LED6);
 	
-
+  float nbFrame;
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -148,8 +155,14 @@ int main(void)
   {
 		UserPressButton = 0;
     AudioRecord_Test();
+		if( AudioTotalSize > 1000)
+		{
+		nbFrame = (AudioTotalSize - FFT_LENGTH) / FRAME_OVERLAP + 1;
     dsp_return check = mfcc((float32_t*)&mfcc_data[0], (float32_t*)&OutBuf[0], HamWindow, MelFb, AudioTotalSize);
-    /* Toggle LEDs between each Test */
+		for(uint16_t i = 0; i < sizeof(dist)/sizeof(float); i++)
+			dist[i] = voice_recognition((float32_t*)&mfcc_data[0], (float32_t*)&Word[i], MELFB_NUM, nbFrame, 16);
+		arm_min_f32((float32_t*)&dist[0], sizeof(dist)/sizeof(float), (float32_t*)&recog, (uint32_t*)&voiceid);
+		}
     UserPressButton = 0;
     while (!UserPressButton) Toggle_Leds();
     BSP_LED_Off(LED3);

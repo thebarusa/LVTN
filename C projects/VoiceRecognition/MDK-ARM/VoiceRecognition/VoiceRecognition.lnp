@@ -36,7 +36,7 @@
 "voicerecognition\stm32f4_discovery_accelerometer.o"
 "voicerecognition\stm32f4_discovery_audio.o"
 "..\Middlewares\ST\STM32_Audio\Addons\PDM\Lib\libPDMFilter_CM4_Keil_wc16.lib"
-"C:\Users\Hung\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\DSP\Lib\ARM\arm_cortexM4lf_math.lib"
+"C:\Users\Hung\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\DSP\Lib\ARM\arm_cortexM4lf_math.lib"
 --library_type=microlib --strict --scatter "VoiceRecognition\VoiceRecognition.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

@@ -26,12 +26,14 @@ for i = 1:20
 end
 fprintf(fid, '};\n\n');
 %% du lieu giong noi
+fprintf(fid, 'const float Word[%d][20*16] = {\n',length(data_save));
 for i = 1:length(data_save)
-  fprintf(fid, 'const float Word_%d[20*16] = \n{\n',i);
+  fprintf(fid, '{ /* %s */\n', data_save{i,3});
   for j = 1:20
     fprintf(fid, '%10ff,', data_save{i,1}(j,:));
     fprintf(fid, '\n');
   end
-  fprintf(fid, '};\n\n');
+  fprintf(fid, '},\n');
 end
+fprintf(fid, '};\n\n');
 fclose(fid);
