@@ -13,6 +13,7 @@
 
 /* Includes ----------------------------------------------------------- */
 #include "dsp.h"
+#include "main.h"
 //#include "dsp_coeffs.c"
 
 /* Private defines ---------------------------------------------------- */
@@ -108,8 +109,8 @@ dsp_return mfcc(float mfcc_mat[], float signal[], const float hamming[], const f
 {
 	dsp_return ret; 
 	uint32_t nbFrame;
-	float frame[MELFB_LENGTH*30];
-	float result[MELFB_NUM*30];
+	float frame[MELFB_LENGTH*MAX_MEL_FRAME];
+	float result[MELFB_NUM*MAX_MEL_FRAME];
 	float invect[MELFB_NUM], outvect[MELFB_NUM];
 	uint8_t k = 0;
 	arm_matrix_instance_f32 fb;
@@ -153,7 +154,7 @@ float euclidean(float Avect[], float Bvect[], uint32_t len)
 	return (result * sqrtf(len));
 }
 
-float voice_recognition(float Amat[], float Bmat[], uint32_t row, uint32_t colA, uint32_t colB)
+float voice_compare(float Amat[], float Bmat[], uint32_t row, uint32_t colA, uint32_t colB)
 {
 	float d_mat[colA][colB];
 	float min_sum = 0, min;

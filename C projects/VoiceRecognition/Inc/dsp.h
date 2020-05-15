@@ -46,7 +46,7 @@ void linspace(float a, float b, uint16_t n, float u[]);
 dsp_return block_frames(float mdes[], float src[], const float h[], uint16_t nsrc, uint16_t m, uint16_t n);
 void dct_log_transform(float outvect[], float invect[], size_t len);
 dsp_return mfcc(float mfcc_mat[], float signal[], const float hamming[], const float melfb[], uint32_t siglen);
-float voice_recognition(float Amat[], float Bmat[], uint32_t row, uint32_t colA, uint32_t colB);
+float voice_compare(float Amat[], float Bmat[], uint32_t row, uint32_t colA, uint32_t colB);
 #endif // __DSP_H
 
 /* End of file -------------------------------------------------------- */

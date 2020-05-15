@@ -203,7 +203,7 @@
         <Ww>
           <count>10</count>
           <WinNumber>1</WinNumber>
-          <ItemText>voiceid,0x0A</ItemText>
+          <ItemText>check</ItemText>
         </Ww>
       </WatchWindow1>
       <MemoryWindow1>

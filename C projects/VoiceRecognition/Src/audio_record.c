@@ -69,7 +69,7 @@ typedef enum
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
 
-extern float    OutBuf[OUT_BUFFER_SIZE];
+
 
 __IO uint32_t ITCounter = 0;
 Audio_BufferTypeDef  BufferCtl;
@@ -99,7 +99,7 @@ static uint16_t *CurrentPos ;   /* This variable holds the current position of a
   * @param  None
   * @retval None
   */
-void AudioRecord_Test(void)
+void AudioRecord(float OutBuf[])
 {
 	float    TempBuf[2*PCM_OUT_SIZE];
 	int16_t  RecBuf[2*PCM_OUT_SIZE];
@@ -223,7 +223,7 @@ void AudioRecord_Test(void)
 	else 
 		AudioTotalSize = OUT_BUFFER_SIZE;
 	
-	OutBuf[OUT_BUFFER_SIZE-1] = AudioTotalSize;
+	//OutBuf[OUT_BUFFER_SIZE-1] = AudioTotalSize;
   /* Set variable to indicate play from record buffer */ 
   AudioTest = 1;
   
@@ -235,9 +235,9 @@ void AudioRecord_Test(void)
   /* Turn ON LED6: play recorded file */
   BSP_LED_On(LED6);
 
-  while(!UserPressButton)
-  { 
-  }
+//  while(!UserPressButton)
+//  { 
+//  }
  
 }
 

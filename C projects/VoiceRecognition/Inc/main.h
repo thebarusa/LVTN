@@ -53,6 +53,7 @@ extern "C" {
 #define WR_BUFFER_SIZE           4096*4
 #define MAX_FRAME                200 
 #define OUT_BUFFER_SIZE          2*PCM_OUT_SIZE*MAX_FRAME
+#define MAX_MEL_FRAME            ((OUT_BUFFER_SIZE - 256)/100 + 1)
 /* Defines for the Audio playing process */
 #define PAUSE_STATUS     ((uint32_t)0x00) /* Audio Player in Pause Status */
 #define RESUME_STATUS    ((uint32_t)0x01) /* Audio Player in Resume Status */
@@ -61,7 +62,19 @@ extern "C" {
 
 /* Exported macro ------------------------------------------------------------*/
 /* USER CODE BEGIN EM */
-
+typedef enum 
+{
+	NO_VOICE = 0,
+	TOI,
+	LUI,
+	TRAI,
+	PHAI, 
+	DUNG,
+	KHONG, 
+	MOT,
+	HAI,
+	BA
+}voice_id;
 /* USER CODE END EM */
 
 /* Exported functions prototypes ---------------------------------------------*/

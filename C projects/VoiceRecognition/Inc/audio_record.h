@@ -46,7 +46,7 @@
 /* Exported macro ------------------------------------------------------------*/
 /* Exported macro ------------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */
-void AudioRecord_Test(void);
+void AudioRecord(float OutBuf[]);
 void AudioRecorderProcessingAudioBuffer(void);
 
 #endif /* __AUDIO_RECORD_H */

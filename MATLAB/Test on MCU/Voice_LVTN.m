@@ -3,7 +3,7 @@ close all;
 clc;
 addpath('MY FUNCTIONS');
 
-saiso = 12; % sai so khi nhan dang bang VQ
+saiso = 19; % sai so khi nhan dang bang VQ
 fs = 8000;
 data_save={8,5};
 data_in=[];
@@ -72,7 +72,7 @@ while m_choice ~= max_menu_id
         %legend ('y = sinx','z =cosx')
         
         subplot(2,2,2);    
-        data_tach = endcut(data_plot, 128, 0.3E-3, 12);
+        data_tach = endcut(data_plot, 16, 0.3E-3, 0.06);
         plot((data_tach), 'r');
         title('Tach tu, cat khoang lang');
         
