@@ -180,6 +180,7 @@ int main(void)
     check = voice_recognition();
     UserPressButton = 0;
     while (!UserPressButton) Toggle_Leds();
+		check  = NO_VOICE;
     BSP_LED_Off(LED3);
     BSP_LED_Off(LED4);
     BSP_LED_Off(LED5);

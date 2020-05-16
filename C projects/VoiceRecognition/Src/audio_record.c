@@ -140,10 +140,10 @@ void AudioRecord(float OutBuf[])
       /* Copy PCM data in internal buffer */			
       for(uint16_t i = 0; i < PCM_OUT_SIZE; i++)
 	    {
-				TempBuf[i] = (float)RecBuf[i<<1] / 32768.0f - 0.95*temp;
+				TempBuf[i] = (float)RecBuf[i<<1] / 32768.0f - 0.95f*temp;
 				if((TempBuf[i] * temp) < 0)
 					zero_cross++;
-				temp = TempBuf[i] + 0.95*temp;
+				temp = TempBuf[i] + 0.95f*temp;
 			}
 			
       BufferCtl.offset = BUFFER_OFFSET_NONE;
@@ -175,10 +175,10 @@ void AudioRecord(float OutBuf[])
       /* Copy PCM data in internal buffer */
 		  for(uint16_t i = PCM_OUT_SIZE; i < 2*PCM_OUT_SIZE; i++)
 	    {
-				TempBuf[i] = (float)RecBuf[(i-PCM_OUT_SIZE)<<1] / 32768.0f - 0.95*temp;
+				TempBuf[i] = (float)RecBuf[(i-PCM_OUT_SIZE)<<1] / 32768.0f - 0.95f*temp;
 				if((TempBuf[i] * temp) < 0)
 					zero_cross++;
-				temp = TempBuf[i] + 0.95*temp;
+				temp = TempBuf[i] + 0.95f*temp;
 			}
 			arm_power_f32(TempBuf, 2*PCM_OUT_SIZE, &frame_power);
 			if ((frame_power/(float)(2*PCM_OUT_SIZE) > MIN_ENERGY) && ((zero_cross/(float)(2*PCM_OUT_SIZE)) > MIN_ZCR))

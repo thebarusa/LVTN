@@ -144,14 +144,26 @@ dsp_return mfcc(float mfcc_mat[], float signal[], const float hamming[], const f
 	}
 }
 
+//float euclidean(float Avect[], float Bvect[], uint32_t len)
+//{
+//	float Cvect[len];
+//	float result;
+//	
+//	arm_sub_f32(Avect, Bvect, Cvect, len);
+//	arm_rms_f32(Cvect, len, &result);
+//	return (result * sqrtf(len));
+//}
+
 float euclidean(float Avect[], float Bvect[], uint32_t len)
 {
 	float Cvect[len];
 	float result;
-	
+	float pesi[MELFB_NUM] = {0.2f, 0.9f, 0.95f, 0.9f, 0.7f, 0.9f, 1.0f, 1.0f, 1.0f, 0.95f, 0.3f, 0.3f, 0.3f};
 	arm_sub_f32(Avect, Bvect, Cvect, len);
-	arm_rms_f32(Cvect, len, &result);
-	return (result * sqrtf(len));
+	arm_abs_f32(Cvect, Cvect, len);
+	arm_mult_f32(Cvect, pesi, Cvect, len);
+	arm_mean_f32(Cvect, len, &result);
+	return (result * len);
 }
 
 float voice_compare(float Amat[], float Bmat[], uint32_t row, uint32_t colA, uint32_t colB)

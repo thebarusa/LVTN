@@ -27,52 +27,16 @@ Project File Date:  05/12/2020
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 6 (build 750)', folder: 'D:\Programs\KEIL\ARM\ARMCC\Bin'
 Build target 'VoiceRecognition'
-compiling dsp_coeffs.c...
-../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h(52): warning:  #47-D: incompatible redefinition of macro "__FPU_PRESENT" 
-  #define __FPU_PRESENT             1U       /*!< FPU present                                   */
-..\Src\dsp_coeffs.c: 1 warning, 0 errors
-compiling stm32f4xx_it.c...
-../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h(52): warning:  #47-D: incompatible redefinition of macro "__FPU_PRESENT" 
-  #define __FPU_PRESENT             1U       /*!< FPU present                                   */
-../Src/stm32f4xx_it.c: 1 warning, 0 errors
-compiling audio_record.c...
-../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h(52): warning:  #47-D: incompatible redefinition of macro "__FPU_PRESENT" 
-  #define __FPU_PRESENT             1U       /*!< FPU present                                   */
-..\Src\audio_record.c(143): warning:  #1035-D: single-precision operand implicitly converted to double-precision
-  				TempBuf[i] = (float)RecBuf[i<<1] / 32768.0f - 0.95*temp;
-..\Src\audio_record.c(146): warning:  #1035-D: single-precision operand implicitly converted to double-precision
-  				temp = TempBuf[i] + 0.95*temp;
-..\Src\audio_record.c(178): warning:  #1035-D: single-precision operand implicitly converted to double-precision
-  				TempBuf[i] = (float)RecBuf[(i-PCM_OUT_SIZE)<<1] / 32768.0f - 0.95*temp;
-..\Src\audio_record.c(181): warning:  #1035-D: single-precision operand implicitly converted to double-precision
-  				temp = TempBuf[i] + 0.95*temp;
-..\Src\audio_record.c: 5 warnings, 0 errors
 compiling main.c...
 ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h(52): warning:  #47-D: incompatible redefinition of macro "__FPU_PRESENT" 
   #define __FPU_PRESENT             1U       /*!< FPU present                                   */
 ../Src/main.c(113): warning:  #188-D: enumerated type mixed with another type
   				id = i + 1;
 ../Src/main.c: 2 warnings, 0 errors
-compiling dsp.c...
-../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h(52): warning:  #47-D: incompatible redefinition of macro "__FPU_PRESENT" 
-  #define __FPU_PRESENT             1U       /*!< FPU present                                   */
-..\Src\dsp.c(145): warning:  #940-D: missing return statement at end of non-void function "mfcc" 
-  }
-..\Src\dsp.c(110): warning:  #177-D: variable "ret"  was declared but never referenced
-  	dsp_return ret; 
-..\Src\dsp.c: 3 warnings, 0 errors
-compiling stm32f4xx_hal_msp.c...
-../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h(52): warning:  #47-D: incompatible redefinition of macro "__FPU_PRESENT" 
-  #define __FPU_PRESENT             1U       /*!< FPU present                                   */
-../Src/stm32f4xx_hal_msp.c: 1 warning, 0 errors
-compiling mems.c...
-../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h(52): warning:  #47-D: incompatible redefinition of macro "__FPU_PRESENT" 
-  #define __FPU_PRESENT             1U       /*!< FPU present                                   */
-..\Src\mems.c: 1 warning, 0 errors
 linking...
-Program Size: Code=31672 RO-data=143660 RW-data=1132 ZI-data=37676  
+Program Size: Code=31428 RO-data=143712 RW-data=1132 ZI-data=37676  
 FromELF: creating hex file...
-"VoiceRecognition\VoiceRecognition.axf" - 0 Error(s), 14 Warning(s).
+"VoiceRecognition\VoiceRecognition.axf" - 0 Error(s), 2 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -101,7 +65,7 @@ Package Vendor: Keil
    * Component: ARM::CMSIS:DSP:Library:1.8.0
       Include file:  CMSIS\DSP\Include\arm_math.h
       Library file:  CMSIS\DSP\Lib\ARM\arm_cortexM4lf_math.lib
-Build Time Elapsed:  00:00:11
+Build Time Elapsed:  00:00:02
 </pre>
 </body>
 </html>
