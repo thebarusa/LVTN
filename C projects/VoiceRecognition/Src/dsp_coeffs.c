@@ -1,7 +1,7 @@
 #include "main.h"
 #include <math.h>
 
-#define NaNf   999999.9999f
+#define NaNf   NAN
 
 const float HamWindow[256] = 
 {
