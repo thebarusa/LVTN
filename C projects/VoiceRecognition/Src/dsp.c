@@ -108,8 +108,7 @@ void dct_log_transform(float outvect[], float invect[], size_t len)
 }
 
 dsp_return mfcc(float mfcc_mat[], float signal[], const float hamming[], const float melfb[], uint32_t siglen)
-{
-	dsp_return ret; 
+{ 
 	uint32_t nbFrame;
 	float frame[MELFB_LENGTH*MAX_MEL_FRAME];
 	float result[MELFB_NUM*MAX_MEL_FRAME];
@@ -144,6 +143,7 @@ dsp_return mfcc(float mfcc_mat[], float signal[], const float hamming[], const f
 			}		
 		}
 	}
+	return DSP_OK;
 }
 
 //float euclidean(float Avect[], float Bvect[], uint32_t len)

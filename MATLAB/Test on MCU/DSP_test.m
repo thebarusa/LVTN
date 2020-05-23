@@ -13,7 +13,7 @@ sound_id=length(data_save);
 %% Read binary file %%
 fileID = fopen('rec_data.bin');
 %rec_data = fread(fileID,[4096*2 1],'int16');
-rec_data = fread(fileID,[3200 1],'float');
+rec_data = fread(fileID,[4800 1],'float');
 fclose(fileID);
 %figure
 %plot(rec_data);
@@ -21,7 +21,7 @@ fclose(fileID);
 
 %% Signal processing %%
 %tach_data = endcut(rec_data, 16, 0.5E-3, 0.06);
-len = rec_data(3200);
+len = 2784;
 rec_data = rec_data(1:len);
 mfcc_data = mfcc(rec_data, fs);
 speech_id = nhandang(mfcc_data, 30, fs);

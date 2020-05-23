@@ -43,10 +43,10 @@ typedef enum
 	TRAI,
 	PHAI, 
 	DUNG,
-	KHONG, 
-	MOT,
+	MOT, 
 	HAI,
-	BA
+	BA,
+	BON
 }voice_id;
 /* Public macros ------------------------------------------------------ */
 

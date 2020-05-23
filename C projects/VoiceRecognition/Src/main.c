@@ -51,21 +51,13 @@ SPI_HandleTypeDef hspi1;
 UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN PV */
-//extern AUDIO_database[];
-
-
 __IO uint8_t UserPressButton = 0;
-
-
-
 /* Wave Player Pause/Resume Status. Defined as external in waveplayer.c file */
 __IO uint32_t PauseResumeStatus = IDLE_STATUS;   
-
 /* Counter for User button presses*/
 uint32_t PressCount = 0;
 voice_id check;
 float min_dist;
-HAL_StatusTypeDef state;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
