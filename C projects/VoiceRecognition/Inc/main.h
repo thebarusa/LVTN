@@ -62,19 +62,7 @@ extern "C" {
 
 /* Exported macro ------------------------------------------------------------*/
 /* USER CODE BEGIN EM */
-typedef enum 
-{
-	NO_VOICE = 0,
-	TOI,
-	LUI,
-	TRAI,
-	PHAI, 
-	DUNG,
-	KHONG, 
-	MOT,
-	HAI,
-	BA
-}voice_id;
+
 /* USER CODE END EM */
 
 /* Exported functions prototypes ---------------------------------------------*/

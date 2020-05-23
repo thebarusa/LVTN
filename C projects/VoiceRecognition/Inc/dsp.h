@@ -20,6 +20,7 @@
 #include "arm_math.h"
 #include <math.h>
 #include <stdlib.h>
+#include "main.h"
 /* Public defines ----------------------------------------------------- */
 #define FFT_LENGTH       256
 #define FRAME_OVERLAP    100
@@ -34,6 +35,19 @@ typedef enum
 	DSP_ERROR
 }dsp_return;
 
+typedef enum 
+{
+	NO_VOICE = 0,
+	TOI,
+	LUI,
+	TRAI,
+	PHAI, 
+	DUNG,
+	KHONG, 
+	MOT,
+	HAI,
+	BA
+}voice_id;
 /* Public macros ------------------------------------------------------ */
 
 
@@ -47,6 +61,7 @@ dsp_return block_frames(float mdes[], float src[], const float h[], uint16_t nsr
 void dct_log_transform(float outvect[], float invect[], size_t len);
 dsp_return mfcc(float mfcc_mat[], float signal[], const float hamming[], const float melfb[], uint32_t siglen);
 float voice_compare(float Amat[], float Bmat[], uint32_t row, uint32_t colA, uint32_t colB);
+voice_id voice_recognition(float *min_distance);
 #endif // __DSP_H
 
 /* End of file -------------------------------------------------------- */

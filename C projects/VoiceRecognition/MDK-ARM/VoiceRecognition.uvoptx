@@ -163,52 +163,37 @@
         <Ww>
           <count>2</count>
           <WinNumber>1</WinNumber>
-          <ItemText>\\VoiceRecognition\../Src/main.c\OutBuf</ItemText>
+          <ItemText>HamWindow</ItemText>
         </Ww>
         <Ww>
           <count>3</count>
           <WinNumber>1</WinNumber>
-          <ItemText>OutBuf[3199]</ItemText>
+          <ItemText>MelFb</ItemText>
         </Ww>
         <Ww>
           <count>4</count>
           <WinNumber>1</WinNumber>
-          <ItemText>HamWindow</ItemText>
+          <ItemText>mfcc_data</ItemText>
         </Ww>
         <Ww>
           <count>5</count>
           <WinNumber>1</WinNumber>
-          <ItemText>MelFb</ItemText>
+          <ItemText>Word_1</ItemText>
         </Ww>
         <Ww>
           <count>6</count>
           <WinNumber>1</WinNumber>
-          <ItemText>mfcc_data</ItemText>
+          <ItemText>Word</ItemText>
         </Ww>
         <Ww>
           <count>7</count>
           <WinNumber>1</WinNumber>
-          <ItemText>Word_1</ItemText>
+          <ItemText>check</ItemText>
         </Ww>
         <Ww>
           <count>8</count>
           <WinNumber>1</WinNumber>
-          <ItemText>dist</ItemText>
-        </Ww>
-        <Ww>
-          <count>9</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>Word</ItemText>
-        </Ww>
-        <Ww>
-          <count>10</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>check</ItemText>
-        </Ww>
-        <Ww>
-          <count>11</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>buf</ItemText>
+          <ItemText>min_dist</ItemText>
         </Ww>
       </WatchWindow1>
       <MemoryWindow1>

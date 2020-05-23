@@ -52,22 +52,19 @@ UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN PV */
 //extern AUDIO_database[];
-extern const float Word[9][20*16];
-extern const float HamWindow[256];
-extern const float MelFb[20*129];
+
 
 __IO uint8_t UserPressButton = 0;
 
-uint8_t rx_char, buf[50] = "HELLO STM\n\r";
 
-__IO uint32_t AudioTotalSize;
 
 /* Wave Player Pause/Resume Status. Defined as external in waveplayer.c file */
 __IO uint32_t PauseResumeStatus = IDLE_STATUS;   
 
 /* Counter for User button presses*/
-__IO uint32_t PressCount = 0;
-__IO voice_id check;
+uint32_t PressCount = 0;
+voice_id check;
+float min_dist;
 HAL_StatusTypeDef state;
 /* USER CODE END PV */
 
@@ -84,47 +81,8 @@ static void MX_USART2_UART_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
-{
-	static uint16_t i = 0;
-	if(huart->Instance==USART2)
-	{
-    HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_15);
-		if((rx_char != 0x0D) || (rx_char != 0x0D))
-		{
-			buf[i++] = rx_char;
-		}
-		else i = 0;
-		HAL_UART_Transmit(&huart2, &rx_char, sizeof(rx_char), 1000);
-		HAL_UART_Receive_IT(&huart2, &rx_char, sizeof(rx_char));		
-	}
-}
 
-voice_id voice_recognition(void)
-{
-	float OutBuf[OUT_BUFFER_SIZE];
-	float nbFrame, dist, tmp = INFINITY;
-	float mfcc_data[20*MAX_MEL_FRAME];
-	voice_id id;
-	
-	AudioRecord(OutBuf);
-	if( AudioTotalSize > 1000)
-	{
-	  nbFrame = (AudioTotalSize - FFT_LENGTH) / FRAME_OVERLAP + 1;
-    dsp_return check = mfcc((float32_t*)&mfcc_data[0], (float32_t*)&OutBuf[0], HamWindow, MelFb, AudioTotalSize);
-		for(uint16_t i = 0; i < 9; i++)
-		{
-			dist = voice_compare((float32_t*)&mfcc_data[0], (float32_t*)&Word[i], MELFB_NUM, nbFrame, 16);
-			if(dist < tmp)
-			{
-				tmp = dist;
-				id = i + 1;
-			}
-		}
-		return id;		
-	}
-	return NO_VOICE;
-}
+
 /* USER CODE END 0 */
 
 /**
@@ -165,8 +123,6 @@ int main(void)
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
 	
-	HAL_UART_Receive_IT(&huart2, &rx_char, sizeof(rx_char));
-	HAL_UART_Transmit(&huart2, buf, sizeof(buf), 1000);
   /* Configure USER Button */
   BSP_PB_Init(BUTTON_KEY, BUTTON_MODE_EXTI);
 
@@ -188,9 +144,8 @@ int main(void)
   while (1)
   {
 		UserPressButton = 0;
-    check = voice_recognition();
-		sprintf((char*)&buf[0],"ID TIENG NOI:%d \n\r", check);
-		HAL_UART_Transmit(&huart2, buf, sizeof(buf), 1000);
+    check = voice_recognition(&min_dist);
+		//HAL_UART_Transmit(&huart2, buf, sizeof(buf), 1000);
     UserPressButton = 0;
     while (!UserPressButton) Toggle_Leds();
 		check  = NO_VOICE;
@@ -431,7 +386,6 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
   if (KEY_BUTTON_PIN == GPIO_Pin)
   {
-		HAL_Delay(10);
     while (BSP_PB_GetState(BUTTON_KEY) != RESET);
     UserPressButton = 1;
   }

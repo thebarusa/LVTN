@@ -3,7 +3,7 @@ CompilerVersion: 5060750::V5.06 update 6 (build 750)::ARMCC
 F (startup_stm32f407xx.s)(0x5EC654DF)(--cpu Cortex-M4.fp.sp -g --apcs=interwork --pd "__MICROLIB SETA 1"-I.\RTE\_VoiceRecognition-IC:\Users\Hung\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include-IC:\Users\Hung\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\DSP\Include-IC:\Users\Hung\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.14.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include--pd "__UVISION_VERSION SETA 529" --pd "_RTE_ SETA 1" --pd "STM32F407xx SETA 1"--list startup_stm32f407xx.lst --xref -o voicerecognition\startup_stm32f407xx.o --depend voicerecognition\startup_stm32f407xx.d)
 F (..\Src\audio_record.c)(0x5EBFD124)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ..\Drivers\BSP\STM32F4-Discovery -I ..\Drivers\CMSIS\DSP\Include-I.\RTE\_VoiceRecognition-IC:\Users\Hung\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include-IC:\Users\Hung\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\DSP\Include-IC:\Users\Hung\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.14.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="529" -D_RTE_ -DSTM32F407xx -DUSE_HAL_DRIVER -DSTM32F407xx -DUSE_STM32F4_DISCO -DARM_MATH_CM4 -D__FPU_PRESENT-o voicerecognition\audio_record.o --omf_browse voicerecognition\audio_record.crf --depend voicerecognition\audio_record.d)
 I (../Inc/audio_record.h)(0x5EBE9664)
-I (../Inc/main.h)(0x5EC654DF)
+I (../Inc/main.h)(0x5EC911AC)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h)(0x5E70C37D)
 I (../Inc/stm32f4xx_hal_conf.h)(0x5EB28FD7)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h)(0x5E70C37D)
@@ -48,14 +48,14 @@ I (..\Drivers\BSP\STM32F4-Discovery\../Components/cs43l22/../Common/audio.h)(0x5
 I (..\Drivers\BSP\STM32F4-Discovery\../../../Middlewares/ST/STM32_Audio/Addons/PDM/Inc/pdm2pcm_glo.h)(0x5C5BF297)
 I (../Inc/mems.h)(0x5C5BF1D2)
 I (D:\Programs\KEIL\ARM\ARMCC\include\stdio.h)(0x5D9AE02A)
-I (../Inc/dsp.h)(0x5EC7D69E)
+I (../Inc/dsp.h)(0x5EC913A1)
 I (..\Drivers\CMSIS\DSP\Include\arm_math.h)(0x5E70C37C)
 I (D:\Programs\KEIL\ARM\ARMCC\include\string.h)(0x5D9AE028)
 I (D:\Programs\KEIL\ARM\ARMCC\include\math.h)(0x5D9AE022)
 I (D:\Programs\KEIL\ARM\ARMCC\include\stdlib.h)(0x5D9AE02A)
 F (..\Src\mems.c)(0x5C5BF1D3)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ..\Drivers\BSP\STM32F4-Discovery -I ..\Drivers\CMSIS\DSP\Include-I.\RTE\_VoiceRecognition-IC:\Users\Hung\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include-IC:\Users\Hung\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\DSP\Include-IC:\Users\Hung\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.14.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="529" -D_RTE_ -DSTM32F407xx -DUSE_HAL_DRIVER -DSTM32F407xx -DUSE_STM32F4_DISCO -DARM_MATH_CM4 -D__FPU_PRESENT-o voicerecognition\mems.o --omf_browse voicerecognition\mems.crf --depend voicerecognition\mems.d)
 I (../Inc/mems.h)(0x5C5BF1D2)
-I (../Inc/main.h)(0x5EC654DF)
+I (../Inc/main.h)(0x5EC911AC)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h)(0x5E70C37D)
 I (../Inc/stm32f4xx_hal_conf.h)(0x5EB28FD7)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h)(0x5E70C37D)
@@ -100,13 +100,13 @@ I (..\Drivers\BSP\STM32F4-Discovery\../Components/cs43l22/../Common/audio.h)(0x5
 I (..\Drivers\BSP\STM32F4-Discovery\../../../Middlewares/ST/STM32_Audio/Addons/PDM/Inc/pdm2pcm_glo.h)(0x5C5BF297)
 I (../Inc/audio_record.h)(0x5EBE9664)
 I (D:\Programs\KEIL\ARM\ARMCC\include\stdio.h)(0x5D9AE02A)
-I (../Inc/dsp.h)(0x5EC7D69E)
+I (../Inc/dsp.h)(0x5EC913A1)
 I (..\Drivers\CMSIS\DSP\Include\arm_math.h)(0x5E70C37C)
 I (D:\Programs\KEIL\ARM\ARMCC\include\string.h)(0x5D9AE028)
 I (D:\Programs\KEIL\ARM\ARMCC\include\math.h)(0x5D9AE022)
 I (D:\Programs\KEIL\ARM\ARMCC\include\stdlib.h)(0x5D9AE02A)
-F (../Src/main.c)(0x5EC7D8C0)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ..\Drivers\BSP\STM32F4-Discovery -I ..\Drivers\CMSIS\DSP\Include-I.\RTE\_VoiceRecognition-IC:\Users\Hung\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include-IC:\Users\Hung\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\DSP\Include-IC:\Users\Hung\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.14.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="529" -D_RTE_ -DSTM32F407xx -DUSE_HAL_DRIVER -DSTM32F407xx -DUSE_STM32F4_DISCO -DARM_MATH_CM4 -D__FPU_PRESENT-o voicerecognition\main.o --omf_browse voicerecognition\main.crf --depend voicerecognition\main.d)
-I (../Inc/main.h)(0x5EC654DF)
+F (../Src/main.c)(0x5EC9135A)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ..\Drivers\BSP\STM32F4-Discovery -I ..\Drivers\CMSIS\DSP\Include-I.\RTE\_VoiceRecognition-IC:\Users\Hung\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include-IC:\Users\Hung\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\DSP\Include-IC:\Users\Hung\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.14.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="529" -D_RTE_ -DSTM32F407xx -DUSE_HAL_DRIVER -DSTM32F407xx -DUSE_STM32F4_DISCO -DARM_MATH_CM4 -D__FPU_PRESENT-o voicerecognition\main.o --omf_browse voicerecognition\main.crf --depend voicerecognition\main.d)
+I (../Inc/main.h)(0x5EC911AC)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h)(0x5E70C37D)
 I (../Inc/stm32f4xx_hal_conf.h)(0x5EB28FD7)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h)(0x5E70C37D)
@@ -152,13 +152,13 @@ I (..\Drivers\BSP\STM32F4-Discovery\../../../Middlewares/ST/STM32_Audio/Addons/P
 I (../Inc/mems.h)(0x5C5BF1D2)
 I (../Inc/audio_record.h)(0x5EBE9664)
 I (D:\Programs\KEIL\ARM\ARMCC\include\stdio.h)(0x5D9AE02A)
-I (../Inc/dsp.h)(0x5EC7D69E)
+I (../Inc/dsp.h)(0x5EC913A1)
 I (..\Drivers\CMSIS\DSP\Include\arm_math.h)(0x5E70C37C)
 I (D:\Programs\KEIL\ARM\ARMCC\include\string.h)(0x5D9AE028)
 I (D:\Programs\KEIL\ARM\ARMCC\include\math.h)(0x5D9AE022)
 I (D:\Programs\KEIL\ARM\ARMCC\include\stdlib.h)(0x5D9AE02A)
 F (../Src/stm32f4xx_it.c)(0x5EB28FD7)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ..\Drivers\BSP\STM32F4-Discovery -I ..\Drivers\CMSIS\DSP\Include-I.\RTE\_VoiceRecognition-IC:\Users\Hung\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include-IC:\Users\Hung\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\DSP\Include-IC:\Users\Hung\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.14.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="529" -D_RTE_ -DSTM32F407xx -DUSE_HAL_DRIVER -DSTM32F407xx -DUSE_STM32F4_DISCO -DARM_MATH_CM4 -D__FPU_PRESENT-o voicerecognition\stm32f4xx_it.o --omf_browse voicerecognition\stm32f4xx_it.crf --depend voicerecognition\stm32f4xx_it.d)
-I (../Inc/main.h)(0x5EC654DF)
+I (../Inc/main.h)(0x5EC911AC)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h)(0x5E70C37D)
 I (../Inc/stm32f4xx_hal_conf.h)(0x5EB28FD7)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h)(0x5E70C37D)
@@ -204,14 +204,14 @@ I (..\Drivers\BSP\STM32F4-Discovery\../../../Middlewares/ST/STM32_Audio/Addons/P
 I (../Inc/mems.h)(0x5C5BF1D2)
 I (../Inc/audio_record.h)(0x5EBE9664)
 I (D:\Programs\KEIL\ARM\ARMCC\include\stdio.h)(0x5D9AE02A)
-I (../Inc/dsp.h)(0x5EC7D69E)
+I (../Inc/dsp.h)(0x5EC913A1)
 I (..\Drivers\CMSIS\DSP\Include\arm_math.h)(0x5E70C37C)
 I (D:\Programs\KEIL\ARM\ARMCC\include\string.h)(0x5D9AE028)
 I (D:\Programs\KEIL\ARM\ARMCC\include\math.h)(0x5D9AE022)
 I (D:\Programs\KEIL\ARM\ARMCC\include\stdlib.h)(0x5D9AE02A)
 I (../Inc/stm32f4xx_it.h)(0x5EB28FD7)
 F (../Src/stm32f4xx_hal_msp.c)(0x5EB28FD7)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ..\Drivers\BSP\STM32F4-Discovery -I ..\Drivers\CMSIS\DSP\Include-I.\RTE\_VoiceRecognition-IC:\Users\Hung\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include-IC:\Users\Hung\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\DSP\Include-IC:\Users\Hung\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.14.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="529" -D_RTE_ -DSTM32F407xx -DUSE_HAL_DRIVER -DSTM32F407xx -DUSE_STM32F4_DISCO -DARM_MATH_CM4 -D__FPU_PRESENT-o voicerecognition\stm32f4xx_hal_msp.o --omf_browse voicerecognition\stm32f4xx_hal_msp.crf --depend voicerecognition\stm32f4xx_hal_msp.d)
-I (../Inc/main.h)(0x5EC654DF)
+I (../Inc/main.h)(0x5EC911AC)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h)(0x5E70C37D)
 I (../Inc/stm32f4xx_hal_conf.h)(0x5EB28FD7)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h)(0x5E70C37D)
@@ -257,13 +257,13 @@ I (..\Drivers\BSP\STM32F4-Discovery\../../../Middlewares/ST/STM32_Audio/Addons/P
 I (../Inc/mems.h)(0x5C5BF1D2)
 I (../Inc/audio_record.h)(0x5EBE9664)
 I (D:\Programs\KEIL\ARM\ARMCC\include\stdio.h)(0x5D9AE02A)
-I (../Inc/dsp.h)(0x5EC7D69E)
+I (../Inc/dsp.h)(0x5EC913A1)
 I (..\Drivers\CMSIS\DSP\Include\arm_math.h)(0x5E70C37C)
 I (D:\Programs\KEIL\ARM\ARMCC\include\string.h)(0x5D9AE028)
 I (D:\Programs\KEIL\ARM\ARMCC\include\math.h)(0x5D9AE022)
 I (D:\Programs\KEIL\ARM\ARMCC\include\stdlib.h)(0x5D9AE02A)
-F (..\Src\dsp.c)(0x5EC7D69E)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ..\Drivers\BSP\STM32F4-Discovery -I ..\Drivers\CMSIS\DSP\Include-I.\RTE\_VoiceRecognition-IC:\Users\Hung\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include-IC:\Users\Hung\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\DSP\Include-IC:\Users\Hung\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.14.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="529" -D_RTE_ -DSTM32F407xx -DUSE_HAL_DRIVER -DSTM32F407xx -DUSE_STM32F4_DISCO -DARM_MATH_CM4 -D__FPU_PRESENT-o voicerecognition\dsp.o --omf_browse voicerecognition\dsp.crf --depend voicerecognition\dsp.d)
-I (../Inc/dsp.h)(0x5EC7D69E)
+F (..\Src\dsp.c)(0x5EC913A1)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ..\Drivers\BSP\STM32F4-Discovery -I ..\Drivers\CMSIS\DSP\Include-I.\RTE\_VoiceRecognition-IC:\Users\Hung\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include-IC:\Users\Hung\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\DSP\Include-IC:\Users\Hung\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.14.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="529" -D_RTE_ -DSTM32F407xx -DUSE_HAL_DRIVER -DSTM32F407xx -DUSE_STM32F4_DISCO -DARM_MATH_CM4 -D__FPU_PRESENT-o voicerecognition\dsp.o --omf_browse voicerecognition\dsp.crf --depend voicerecognition\dsp.d)
+I (../Inc/dsp.h)(0x5EC913A1)
 I (D:\Programs\KEIL\ARM\ARMCC\include\stdint.h)(0x5D9AE028)
 I (..\Drivers\CMSIS\DSP\Include\arm_math.h)(0x5E70C37C)
 I (../Drivers/CMSIS/Include/core_cm4.h)(0x5E70C37C)
@@ -273,7 +273,7 @@ I (../Drivers/CMSIS/Include/cmsis_armcc.h)(0x5E70C37C)
 I (D:\Programs\KEIL\ARM\ARMCC\include\string.h)(0x5D9AE028)
 I (D:\Programs\KEIL\ARM\ARMCC\include\math.h)(0x5D9AE022)
 I (D:\Programs\KEIL\ARM\ARMCC\include\stdlib.h)(0x5D9AE02A)
-I (../Inc/main.h)(0x5EC654DF)
+I (../Inc/main.h)(0x5EC911AC)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h)(0x5E70C37D)
 I (../Inc/stm32f4xx_hal_conf.h)(0x5EB28FD7)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h)(0x5E70C37D)
@@ -315,7 +315,7 @@ I (../Inc/mems.h)(0x5C5BF1D2)
 I (../Inc/audio_record.h)(0x5EBE9664)
 I (D:\Programs\KEIL\ARM\ARMCC\include\stdio.h)(0x5D9AE02A)
 F (..\Src\dsp_coeffs.c)(0x5EC7D8D4)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ..\Drivers\BSP\STM32F4-Discovery -I ..\Drivers\CMSIS\DSP\Include-I.\RTE\_VoiceRecognition-IC:\Users\Hung\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include-IC:\Users\Hung\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\DSP\Include-IC:\Users\Hung\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.14.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="529" -D_RTE_ -DSTM32F407xx -DUSE_HAL_DRIVER -DSTM32F407xx -DUSE_STM32F4_DISCO -DARM_MATH_CM4 -D__FPU_PRESENT-o voicerecognition\dsp_coeffs.o --omf_browse voicerecognition\dsp_coeffs.crf --depend voicerecognition\dsp_coeffs.d)
-I (../Inc/main.h)(0x5EC654DF)
+I (../Inc/main.h)(0x5EC911AC)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h)(0x5E70C37D)
 I (../Inc/stm32f4xx_hal_conf.h)(0x5EB28FD7)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h)(0x5E70C37D)
@@ -361,7 +361,7 @@ I (..\Drivers\BSP\STM32F4-Discovery\../../../Middlewares/ST/STM32_Audio/Addons/P
 I (../Inc/mems.h)(0x5C5BF1D2)
 I (../Inc/audio_record.h)(0x5EBE9664)
 I (D:\Programs\KEIL\ARM\ARMCC\include\stdio.h)(0x5D9AE02A)
-I (../Inc/dsp.h)(0x5EC7D69E)
+I (../Inc/dsp.h)(0x5EC913A1)
 I (..\Drivers\CMSIS\DSP\Include\arm_math.h)(0x5E70C37C)
 I (D:\Programs\KEIL\ARM\ARMCC\include\string.h)(0x5D9AE028)
 I (D:\Programs\KEIL\ARM\ARMCC\include\math.h)(0x5D9AE022)

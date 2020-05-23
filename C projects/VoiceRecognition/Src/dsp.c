@@ -13,7 +13,6 @@
 
 /* Includes ----------------------------------------------------------- */
 #include "dsp.h"
-#include "main.h"
 //#include "dsp_coeffs.c"
 
 /* Private defines ---------------------------------------------------- */
@@ -25,7 +24,10 @@
 
 
 /* Public variables --------------------------------------------------- */
-
+extern const float Word[9][20*16];
+extern const float HamWindow[256];
+extern const float MelFb[20*129];
+uint32_t AudioTotalSize;
 /* Private variables -------------------------------------------------- */
 
 
@@ -193,5 +195,32 @@ float voice_compare(float Amat[], float Bmat[], uint32_t row, uint32_t colA, uin
 	}
 	
 	return (min_sum / (float)colA);
+}
+
+voice_id voice_recognition(float *min_distance)
+{
+	float OutBuf[OUT_BUFFER_SIZE];
+	float nbFrame, dist;
+	float mfcc_data[20*MAX_MEL_FRAME];
+	voice_id id;
+	
+	*min_distance = INFINITY;
+	AudioRecord(OutBuf);
+	if( AudioTotalSize > 1000)
+	{
+	  nbFrame = (AudioTotalSize - FFT_LENGTH) / FRAME_OVERLAP + 1;
+    dsp_return check = mfcc((float32_t*)&mfcc_data[0], (float32_t*)&OutBuf[0], HamWindow, MelFb, AudioTotalSize);
+		for(uint16_t i = 0; i < 9; i++)
+		{
+			dist = voice_compare((float32_t*)&mfcc_data[0], (float32_t*)&Word[i], MELFB_NUM, nbFrame, 16);
+			if(dist < *min_distance)
+			{
+				*min_distance = dist;
+				id = i + 1;
+			}
+		}
+		return id;		
+	}
+	return NO_VOICE;
 }
 /* End of file -------------------------------------------------------- */
