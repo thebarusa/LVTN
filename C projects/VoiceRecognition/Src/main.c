@@ -381,10 +381,15 @@ static void MX_GPIO_Init(void)
   */
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
+	static uint32_t last_tick = 0;
   if (KEY_BUTTON_PIN == GPIO_Pin)
   {
-    while (BSP_PB_GetState(BUTTON_KEY) != RESET);
-    UserPressButton = 1;
+		if((HAL_GetTick() - last_tick) > 10)
+		{
+			last_tick = HAL_GetTick();
+			while (BSP_PB_GetState(BUTTON_KEY) != RESET) {};
+      UserPressButton = 1;
+		}
   }
 }
 

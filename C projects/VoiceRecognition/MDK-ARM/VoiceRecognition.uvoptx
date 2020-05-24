@@ -175,6 +175,11 @@
           <WinNumber>1</WinNumber>
           <ItemText>\\VoiceRecognition\../Src/main.c\my_buf</ItemText>
         </Ww>
+        <Ww>
+          <count>5</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>UserPressButton</ItemText>
+        </Ww>
       </WatchWindow1>
       <MemoryWindow1>
         <Mm>
