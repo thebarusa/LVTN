@@ -1,7 +1,7 @@
 clc
 
-i = 5;
-word = 'dung';
+i = 13;
+word = 'phai';
 vector = vqlbg(mfcc_data, 16);
 data_save{i,1} = vector;
 data_save{i,3} = word;

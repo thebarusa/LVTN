@@ -197,9 +197,9 @@ float voice_compare(float Amat[], float Bmat[], uint32_t row, uint32_t colA, uin
 	return (min_sum / (float)colA);
 }
 
-voice_id voice_recognition(float *min_distance)
+voice_id voice_recognition(float *min_distance, float OutBuf[])
 {
-	float OutBuf[OUT_BUFFER_SIZE];
+	//float OutBuf[OUT_BUFFER_SIZE];
 	float nbFrame, dist;
 	float mfcc_data[20*MAX_MEL_FRAME];
 	voice_id id;
@@ -210,7 +210,7 @@ voice_id voice_recognition(float *min_distance)
 	{
 	  nbFrame = (AudioTotalSize - FFT_LENGTH) / FRAME_OVERLAP + 1;
     dsp_return check = mfcc((float32_t*)&mfcc_data[0], (float32_t*)&OutBuf[0], HamWindow, MelFb, AudioTotalSize);
-		for(uint16_t i = 0; i < 9; i++)
+		for(uint16_t i = 0; i < 13; i++)
 		{
 			dist = voice_compare((float32_t*)&mfcc_data[0], (float32_t*)&Word[i], MELFB_NUM, nbFrame, 16);
 			if(dist < *min_distance)

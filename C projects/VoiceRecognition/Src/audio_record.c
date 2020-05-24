@@ -106,11 +106,6 @@ void AudioRecord(float OutBuf[])
 	uint16_t InternalBuffer[INTERNAL_BUFF_SIZE];
 	
   BufferCtl.offset = BUFFER_OFFSET_NONE;
-  if(BSP_AUDIO_IN_Init(DEFAULT_AUDIO_IN_FREQ, DEFAULT_AUDIO_IN_BIT_RESOLUTION, DEFAULT_AUDIO_IN_CHANNEL_NBR) != AUDIO_OK)
-  {
-    /* Record Error */
-    Error_Handler();
-  }  
 
   /* Turn ON LED3: start record */
   BSP_LED_On(LED3);
@@ -124,7 +119,7 @@ void AudioRecord(float OutBuf[])
   BufferCtl.fptr = 0;
   
   AUDIODataReady = 0; 
-
+  
 	float    zero_cross = 0;     // ty le qua diem 0
 	uint16_t k = 0; 
 	float    temp = 0; // bien chua x[n-1]

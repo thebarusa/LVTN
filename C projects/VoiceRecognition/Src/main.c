@@ -58,6 +58,7 @@ __IO uint32_t PauseResumeStatus = IDLE_STATUS;
 uint32_t PressCount = 0;
 voice_id check;
 float min_dist;
+float my_buf[OUT_BUFFER_SIZE];
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -117,7 +118,11 @@ int main(void)
 	
   /* Configure USER Button */
   BSP_PB_Init(BUTTON_KEY, BUTTON_MODE_EXTI);
-
+  if(BSP_AUDIO_IN_Init(DEFAULT_AUDIO_IN_FREQ, DEFAULT_AUDIO_IN_BIT_RESOLUTION, DEFAULT_AUDIO_IN_CHANNEL_NBR) != AUDIO_OK)
+  {
+    /* Record Error */
+    Error_Handler();
+  }  
   /* Toggle LEDs between each Test */
   while (!UserPressButton)
   {
@@ -136,7 +141,7 @@ int main(void)
   while (1)
   {
 		UserPressButton = 0;
-    check = voice_recognition(&min_dist);
+    check = voice_recognition(&min_dist, my_buf);
 		//HAL_UART_Transmit(&huart2, buf, sizeof(buf), 1000);
     UserPressButton = 0;
     while (!UserPressButton) Toggle_Leds();

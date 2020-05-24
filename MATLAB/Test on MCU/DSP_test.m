@@ -21,7 +21,7 @@ fclose(fileID);
 
 %% Signal processing %%
 %tach_data = endcut(rec_data, 16, 0.5E-3, 0.06);
-len = 2784;
+len = hex2dec('a30');
 rec_data = rec_data(1:len);
 mfcc_data = mfcc(rec_data, fs);
 speech_id = nhandang(mfcc_data, 30, fs);
