@@ -142,7 +142,7 @@ int main(void)
   {
 		UserPressButton = 0;
     check = voice_recognition(&min_dist, my_buf);
-		//HAL_UART_Transmit(&huart2, buf, sizeof(buf), 1000);
+		HAL_UART_Transmit(&huart2, &check, 1, 1000);
     UserPressButton = 0;
     while (!UserPressButton) Toggle_Leds();
 		check  = NO_VOICE;
