@@ -27,6 +27,7 @@
 extern const float Word[9][20*16];
 extern const float HamWindow[256];
 extern const float MelFb[20*129];
+extern const voice_id  real_word[13];
 uint32_t AudioTotalSize;
 /* Private variables -------------------------------------------------- */
 
@@ -210,16 +211,16 @@ voice_id voice_recognition(float *min_distance, float OutBuf[])
 	{
 	  nbFrame = (AudioTotalSize - FFT_LENGTH) / FRAME_OVERLAP + 1;
     dsp_return check = mfcc((float32_t*)&mfcc_data[0], (float32_t*)&OutBuf[0], HamWindow, MelFb, AudioTotalSize);
-		for(uint16_t i = 0; i < 13; i++)
+		for(uint16_t i = 0; i < sizeof(real_word); i++)
 		{
 			dist = voice_compare((float32_t*)&mfcc_data[0], (float32_t*)&Word[i], MELFB_NUM, nbFrame, 16);
 			if(dist < *min_distance)
 			{
 				*min_distance = dist;
-				id = i + 1;
+				id = i;
 			}
 		}
-		return id;		
+		return real_word[id];		
 	}
 	return NO_VOICE;
 }

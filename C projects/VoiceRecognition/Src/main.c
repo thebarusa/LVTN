@@ -142,7 +142,7 @@ int main(void)
   {
 		UserPressButton = 0;
     check = voice_recognition(&min_dist, my_buf);
-		HAL_UART_Transmit(&huart2, &check, 1, 1000);
+		HAL_UART_Transmit(&huart2, (uint8_t*)check, 1, 1000);
     UserPressButton = 0;
     while (!UserPressButton) Toggle_Leds();
 		check  = NO_VOICE;
@@ -400,13 +400,9 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
   */
 void Toggle_Leds(void)
 {
-  BSP_LED_Toggle(LED3);
-  HAL_Delay(100);
   BSP_LED_Toggle(LED4);
   HAL_Delay(100);
   BSP_LED_Toggle(LED5);
-  HAL_Delay(100);
-  BSP_LED_Toggle(LED6);
   HAL_Delay(100);
 }
 /* USER CODE END 4 */

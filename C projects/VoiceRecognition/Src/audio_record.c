@@ -38,7 +38,6 @@
 #include "string.h"
 #include "stdlib.h"
 #include "arm_math.h"
-#include "dsp.h"
 /** @addtogroup STM32F4xx_HAL_Examples
   * @{
   */

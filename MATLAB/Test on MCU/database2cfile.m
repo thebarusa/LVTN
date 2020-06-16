@@ -1,16 +1,31 @@
 clc
 clear all
 
+
 load('my_database.dat','-mat');
 ham = hamming(256);
 mel = melfb_v2(20, 256, 8000);
-mel_s = sparse(mel);
 
+%% FILE .H
+fid = fopen('dsp_coeffs.h','wt+');
+fprintf(fid, '#ifndef __DSP_COEFFS_H\n');
+fprintf(fid, '#define __DSP_COEFFS_H\n\n');
+fprintf(fid, 'typedef enum\n{\n');
+fprintf(fid, 'NO_VOICE = 0,\n');
+fprintf(fid, '%s,\n', data_save{1:9,3}); % day la ten cac word
+fprintf(fid, '}voice_id;\n\n');
+fprintf(fid, '#endif // __DSP_COEFFS_H\n\n');
+fclose(fid);
+
+%% FILE .C
 fid = fopen('dsp_coeffs.c','wt+');
-fprintf(fid, '#include "main.h"\n');
+fprintf(fid, '#include <dsp_coeffs.h>\n');
 fprintf(fid, '#include <math.h>\n\n');
 fprintf(fid, '#define NaNf   NAN\n\n');
-%% du lieu hamming
+fprintf(fid, 'voice_id real_word[%d] = {',length(data_save));
+fprintf(fid, '%s,', data_save{1:length(data_save),3});
+fprintf(fid, '};\n\n');
+% du lieu hamming
 fprintf(fid, 'const float HamWindow[256] = \n{\n');
 for i = 1:16
   j = (i-1)*16+1;
@@ -18,14 +33,14 @@ for i = 1:16
   fprintf(fid, '\n');
 end
 fprintf(fid, '};\n\n');
-%% du lieu cua so mel
+% du lieu cua so mel
 fprintf(fid, 'const float MelFb[20*129] = \n{\n');
 for i = 1:20
   fprintf(fid, '%10ff,', mel(i,:));
   fprintf(fid, '\n');
 end
 fprintf(fid, '};\n\n');
-%% du lieu giong noi
+% du lieu giong noi
 fprintf(fid, 'const float Word[%d][20*16] = {\n',length(data_save));
 for i = 1:length(data_save)
   fprintf(fid, '{ /* %s */\n', data_save{i,3});

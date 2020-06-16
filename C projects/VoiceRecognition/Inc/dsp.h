@@ -21,6 +21,7 @@
 #include <math.h>
 #include <stdlib.h>
 #include "main.h"
+#include "dsp_coeffs.h"
 /* Public defines ----------------------------------------------------- */
 #define FFT_LENGTH       256
 #define FRAME_OVERLAP    100
@@ -35,23 +36,7 @@ typedef enum
 	DSP_ERROR
 }dsp_return;
 
-typedef enum 
-{
-	NO_VOICE = 0,
-	TOI,
-	LUI,
-	TRAI,
-	PHAI, 
-	DUNG,
-	MOT, 
-	HAI,
-	BA,
-	BON,
-	TOI1,
-	LUI1,
-	TRAI1,
-	PHAI1
-}voice_id;
+
 /* Public macros ------------------------------------------------------ */
 
 
