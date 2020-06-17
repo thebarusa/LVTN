@@ -1,8 +1,8 @@
 clc
 
-i = 13;
-word = 'phai';
-word_id = 4;
+i = 16;
+word = 'MOT';
+word_id = 6;
 
 vector = vqlbg(mfcc_data, 16);
 data_save{i,1} = vector;

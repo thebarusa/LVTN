@@ -180,22 +180,22 @@
         <Ww>
           <count>2</count>
           <WinNumber>1</WinNumber>
-          <ItemText>check</ItemText>
+          <ItemText>&amp;min_dist</ItemText>
         </Ww>
         <Ww>
           <count>3</count>
           <WinNumber>1</WinNumber>
-          <ItemText>&amp;min_dist</ItemText>
+          <ItemText>\\VoiceRecognition\../Src/main.c\my_buf</ItemText>
         </Ww>
         <Ww>
           <count>4</count>
           <WinNumber>1</WinNumber>
-          <ItemText>\\VoiceRecognition\../Src/main.c\my_buf</ItemText>
+          <ItemText>UserPressButton</ItemText>
         </Ww>
         <Ww>
           <count>5</count>
           <WinNumber>1</WinNumber>
-          <ItemText>UserPressButton</ItemText>
+          <ItemText>check</ItemText>
         </Ww>
       </WatchWindow1>
       <MemoryWindow1>

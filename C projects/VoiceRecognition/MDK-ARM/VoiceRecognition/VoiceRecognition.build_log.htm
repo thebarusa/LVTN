@@ -27,14 +27,35 @@ Project File Date:  05/12/2020
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 6 (build 750)', folder: 'D:\Programs\KEIL\ARM\ARMCC\Bin'
 Build target 'VoiceRecognition'
+compiling dsp_coeffs.c...
+compiling stm32f4xx_hal_msp.c...
+../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h(52): warning:  #47-D: incompatible redefinition of macro "__FPU_PRESENT" 
+  #define __FPU_PRESENT             1U       /*!< FPU present                                   */
+../Src/stm32f4xx_hal_msp.c: 1 warning, 0 errors
+compiling mems.c...
+../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h(52): warning:  #47-D: incompatible redefinition of macro "__FPU_PRESENT" 
+  #define __FPU_PRESENT             1U       /*!< FPU present                                   */
+..\Src\mems.c: 1 warning, 0 errors
 compiling main.c...
 ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h(52): warning:  #47-D: incompatible redefinition of macro "__FPU_PRESENT" 
   #define __FPU_PRESENT             1U       /*!< FPU present                                   */
 ../Src/main.c: 1 warning, 0 errors
+compiling dsp.c...
+../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h(52): warning:  #47-D: incompatible redefinition of macro "__FPU_PRESENT" 
+  #define __FPU_PRESENT             1U       /*!< FPU present                                   */
+..\Src\dsp.c: 1 warning, 0 errors
+compiling stm32f4xx_it.c...
+../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h(52): warning:  #47-D: incompatible redefinition of macro "__FPU_PRESENT" 
+  #define __FPU_PRESENT             1U       /*!< FPU present                                   */
+../Src/stm32f4xx_it.c: 1 warning, 0 errors
+compiling audio_record.c...
+../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h(52): warning:  #47-D: incompatible redefinition of macro "__FPU_PRESENT" 
+  #define __FPU_PRESENT             1U       /*!< FPU present                                   */
+..\Src\audio_record.c: 1 warning, 0 errors
 linking...
-Program Size: Code=31760 RO-data=148864 RW-data=1140 ZI-data=73260  
+Program Size: Code=31760 RO-data=152688 RW-data=1156 ZI-data=73260  
 FromELF: creating hex file...
-"VoiceRecognition\VoiceRecognition.axf" - 0 Error(s), 1 Warning(s).
+"VoiceRecognition\VoiceRecognition.axf" - 0 Error(s), 6 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -61,9 +82,9 @@ Package Vendor: Keil
    * Component: ARM::CMSIS:CORE:5.4.0
 
    * Component: ARM::CMSIS:DSP:Library:1.8.0
-      Include file:  CMSIS\DSP\Include\arm_math.h
       Library file:  CMSIS\DSP\Lib\ARM\arm_cortexM4lf_math.lib
-Build Time Elapsed:  00:00:03
+      Include file:  CMSIS\DSP\Include\arm_math.h
+Build Time Elapsed:  00:00:09
 </pre>
 </body>
 </html>

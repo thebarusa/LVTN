@@ -1,6 +1,7 @@
-
 #ifndef __DSP_COEFFS_H
 #define __DSP_COEFFS_H
+
+#define WORD_NUM 16
 
 typedef enum
 {
@@ -14,8 +15,8 @@ MOT,
 HAI,
 BA,
 BON,
+TUDONG,
 }voice_id;
-
 
 #endif // __DSP_COEFFS_H
 
