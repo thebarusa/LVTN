@@ -51,7 +51,7 @@ void dct_log_transform(float outvect[], float invect[], size_t len);
 dsp_return mfcc(float mfcc_mat[], float signal[], const float hamming[], const float melfb[], uint32_t siglen);
 float voice_compare(float Amat[], float Bmat[], uint32_t row, uint32_t colA, uint32_t colB);
 //voice_id voice_recognition(float *min_distance);
-voice_id voice_recognition(float *min_distance, float OutBuf[]);
+word_t voice_recognition(float *min_distance, float OutBuf[]);
 #endif // __DSP_H
 
 /* End of file -------------------------------------------------------- */

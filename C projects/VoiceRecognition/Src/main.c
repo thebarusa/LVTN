@@ -56,7 +56,7 @@ __IO uint8_t UserPressButton = 0;
 __IO uint32_t PauseResumeStatus = IDLE_STATUS;   
 /* Counter for User button presses*/
 uint32_t PressCount = 0;
-voice_id check;
+uint8_t my_word;
 float min_dist;
 float my_buf[OUT_BUFFER_SIZE];
 /* USER CODE END PV */
@@ -141,11 +141,11 @@ int main(void)
   while (1)
   {
 		UserPressButton = 0;
-    check = voice_recognition(&min_dist, my_buf);
-		HAL_UART_Transmit(&huart2, (uint8_t*)check, 1, 1000);
+    my_word = voice_recognition(&min_dist, my_buf);
+		HAL_UART_Transmit(&huart2, &my_word, 1, 1000);
     UserPressButton = 0;
     while (!UserPressButton) Toggle_Leds();
-		check  = NO_VOICE;
+		my_word  = NO_VOICE;
     BSP_LED_Off(LED3);
     BSP_LED_Off(LED4);
     BSP_LED_Off(LED5);

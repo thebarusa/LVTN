@@ -27,7 +27,7 @@
 extern const float Word[9][20*16];
 extern const float HamWindow[256];
 extern const float MelFb[20*129];
-extern const voice_id  word_id[WORD_NUM];
+extern const word_t  word_id[WORD_NUM];
 uint32_t AudioTotalSize;
 /* Private variables -------------------------------------------------- */
 
@@ -198,7 +198,7 @@ float voice_compare(float Amat[], float Bmat[], uint32_t row, uint32_t colA, uin
 	return (min_sum / (float)colA);
 }
 
-voice_id voice_recognition(float *min_distance, float OutBuf[])
+word_t voice_recognition(float *min_distance, float OutBuf[])
 {
 	//float OutBuf[OUT_BUFFER_SIZE];
 	float nbFrame, dist;

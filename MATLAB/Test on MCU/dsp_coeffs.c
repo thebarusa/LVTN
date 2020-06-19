@@ -3,7 +3,7 @@
 
 #define NaNf   NAN
 
-voice_id word_id[WORD_NUM] = {TOI,LUI,TRAI,PHAI,DUNG,MOT,HAI,BA,BON,TOI,LUI,TRAI,PHAI,TUDONG,TUDONG,MOT,};
+word_t word_id[WORD_NUM] = {TOI,LUI,TRAI,PHAI,DUNG,MOT,HAI,BA,BON,TOI,LUI,TRAI,PHAI,TUDONG,TUDONG,MOT,};
 
 const float HamWindow[256] = 
 {

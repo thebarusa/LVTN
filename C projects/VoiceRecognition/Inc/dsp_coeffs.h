@@ -16,7 +16,7 @@ HAI,
 BA,
 BON,
 TUDONG,
-}voice_id;
+}word_t;
 
 #endif // __DSP_COEFFS_H
 
