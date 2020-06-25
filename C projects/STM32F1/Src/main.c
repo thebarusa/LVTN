@@ -31,7 +31,6 @@
 #define SERVO_LEFT  125
 #define SERVO_MID   70
 #define SERVO_RIGHT 20
-#define SPEED       60.0f
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -122,6 +121,12 @@ void motor_control(GPIO_PinState in1, GPIO_PinState in2, GPIO_PinState in3, GPIO
   HAL_GPIO_WritePin(IN4_GPIO_Port, IN4_Pin, in4);
 }	
 
+void motor_speed(uint16_t speed)
+{	
+	htim2.Instance->CCR4 = (uint32_t)(((float)speed/100.0f) * 65535.0f); // left = 3/2 right
+	htim3.Instance->CCR1 = (uint32_t)(((float)speed/100.0f) * 65535.0f * (0.6f));
+}
+
 void robot_mover(dc_control_t dir)
 {
 	switch(dir)
@@ -170,13 +175,13 @@ void autobot(void)
 			right_d = ultrasonic_read(SERVO_RIGHT);
 			if (left_d > right_d)
 			{
-				robot_mover(LEFT_FORWARD); 
+				robot_mover(RIGHT_BACK); 
 				front_d = ultrasonic_read(SERVO_MID); 	
 				HAL_Delay(300);
 			}
 			else 
 			{
-				robot_mover(RIGHT_FORWARD);
+				robot_mover(LEFT_BACK);
 				HAL_Delay(20);
 				front_d = ultrasonic_read(SERVO_MID); 	
 				HAL_Delay(280);
@@ -185,12 +190,12 @@ void autobot(void)
 	}
 	if (!(HAL_GPIO_ReadPin(IR_LEFT_GPIO_Port, IR_LEFT_Pin)))
 	{
-		robot_mover(RIGHT_BACK);
+		robot_mover(LEFT_BACK);
 		HAL_Delay(300);
 	}
 	else if (!(HAL_GPIO_ReadPin(IR_RIGHT_GPIO_Port, IR_RIGHT_Pin)))
 	{
-		robot_mover(LEFT_BACK);
+		robot_mover(RIGHT_BACK);
 		HAL_Delay(300);
 	}
 }
@@ -244,29 +249,61 @@ int main(void)
 	HAL_TIM_PWM_Start(&htim2,TIM_CHANNEL_4); // ENA
 	HAL_TIM_PWM_Start(&htim3,TIM_CHANNEL_1); // ENB
 	HAL_TIM_PWM_Start(&htim4,TIM_CHANNEL_4); // SERVO	
-	
-	htim2.Instance->CCR4 = (uint32_t)((SPEED/100.0f) * 65535.0f); // left = 3/2 right
-	htim3.Instance->CCR1 = (uint32_t)((SPEED/100.0f) * 65535.0f * (0.6f));
 
+  motor_speed(75);
+	uint8_t pre_char;
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   { 	
-		if(rx_char == TOI)
-			robot_mover(FORWARD);
-		else if(rx_char == LUI)
-			robot_mover(BACKWARD);
-		else if(rx_char == TRAI)
-			robot_mover(LEFT_FORWARD);
-		else if(rx_char == PHAI)
-			robot_mover(RIGHT_FORWARD);
-		else if(rx_char == DUNG)
-			robot_mover(STOP);
-		else if(rx_char == TUDONG)
-			autobot();
-	
+		if((rx_char < MOT) || (rx_char > BON))
+		{
+			pre_char = rx_char;
+		}
+		
+		switch (rx_char)
+		{
+			case TOI:
+				robot_mover(FORWARD);
+			continue;
+			case LUI:
+				robot_mover(BACKWARD);
+			continue;
+			case TRAI:
+				robot_mover(LEFT_FORWARD);
+			continue;
+			case PHAI:
+				robot_mover(RIGHT_FORWARD);
+			continue;
+			case DUNG:
+				robot_mover(STOP);
+			continue;
+			case MOT:
+				motor_speed(25);
+			  rx_char = pre_char;
+			continue;
+			case HAI:
+				motor_speed(50);
+				rx_char = pre_char;
+			continue;
+			case BA:
+				motor_speed(75);
+			  rx_char = pre_char;
+			continue;
+			case BON:
+				motor_speed(100);
+			  rx_char = pre_char;
+			continue;
+			case TUDONG:
+				autobot();
+			continue;
+			default:
+				robot_mover(STOP);
+			continue;
+		}
+				
 		
 		
     /* USER CODE END WHILE */
@@ -588,7 +625,7 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, TRIG_Pin|IN4_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, IN4_Pin|TRIG_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOB, IN3_Pin|IN2_Pin|IN1_Pin, GPIO_PIN_RESET);
@@ -599,19 +636,6 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(LED_GPIO_Port, &GPIO_InitStruct);
-
-  /*Configure GPIO pin : ECHO_Pin */
-  GPIO_InitStruct.Pin = ECHO_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
-  HAL_GPIO_Init(ECHO_GPIO_Port, &GPIO_InitStruct);
-
-  /*Configure GPIO pin : TRIG_Pin */
-  GPIO_InitStruct.Pin = TRIG_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
-  HAL_GPIO_Init(TRIG_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pin : IN4_Pin */
   GPIO_InitStruct.Pin = IN4_Pin;
@@ -626,6 +650,19 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : TRIG_Pin */
+  GPIO_InitStruct.Pin = TRIG_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+  HAL_GPIO_Init(TRIG_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : ECHO_Pin */
+  GPIO_InitStruct.Pin = ECHO_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+  HAL_GPIO_Init(ECHO_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pins : IR_LEFT_Pin IR_RIGHT_Pin */
   GPIO_InitStruct.Pin = IR_LEFT_Pin|IR_RIGHT_Pin;
