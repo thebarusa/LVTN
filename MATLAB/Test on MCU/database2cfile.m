@@ -12,7 +12,9 @@ enum = unique(word_id, 'stable');
 fid = fopen('dsp_coeffs.h','wt+');
 fprintf(fid, '#ifndef __DSP_COEFFS_H\n');
 fprintf(fid, '#define __DSP_COEFFS_H\n\n');
-fprintf(fid, '#define WORD_NUM %d\n\n', length(data_save));
+fprintf(fid, '#define WORD_NUM %d\n', length(data_save));
+fprintf(fid, '#define CENTROID %d\n', centroid);
+fprintf(fid, '#define MELFB_NUM %d\n\n', 20);
 fprintf(fid, 'typedef enum\n{\n');
 fprintf(fid, 'NO_VOICE = 0,\n');
 fprintf(fid, '%s,\n', enum{1,:}); % day la ten cac word
@@ -37,14 +39,14 @@ for i = 1:16
 end
 fprintf(fid, '};\n\n');
 % du lieu cua so mel
-fprintf(fid, 'const float MelFb[20*129] = \n{\n');
+fprintf(fid, 'const float MelFb[MELFB_NUM*129] = \n{\n');
 for i = 1:20
   fprintf(fid, '%10ff,', mel(i,:));
   fprintf(fid, '\n');
 end
 fprintf(fid, '};\n\n');
 % du lieu giong noi
-fprintf(fid, 'const float Word[%d][20*16] = {\n',length(data_save));
+fprintf(fid, 'const float Word[WORD_NUM][MELFB_NUM*CENTROID] = {\n');
 for i = 1:length(data_save)
   fprintf(fid, '{ /* %s */\n', data_save{i,3});
   for j = 1:20

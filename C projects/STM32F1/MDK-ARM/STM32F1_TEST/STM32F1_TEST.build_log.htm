@@ -84,11 +84,17 @@ compiling main.c...
   			motor_control(0, 1, 0, 0);
 ../Src/main.c(153): warning:  #188-D: enumerated type mixed with another type
   			motor_control(0, 1, 0, 0);
-../Src/main.c: 28 warnings, 0 errors
+../Src/main.c(206): warning:  #167-D: argument of type "volatile uint8_t *" is incompatible with parameter of type "uint8_t *"
+  	HAL_UART_Receive_IT(&huart1, &rx_char, 1);
+../Src/main.c(244): warning:  #167-D: argument of type "volatile uint8_t *" is incompatible with parameter of type "uint8_t *"
+  	HAL_UART_Receive_IT(&huart1, &rx_char, 1);
+../Src/main.c(251): warning:  #177-D: variable "pre_char"  was declared but never referenced
+  	uint8_t pre_char;
+../Src/main.c: 31 warnings, 0 errors
 linking...
-Program Size: Code=7308 RO-data=292 RW-data=32 ZI-data=1344  
+Program Size: Code=7312 RO-data=292 RW-data=32 ZI-data=1344  
 FromELF: creating hex file...
-"STM32F1_TEST\STM32F1_TEST.axf" - 0 Error(s), 28 Warning(s).
+"STM32F1_TEST\STM32F1_TEST.axf" - 0 Error(s), 31 Warning(s).
 
 <h2>Software Packages used:</h2>
 

@@ -24,7 +24,7 @@
 
 
 /* Public variables --------------------------------------------------- */
-extern const float Word[9][20*16];
+extern const float Word[WORD_NUM][20*CENTROID];
 extern const float HamWindow[256];
 extern const float MelFb[20*129];
 extern const word_t  word_id[WORD_NUM];
@@ -198,11 +198,10 @@ float voice_compare(float Amat[], float Bmat[], uint32_t row, uint32_t colA, uin
 	return (min_sum / (float)colA);
 }
 
-word_t voice_recognition(float *min_distance, float OutBuf[])
+uint8_t voice_recognition(float *min_distance, float OutBuf[])
 {
-	//float OutBuf[OUT_BUFFER_SIZE];
 	float nbFrame, dist;
-	float mfcc_data[20*MAX_MEL_FRAME];
+	float mfcc_data[MELFB_NUM*MAX_MEL_FRAME];
 	uint16_t id;
 	
 	*min_distance = INFINITY;
@@ -211,9 +210,9 @@ word_t voice_recognition(float *min_distance, float OutBuf[])
 	{
 	  nbFrame = (AudioTotalSize - FFT_LENGTH) / FRAME_OVERLAP + 1;
     dsp_return check = mfcc((float32_t*)&mfcc_data[0], (float32_t*)&OutBuf[0], HamWindow, MelFb, AudioTotalSize);
-		for(uint16_t i = 0; i < sizeof(word_id); i++)
+		for(uint16_t i = 0; i < WORD_NUM; i++)
 		{
-			dist = voice_compare((float32_t*)&mfcc_data[0], (float32_t*)&Word[i], MELFB_NUM, nbFrame, 16);
+			dist = voice_compare((float32_t*)&mfcc_data[0], (float32_t*)&Word[i], MELFB_NUM, nbFrame, CENTROID);
 			if(dist < *min_distance)
 			{
 				*min_distance = dist;

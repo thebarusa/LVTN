@@ -53,7 +53,7 @@ UART_HandleTypeDef huart1;
 /* USER CODE BEGIN PV */
 float front_d, left_d, right_d;
 
-uint8_t rx_char;
+volatile uint8_t rx_char;
 uint32_t adc;
 /* USER CODE END PV */
 
@@ -159,9 +159,7 @@ void robot_mover(dc_control_t dir)
 
 void autobot(void)
 {
-	if(HAL_GPIO_ReadPin(IR_LEFT_GPIO_Port, IR_LEFT_Pin) && HAL_GPIO_ReadPin(IR_RIGHT_GPIO_Port, IR_RIGHT_Pin))
-	{
-		front_d = ultrasonic_read(SERVO_MID); 	
+	front_d = ultrasonic_read(SERVO_MID); 	
 		if (front_d > 15.0)
 		 {
 			 robot_mover(FORWARD);
@@ -186,8 +184,7 @@ void autobot(void)
 				front_d = ultrasonic_read(SERVO_MID); 	
 				HAL_Delay(280);
 			}
-		}
-	}
+		}	
 	if (!(HAL_GPIO_ReadPin(IR_LEFT_GPIO_Port, IR_LEFT_Pin)))
 	{
 		robot_mover(LEFT_BACK);
@@ -258,54 +255,42 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   { 	
-		if((rx_char < MOT) || (rx_char > BON))
+//		if((rx_char < MOT) || (rx_char > BON))
+//		{
+//			pre_char = rx_char;
+//		}
+		
+		if(rx_char == TOI)
+			robot_mover(FORWARD);
+		else if(rx_char == LUI)
+		  robot_mover(BACKWARD);
+		else if(rx_char == TRAI)
+		  robot_mover(LEFT_FORWARD);
+		else if(rx_char == PHAI)
+		  robot_mover(RIGHT_FORWARD);
+		else if(rx_char == DUNG)
+		  robot_mover(STOP);
+		else if(rx_char == MOT)
 		{
-			pre_char = rx_char;
+		  motor_speed(25);
 		}
-		
-		switch (rx_char)
+		else if(rx_char == HAI)
 		{
-			case TOI:
-				robot_mover(FORWARD);
-			continue;
-			case LUI:
-				robot_mover(BACKWARD);
-			continue;
-			case TRAI:
-				robot_mover(LEFT_FORWARD);
-			continue;
-			case PHAI:
-				robot_mover(RIGHT_FORWARD);
-			continue;
-			case DUNG:
-				robot_mover(STOP);
-			continue;
-			case MOT:
-				motor_speed(25);
-			  rx_char = pre_char;
-			continue;
-			case HAI:
-				motor_speed(50);
-				rx_char = pre_char;
-			continue;
-			case BA:
-				motor_speed(75);
-			  rx_char = pre_char;
-			continue;
-			case BON:
-				motor_speed(100);
-			  rx_char = pre_char;
-			continue;
-			case TUDONG:
-				autobot();
-			continue;
-			default:
-				robot_mover(STOP);
-			continue;
+		  motor_speed(50);
 		}
-				
-		
-		
+		else if(rx_char == BA)
+		{
+		  motor_speed(75);
+		}
+		else if(rx_char == BON)
+		{
+		  motor_speed(100);
+		}
+
+		if(rx_char == TUDONG)
+      autobot();	
+    if(rx_char == NO_VOICE)		
+		  robot_mover(STOP);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

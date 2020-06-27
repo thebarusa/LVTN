@@ -7,15 +7,11 @@ load('my_database.dat','-mat');
 
 %% Intilize paramters %%
 fs = 8000;
-centroid=16;
 sound_id=length(data_save);
 
 %% Read binary file %%
 fileID = fopen('rec_data.bin');
 rec_data = fread(fileID,[4800 1],'float');
-fclose(fileID);
-fileID = fopen('size_data.bin');
-len = fread(fileID,1,'uint16');
 fclose(fileID);
 %figure
 %plot(rec_data);
@@ -23,7 +19,7 @@ fclose(fileID);
 
 %% Signal processing %%
 %tach_data = endcut(rec_data, 16, 0.5E-3, 0.06);
-len = hex2dec('790');
+len = hex2dec('9B0');
 rec_data = rec_data(1:len);
 mfcc_data = mfcc(rec_data, fs);
 speech_id = nhandang(mfcc_data, 30, fs);

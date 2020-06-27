@@ -1,7 +1,9 @@
 #ifndef __DSP_COEFFS_H
 #define __DSP_COEFFS_H
 
-#define WORD_NUM 16
+#define WORD_NUM 20
+#define CENTROID 32
+#define MELFB_NUM 20
 
 typedef enum
 {

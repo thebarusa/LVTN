@@ -25,7 +25,6 @@
 /* Public defines ----------------------------------------------------- */
 #define FFT_LENGTH       256
 #define FRAME_OVERLAP    100
-#define MELFB_NUM     	 20
 #define SAMPLE_RATE      8000
 #define MELFB_LENGTH     (FFT_LENGTH/2 + 1)
 #define SAMPLE_LENGTH    16000U
@@ -51,7 +50,7 @@ void dct_log_transform(float outvect[], float invect[], size_t len);
 dsp_return mfcc(float mfcc_mat[], float signal[], const float hamming[], const float melfb[], uint32_t siglen);
 float voice_compare(float Amat[], float Bmat[], uint32_t row, uint32_t colA, uint32_t colB);
 //voice_id voice_recognition(float *min_distance);
-word_t voice_recognition(float *min_distance, float OutBuf[]);
+uint8_t voice_recognition(float *min_distance, float OutBuf[]);
 #endif // __DSP_H
 
 /* End of file -------------------------------------------------------- */
