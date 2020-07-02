@@ -28,9 +28,9 @@
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-#define SERVO_LEFT  125
+#define SERVO_LEFT  95//125
 #define SERVO_MID   70
-#define SERVO_RIGHT 20
+#define SERVO_RIGHT 50//20
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -52,9 +52,8 @@ UART_HandleTypeDef huart1;
 
 /* USER CODE BEGIN PV */
 float front_d, left_d, right_d;
+uint8_t rx_char, automatic;
 
-volatile uint8_t rx_char;
-uint32_t adc;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -77,17 +76,11 @@ void delay_us(uint32_t us)
 	while((__HAL_TIM_GET_COUNTER(&htim1)) < us);
 }
 
-float ultrasonic_read(uint16_t angle)
+float ultrasonic_read()
 {
 	uint32_t local_time = 0;
 	uint32_t time_out   = 100000;
 	float dist;
-	
-	htim4.Instance->CCR4 = angle;
-	if (angle == SERVO_LEFT)
-		HAL_Delay(500);
-	else if (angle == SERVO_RIGHT)
-		HAL_Delay(1000);
 	
 	HAL_GPIO_WritePin(TRIG_GPIO_Port, TRIG_Pin, GPIO_PIN_RESET);  // pull the TRIG pin HIGH
 	delay_us(2);  // wait for 2 us
@@ -100,7 +93,7 @@ float ultrasonic_read(uint16_t angle)
 	{
 		if (time_out-- == 0) 
 		{
-			return 9999;
+			return 9999.0f;
 		}
 	}
 	while (HAL_GPIO_ReadPin(ECHO_GPIO_Port, ECHO_Pin))    // while the pin is high
@@ -121,10 +114,10 @@ void motor_control(GPIO_PinState in1, GPIO_PinState in2, GPIO_PinState in3, GPIO
   HAL_GPIO_WritePin(IN4_GPIO_Port, IN4_Pin, in4);
 }	
 
-void motor_speed(uint16_t speed)
+void motor_speed(uint16_t left_speed, uint16_t right_speed)
 {	
-	htim2.Instance->CCR4 = (uint32_t)(((float)speed/100.0f) * 65535.0f); // left = 3/2 right
-	htim3.Instance->CCR1 = (uint32_t)(((float)speed/100.0f) * 65535.0f * (0.6f));
+	htim2.Instance->CCR4 = (uint32_t)(((float)left_speed/100.0f) * 65535.0f); 
+	htim3.Instance->CCR1 = (uint32_t)(((float)right_speed/100.0f) * 65535.0f * (0.9f));
 }
 
 void robot_mover(dc_control_t dir)
@@ -157,44 +150,55 @@ void robot_mover(dc_control_t dir)
 	}
 }
 
-void autobot(void)
+void auto_mode(void)
 {
-	front_d = ultrasonic_read(SERVO_MID); 	
-		if (front_d > 15.0)
-		 {
-			 robot_mover(FORWARD);
-		 }
-		else
+	if(HAL_GPIO_ReadPin(IR_GPIO_Port, IR_Pin))
+	{
+	front_d = ultrasonic_read(); 	
+	if (front_d > 15.0) 
+		robot_mover(FORWARD);
+	else
+	{
+		robot_mover(BACKWARD);
+		HAL_Delay(300);
+		robot_mover(STOP);
+		HAL_Delay(100);
+		
+		robot_mover(LEFT_FORWARD);
+		HAL_Delay(300);
+		robot_mover(STOP);
+		HAL_Delay(200);
+		left_d  = ultrasonic_read(); // nhin ben trai
+		robot_mover(LEFT_BACK);
+		HAL_Delay(400);
+		
+		robot_mover(RIGHT_FORWARD);
+		HAL_Delay(300);
+		robot_mover(STOP);
+		HAL_Delay(200);
+		right_d = ultrasonic_read(); // nhin ben phai
+		robot_mover(RIGHT_BACK);
+		HAL_Delay(400);
+		
+		robot_mover(STOP);
+		HAL_Delay(200);
+		if (left_d > right_d)
 		{
-			robot_mover(BACKWARD);
+			robot_mover(RIGHT_BACK); 
 			HAL_Delay(300);
 			robot_mover(STOP);
-			left_d  = ultrasonic_read(SERVO_LEFT);
-			right_d = ultrasonic_read(SERVO_RIGHT);
-			if (left_d > right_d)
-			{
-				robot_mover(RIGHT_BACK); 
-				front_d = ultrasonic_read(SERVO_MID); 	
-				HAL_Delay(300);
-			}
-			else 
-			{
-				robot_mover(LEFT_BACK);
-				HAL_Delay(20);
-				front_d = ultrasonic_read(SERVO_MID); 	
-				HAL_Delay(280);
-			}
-		}	
-	if (!(HAL_GPIO_ReadPin(IR_LEFT_GPIO_Port, IR_LEFT_Pin)))
-	{
-		robot_mover(LEFT_BACK);
-		HAL_Delay(300);
-	}
-	else if (!(HAL_GPIO_ReadPin(IR_RIGHT_GPIO_Port, IR_RIGHT_Pin)))
-	{
-		robot_mover(RIGHT_BACK);
-		HAL_Delay(300);
-	}
+			HAL_Delay(10);
+		}
+		else 
+		{
+			robot_mover(LEFT_BACK);
+      HAL_Delay(300);
+			robot_mover(STOP);
+			HAL_Delay(10);
+		}
+	}	
+  }
+	else robot_mover(BACKWARD);
 }
 
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
@@ -247,50 +251,55 @@ int main(void)
 	HAL_TIM_PWM_Start(&htim3,TIM_CHANNEL_1); // ENB
 	HAL_TIM_PWM_Start(&htim4,TIM_CHANNEL_4); // SERVO	
 
-  motor_speed(75);
-	uint8_t pre_char;
+	uint16_t dc_speed = 50;
+  ultrasonic_read();
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
-  { 	
-//		if((rx_char < MOT) || (rx_char > BON))
-//		{
-//			pre_char = rx_char;
-//		}
-		
-		if(rx_char == TOI)
-			robot_mover(FORWARD);
-		else if(rx_char == LUI)
-		  robot_mover(BACKWARD);
-		else if(rx_char == TRAI)
-		  robot_mover(LEFT_FORWARD);
-		else if(rx_char == PHAI)
-		  robot_mover(RIGHT_FORWARD);
-		else if(rx_char == DUNG)
-		  robot_mover(STOP);
-		else if(rx_char == MOT)
+  { 			
+		motor_speed(dc_speed, dc_speed);
+    switch (rx_char)
 		{
-		  motor_speed(25);
-		}
-		else if(rx_char == HAI)
-		{
-		  motor_speed(50);
-		}
-		else if(rx_char == BA)
-		{
-		  motor_speed(75);
-		}
-		else if(rx_char == BON)
-		{
-		  motor_speed(100);
-		}
+			case NO_VOICE:
+				robot_mover(STOP);
+				continue;
+			case TOI:
+				robot_mover(FORWARD);
+				continue;
+			case LUI:
+				robot_mover(BACKWARD);
+				continue;
+			case TRAI:
+				robot_mover(LEFT_FORWARD);
+				continue;
+			case PHAI:
+				robot_mover(RIGHT_FORWARD);
+				continue;
+			case DUNG:
+				robot_mover(STOP);
+				continue;
+			case MOT:
+				dc_speed = 25;
+				continue;
+			case HAI:
+				dc_speed = 50;
+				continue;
+			case BA:
+				dc_speed = 75;
+				continue;
+			case BON:
+				dc_speed = 100;
+				continue;
+			case TUDONG:
+				auto_mode();
+				continue;
+			default:
+				robot_mover(STOP);
+			  continue;
+		} 
 
-		if(rx_char == TUDONG)
-      autobot();	
-    if(rx_char == NO_VOICE)		
-		  robot_mover(STOP);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -622,12 +631,12 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(LED_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : IN4_Pin */
-  GPIO_InitStruct.Pin = IN4_Pin;
+  /*Configure GPIO pins : IN4_Pin TRIG_Pin */
+  GPIO_InitStruct.Pin = IN4_Pin|TRIG_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(IN4_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
   /*Configure GPIO pins : IN3_Pin IN2_Pin IN1_Pin */
   GPIO_InitStruct.Pin = IN3_Pin|IN2_Pin|IN1_Pin;
@@ -636,24 +645,17 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : TRIG_Pin */
-  GPIO_InitStruct.Pin = TRIG_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
-  HAL_GPIO_Init(TRIG_GPIO_Port, &GPIO_InitStruct);
-
   /*Configure GPIO pin : ECHO_Pin */
   GPIO_InitStruct.Pin = ECHO_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_PULLDOWN;
   HAL_GPIO_Init(ECHO_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : IR_LEFT_Pin IR_RIGHT_Pin */
-  GPIO_InitStruct.Pin = IR_LEFT_Pin|IR_RIGHT_Pin;
+  /*Configure GPIO pin : IR_Pin */
+  GPIO_InitStruct.Pin = IR_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  HAL_GPIO_Init(IR_GPIO_Port, &GPIO_InitStruct);
 
 }
 
