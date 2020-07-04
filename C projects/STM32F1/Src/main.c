@@ -53,7 +53,7 @@ UART_HandleTypeDef huart1;
 /* USER CODE BEGIN PV */
 float front_d, left_d, right_d;
 uint8_t rx_char, automatic;
-
+uint16_t left_speed, right_speed;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -139,6 +139,12 @@ void robot_mover(dc_control_t dir)
 		case RIGHT_FORWARD: 
 			motor_control(1, 0, 0, 0);
 			break;
+		case LEFT_STAND: 
+			motor_control(0, 1, 1, 0);
+			break;
+		case RIGHT_STAND: 
+			motor_control(1, 0, 0, 1);
+			break;
 		case LEFT_BACK: 
 			motor_control(0, 0, 0, 1);
 			break;
@@ -152,7 +158,9 @@ void robot_mover(dc_control_t dir)
 
 void auto_mode(void)
 {
-	if(HAL_GPIO_ReadPin(IR_GPIO_Port, IR_Pin))
+	GPIO_PinState left_ir  = HAL_GPIO_ReadPin(IRL_GPIO_Port, IRL_Pin);
+	GPIO_PinState right_ir = HAL_GPIO_ReadPin(IRR_GPIO_Port, IRR_Pin);
+	if(left_ir && right_ir)
 	{
 	front_d = ultrasonic_read(); 	
 	if (front_d > 15.0) 
@@ -164,41 +172,60 @@ void auto_mode(void)
 		robot_mover(STOP);
 		HAL_Delay(100);
 		
-		robot_mover(LEFT_FORWARD);
+		robot_mover(LEFT_STAND);
 		HAL_Delay(300);
 		robot_mover(STOP);
 		HAL_Delay(200);
 		left_d  = ultrasonic_read(); // nhin ben trai
-		robot_mover(LEFT_BACK);
-		HAL_Delay(400);
+		robot_mover(RIGHT_STAND);
+		HAL_Delay(300);
+		robot_mover(STOP);
+		HAL_Delay(200);
 		
-		robot_mover(RIGHT_FORWARD);
+		robot_mover(RIGHT_STAND);
 		HAL_Delay(300);
 		robot_mover(STOP);
 		HAL_Delay(200);
 		right_d = ultrasonic_read(); // nhin ben phai
-		robot_mover(RIGHT_BACK);
-		HAL_Delay(400);
+		robot_mover(LEFT_STAND);
+		HAL_Delay(300);
 		
 		robot_mover(STOP);
 		HAL_Delay(200);
 		if (left_d > right_d)
 		{
 			robot_mover(RIGHT_BACK); 
-			HAL_Delay(300);
+			HAL_Delay(450);
 			robot_mover(STOP);
 			HAL_Delay(10);
 		}
 		else 
 		{
 			robot_mover(LEFT_BACK);
-      HAL_Delay(300);
+      HAL_Delay(450);
 			robot_mover(STOP);
 			HAL_Delay(10);
 		}
 	}	
   }
-	else robot_mover(BACKWARD);
+	else 
+	{
+		if((!left_ir) && right_ir)
+		{
+			robot_mover(LEFT_BACK);
+			HAL_Delay(300);
+		}
+		else if(left_ir && (!right_ir))
+		{
+			robot_mover(RIGHT_BACK);
+			HAL_Delay(300);
+		}
+		else if((!left_ir) && (!right_ir))
+		{
+			robot_mover(BACKWARD);
+			HAL_Delay(300);
+		}
+	}
 }
 
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
@@ -250,16 +277,19 @@ int main(void)
 	HAL_TIM_PWM_Start(&htim2,TIM_CHANNEL_4); // ENA
 	HAL_TIM_PWM_Start(&htim3,TIM_CHANNEL_1); // ENB
 	HAL_TIM_PWM_Start(&htim4,TIM_CHANNEL_4); // SERVO	
-
-	uint16_t dc_speed = 50;
-  ultrasonic_read();
+  
+	uint8_t pre_char;
+	left_speed = 50, right_speed = 50;
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   { 			
-		motor_speed(dc_speed, dc_speed);
+		motor_speed(left_speed, right_speed);
+		if((rx_char < MOT) || (rx_char > BON))
+			pre_char = rx_char;
+		
     switch (rx_char)
 		{
 			case NO_VOICE:
@@ -281,16 +311,24 @@ int main(void)
 				robot_mover(STOP);
 				continue;
 			case MOT:
-				dc_speed = 25;
+				left_speed  = 25;
+			  right_speed = left_speed;
+			  rx_char = pre_char;
 				continue;
 			case HAI:
-				dc_speed = 50;
+				left_speed  = 50;
+			  right_speed = left_speed;
+			  rx_char = pre_char;
 				continue;
 			case BA:
-				dc_speed = 75;
+				left_speed  = 75;
+			  right_speed = left_speed;
+			  rx_char = pre_char;
 				continue;
 			case BON:
-				dc_speed = 100;
+				left_speed  = 100;
+			  right_speed = left_speed;
+			  rx_char = pre_char;
 				continue;
 			case TUDONG:
 				auto_mode();
@@ -651,11 +689,17 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_PULLDOWN;
   HAL_GPIO_Init(ECHO_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : IR_Pin */
-  GPIO_InitStruct.Pin = IR_Pin;
+  /*Configure GPIO pin : IRL_Pin */
+  GPIO_InitStruct.Pin = IRL_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
-  HAL_GPIO_Init(IR_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(IRL_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : IRR_Pin */
+  GPIO_InitStruct.Pin = IRR_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  HAL_GPIO_Init(IRR_GPIO_Port, &GPIO_InitStruct);
 
 }
 

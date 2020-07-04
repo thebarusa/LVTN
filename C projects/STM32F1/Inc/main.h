@@ -44,6 +44,8 @@ typedef enum
 	BACKWARD,
 	LEFT_FORWARD,
 	RIGHT_FORWARD,
+	LEFT_STAND,
+	RIGHT_STAND,
 	LEFT_BACK,
 	RIGHT_BACK
 }dc_control_t;
@@ -83,8 +85,10 @@ void Error_Handler(void);
 #define TRIG_GPIO_Port GPIOA
 #define ECHO_Pin GPIO_PIN_12
 #define ECHO_GPIO_Port GPIOA
-#define IR_Pin GPIO_PIN_15
-#define IR_GPIO_Port GPIOA
+#define IRL_Pin GPIO_PIN_15
+#define IRL_GPIO_Port GPIOA
+#define IRR_Pin GPIO_PIN_3
+#define IRR_GPIO_Port GPIOB
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
