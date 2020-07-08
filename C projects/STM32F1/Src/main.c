@@ -46,7 +46,6 @@
 TIM_HandleTypeDef htim1;
 TIM_HandleTypeDef htim2;
 TIM_HandleTypeDef htim3;
-TIM_HandleTypeDef htim4;
 
 UART_HandleTypeDef huart1;
 
@@ -61,7 +60,6 @@ void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_TIM2_Init(void);
 static void MX_TIM3_Init(void);
-static void MX_TIM4_Init(void);
 static void MX_USART1_UART_Init(void);
 static void MX_TIM1_Init(void);
 /* USER CODE BEGIN PFP */
@@ -116,7 +114,7 @@ void motor_control(GPIO_PinState in1, GPIO_PinState in2, GPIO_PinState in3, GPIO
 
 void motor_speed(uint16_t left_speed, uint16_t right_speed)
 {	
-	htim2.Instance->CCR4 = (uint32_t)(((float)left_speed/100.0f) * 65535.0f); 
+	htim2.Instance->CCR2 = (uint32_t)(((float)left_speed/100.0f) * 65535.0f); 
 	htim3.Instance->CCR1 = (uint32_t)(((float)right_speed/100.0f) * 65535.0f * (0.9f));
 }
 
@@ -159,72 +157,56 @@ void robot_mover(dc_control_t dir)
 void auto_mode(void)
 {
 	GPIO_PinState left_ir  = HAL_GPIO_ReadPin(IRL_GPIO_Port, IRL_Pin);
-	GPIO_PinState right_ir = HAL_GPIO_ReadPin(IRR_GPIO_Port, IRR_Pin);
-	if(left_ir && right_ir)
+	if(left_ir)
 	{
 	front_d = ultrasonic_read(); 	
 	if (front_d > 15.0) 
 		robot_mover(FORWARD);
 	else
 	{
-		robot_mover(BACKWARD);
-		HAL_Delay(300);
 		robot_mover(STOP);
-		HAL_Delay(100);
+		HAL_Delay(200);
 		
 		robot_mover(LEFT_STAND);
-		HAL_Delay(300);
+		HAL_Delay(250);
 		robot_mover(STOP);
 		HAL_Delay(200);
 		left_d  = ultrasonic_read(); // nhin ben trai
 		robot_mover(RIGHT_STAND);
-		HAL_Delay(300);
+		HAL_Delay(250);
 		robot_mover(STOP);
 		HAL_Delay(200);
 		
 		robot_mover(RIGHT_STAND);
-		HAL_Delay(300);
+		HAL_Delay(250);
 		robot_mover(STOP);
 		HAL_Delay(200);
 		right_d = ultrasonic_read(); // nhin ben phai
 		robot_mover(LEFT_STAND);
-		HAL_Delay(300);
-		
+		HAL_Delay(250);	
 		robot_mover(STOP);
 		HAL_Delay(200);
+		
 		if (left_d > right_d)
 		{
-			robot_mover(RIGHT_BACK); 
-			HAL_Delay(450);
+			robot_mover(LEFT_STAND); 
+			HAL_Delay(250);
 			robot_mover(STOP);
-			HAL_Delay(10);
+			HAL_Delay(100);
 		}
 		else 
 		{
-			robot_mover(LEFT_BACK);
-      HAL_Delay(450);
+			robot_mover(RIGHT_STAND);
+      HAL_Delay(250);
 			robot_mover(STOP);
-			HAL_Delay(10);
+			HAL_Delay(100);
 		}
 	}	
   }
 	else 
 	{
-		if((!left_ir) && right_ir)
-		{
 			robot_mover(LEFT_BACK);
 			HAL_Delay(300);
-		}
-		else if(left_ir && (!right_ir))
-		{
-			robot_mover(RIGHT_BACK);
-			HAL_Delay(300);
-		}
-		else if((!left_ir) && (!right_ir))
-		{
-			robot_mover(BACKWARD);
-			HAL_Delay(300);
-		}
 	}
 }
 
@@ -268,15 +250,13 @@ int main(void)
   MX_GPIO_Init();
   MX_TIM2_Init();
   MX_TIM3_Init();
-  MX_TIM4_Init();
   MX_USART1_UART_Init();
   MX_TIM1_Init();
   /* USER CODE BEGIN 2 */
 	HAL_UART_Receive_IT(&huart1, &rx_char, 1);
 	HAL_TIM_Base_Start(&htim1); // delay us
-	HAL_TIM_PWM_Start(&htim2,TIM_CHANNEL_4); // ENA
+	HAL_TIM_PWM_Start(&htim2,TIM_CHANNEL_2); // ENA
 	HAL_TIM_PWM_Start(&htim3,TIM_CHANNEL_1); // ENB
-	HAL_TIM_PWM_Start(&htim4,TIM_CHANNEL_4); // SERVO	
   
 	uint8_t pre_char;
 	left_speed = 50, right_speed = 50;
@@ -302,10 +282,14 @@ int main(void)
 				robot_mover(BACKWARD);
 				continue;
 			case TRAI:
-				robot_mover(LEFT_FORWARD);
+				robot_mover(LEFT_STAND);
+				HAL_Delay(250);
+			  rx_char = FORWARD;
 				continue;
 			case PHAI:
-				robot_mover(RIGHT_FORWARD);
+				robot_mover(RIGHT_STAND);
+			  HAL_Delay(250);
+			  rx_char = FORWARD;
 				continue;
 			case DUNG:
 				robot_mover(STOP);
@@ -476,7 +460,7 @@ static void MX_TIM2_Init(void)
   sConfigOC.Pulse = 0;
   sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
   sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
-  if (HAL_TIM_PWM_ConfigChannel(&htim2, &sConfigOC, TIM_CHANNEL_4) != HAL_OK)
+  if (HAL_TIM_PWM_ConfigChannel(&htim2, &sConfigOC, TIM_CHANNEL_2) != HAL_OK)
   {
     Error_Handler();
   }
@@ -547,65 +531,6 @@ static void MX_TIM3_Init(void)
 }
 
 /**
-  * @brief TIM4 Initialization Function
-  * @param None
-  * @retval None
-  */
-static void MX_TIM4_Init(void)
-{
-
-  /* USER CODE BEGIN TIM4_Init 0 */
-
-  /* USER CODE END TIM4_Init 0 */
-
-  TIM_ClockConfigTypeDef sClockSourceConfig = {0};
-  TIM_MasterConfigTypeDef sMasterConfig = {0};
-  TIM_OC_InitTypeDef sConfigOC = {0};
-
-  /* USER CODE BEGIN TIM4_Init 1 */
-
-  /* USER CODE END TIM4_Init 1 */
-  htim4.Instance = TIM4;
-  htim4.Init.Prescaler = 1440-1;
-  htim4.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim4.Init.Period = 1000-1;
-  htim4.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
-  htim4.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
-  if (HAL_TIM_Base_Init(&htim4) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
-  if (HAL_TIM_ConfigClockSource(&htim4, &sClockSourceConfig) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  if (HAL_TIM_PWM_Init(&htim4) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
-  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
-  if (HAL_TIMEx_MasterConfigSynchronization(&htim4, &sMasterConfig) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  sConfigOC.OCMode = TIM_OCMODE_PWM1;
-  sConfigOC.Pulse = 0;
-  sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
-  sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
-  if (HAL_TIM_PWM_ConfigChannel(&htim4, &sConfigOC, TIM_CHANNEL_4) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* USER CODE BEGIN TIM4_Init 2 */
-
-  /* USER CODE END TIM4_Init 2 */
-  HAL_TIM_MspPostInit(&htim4);
-
-}
-
-/**
   * @brief USART1 Initialization Function
   * @param None
   * @retval None
@@ -657,10 +582,8 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, IN4_Pin|TRIG_Pin, GPIO_PIN_RESET);
-
-  /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOB, IN3_Pin|IN2_Pin|IN1_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, IN1_Pin|IN2_Pin|IN3_Pin|IN4_Pin 
+                          |TRIG_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin : LED_Pin */
   GPIO_InitStruct.Pin = LED_Pin;
@@ -669,19 +592,14 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(LED_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : IN4_Pin TRIG_Pin */
-  GPIO_InitStruct.Pin = IN4_Pin|TRIG_Pin;
+  /*Configure GPIO pins : IN1_Pin IN2_Pin IN3_Pin IN4_Pin 
+                           TRIG_Pin */
+  GPIO_InitStruct.Pin = IN1_Pin|IN2_Pin|IN3_Pin|IN4_Pin 
+                          |TRIG_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-
-  /*Configure GPIO pins : IN3_Pin IN2_Pin IN1_Pin */
-  GPIO_InitStruct.Pin = IN3_Pin|IN2_Pin|IN1_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
   /*Configure GPIO pin : ECHO_Pin */
   GPIO_InitStruct.Pin = ECHO_Pin;
