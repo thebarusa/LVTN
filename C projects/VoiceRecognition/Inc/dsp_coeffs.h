@@ -8,16 +8,16 @@
 typedef enum
 {
 NO_VOICE = 0,
-TOI,
-LUI,
-TRAI,
-PHAI,
-DUNG,
-MOT,
-HAI,
-BA,
-BON,
-TUDONG,
+TOI      = 1,
+LUI   	 = 2,
+TRAI  	 = 3,
+PHAI  	 = 4,
+DUNG  	 = 5,
+MOT    	 = 6,
+HAI      = 7,
+BA    	 = 8,
+BON   	 = 9,
+TUDONG 	 = 10,
 }word_t;
 
 #endif // __DSP_COEFFS_H

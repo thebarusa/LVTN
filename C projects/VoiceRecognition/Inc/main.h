@@ -33,9 +33,7 @@ extern "C" {
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "stm32f4_discovery.h"
-#include "stm32f4_discovery_accelerometer.h"
 #include "stm32f4_discovery_audio.h"
-#include "mems.h"
 #include "audio_record.h"
 #include <stdio.h>
 #include "dsp.h"
