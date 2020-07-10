@@ -23,7 +23,10 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "fonts.h"
+#include "ssd1306.h"
+#include "bitmap.h"
+#include "string.h"
 
 /* USER CODE END Includes */
 
@@ -42,7 +45,7 @@
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
-I2C_HandleTypeDef hi2c1;
+I2C_HandleTypeDef hi2c3;
 
 I2S_HandleTypeDef hi2s2;
 
@@ -57,7 +60,7 @@ __IO uint32_t PauseResumeStatus = IDLE_STATUS;
 /* Counter for User button presses*/
 uint32_t PressCount = 0;
 uint8_t  my_word;
-
+const char word_string[][10] = {"UNKNOWN", "TOI", "LUI", "TRAI", "PHAI", "DUNG", "MOT", "HAI", "BA", "BON", "TU DONG"};
 float min_dist;
 float my_buf[OUT_BUFFER_SIZE];
 /* USER CODE END PV */
@@ -65,9 +68,9 @@ float my_buf[OUT_BUFFER_SIZE];
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
-static void MX_I2C1_Init(void);
 static void MX_I2S2_Init(void);
 static void MX_SPI1_Init(void);
+static void MX_I2C3_Init(void);
 static void MX_USART2_UART_Init(void);
 /* USER CODE BEGIN PFP */
 
@@ -75,7 +78,18 @@ static void MX_USART2_UART_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
+void oled_putchar(char *str, FontDef_t font, uint16_t x, const unsigned char *logo)
+{
+	SSD1306_Clear();
+	if(logo != NULL)
+	{
+		SSD1306_DrawBitmap(0, 0, logoMicro, 128, 32, 1);
+		x = (127 - 32 - font.FontWidth * strlen(str)) / 2 + 32;
+	}
+	SSD1306_GotoXY(x,(32 - font.FontHeight) / 2);
+	SSD1306_Puts(str, &font, 1);
+	SSD1306_UpdateScreen(); 
+}
 
 /* USER CODE END 0 */
 
@@ -111,25 +125,30 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_I2C1_Init();
   MX_I2S2_Init();
   MX_SPI1_Init();
+  MX_I2C3_Init();
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
 	
   /* Configure USER Button */
+	SSD1306_Init();   
   BSP_PB_Init(BUTTON_KEY, BUTTON_MODE_EXTI);
   if(BSP_AUDIO_IN_Init(DEFAULT_AUDIO_IN_FREQ, DEFAULT_AUDIO_IN_BIT_RESOLUTION, DEFAULT_AUDIO_IN_CHANNEL_NBR) != AUDIO_OK)
   {
     /* Record Error */
     Error_Handler();
   }  
+	
+	oled_putchar("HELLO", Font_16x26, 24, NULL);
+	SSD1306_ScrollRight(0x00, 0x0f);
   /* Toggle LEDs between each Test */
   while (!UserPressButton)
   {
     Toggle_Leds();
   }
-    
+	SSD1306_Stopscroll();
+  oled_putchar("RECORDING..", Font_7x10, 0, logoMicro);
   BSP_LED_Off(LED3);
   BSP_LED_Off(LED4);
   BSP_LED_Off(LED5);
@@ -143,7 +162,11 @@ int main(void)
   {
 		UserPressButton = 0;
     my_word = voice_recognition(&min_dist, my_buf);
-	  HAL_UART_Transmit(&huart2, &my_word, 1, 1000);
+	  if(HAL_UART_Transmit(&huart2, &my_word, 1, 1000) != HAL_OK)
+		{
+			oled_putchar("ERROR", Font_16x26, 0, NULL);
+		}
+		else oled_putchar((char*)word_string[my_word], Font_11x18, 0, logoMicro);
     UserPressButton = 0;
     while (!UserPressButton) Toggle_Leds();
 		my_word  = NO_VOICE;
@@ -151,6 +174,7 @@ int main(void)
     BSP_LED_Off(LED4);
     BSP_LED_Off(LED5);
     BSP_LED_Off(LED6);
+		oled_putchar("RECORDING..", Font_7x10, 0, logoMicro);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -209,36 +233,36 @@ void SystemClock_Config(void)
 }
 
 /**
-  * @brief I2C1 Initialization Function
+  * @brief I2C3 Initialization Function
   * @param None
   * @retval None
   */
-static void MX_I2C1_Init(void)
+static void MX_I2C3_Init(void)
 {
 
-  /* USER CODE BEGIN I2C1_Init 0 */
+  /* USER CODE BEGIN I2C3_Init 0 */
 
-  /* USER CODE END I2C1_Init 0 */
+  /* USER CODE END I2C3_Init 0 */
 
-  /* USER CODE BEGIN I2C1_Init 1 */
+  /* USER CODE BEGIN I2C3_Init 1 */
 
-  /* USER CODE END I2C1_Init 1 */
-  hi2c1.Instance = I2C1;
-  hi2c1.Init.ClockSpeed = 100000;
-  hi2c1.Init.DutyCycle = I2C_DUTYCYCLE_2;
-  hi2c1.Init.OwnAddress1 = 0;
-  hi2c1.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
-  hi2c1.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
-  hi2c1.Init.OwnAddress2 = 0;
-  hi2c1.Init.GeneralCallMode = I2C_GENERALCALL_DISABLE;
-  hi2c1.Init.NoStretchMode = I2C_NOSTRETCH_DISABLE;
-  if (HAL_I2C_Init(&hi2c1) != HAL_OK)
+  /* USER CODE END I2C3_Init 1 */
+  hi2c3.Instance = I2C3;
+  hi2c3.Init.ClockSpeed = 400000;
+  hi2c3.Init.DutyCycle = I2C_DUTYCYCLE_2;
+  hi2c3.Init.OwnAddress1 = 0;
+  hi2c3.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
+  hi2c3.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
+  hi2c3.Init.OwnAddress2 = 0;
+  hi2c3.Init.GeneralCallMode = I2C_GENERALCALL_DISABLE;
+  hi2c3.Init.NoStretchMode = I2C_NOSTRETCH_DISABLE;
+  if (HAL_I2C_Init(&hi2c3) != HAL_OK)
   {
     Error_Handler();
   }
-  /* USER CODE BEGIN I2C1_Init 2 */
+  /* USER CODE BEGIN I2C3_Init 2 */
 
-  /* USER CODE END I2C1_Init 2 */
+  /* USER CODE END I2C3_Init 2 */
 
 }
 

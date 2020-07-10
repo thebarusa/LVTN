@@ -312,7 +312,7 @@
           </ArmAdsMisc>
           <Cads>
             <interw>1</interw>
-            <Optim>4</Optim>
+            <Optim>1</Optim>
             <oTime>0</oTime>
             <SplitLS>0</SplitLS>
             <OneElfS>1</OneElfS>
@@ -338,7 +338,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32F407xx,USE_STM32F4_DISCO,ARM_MATH_CM4,__FPU_PRESENT</Define>
               <Undefine></Undefine>
-              <IncludePath>../Inc;      ../Drivers/STM32F4xx_HAL_Driver/Inc;      ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;      ../Drivers/CMSIS/Device/ST/STM32F4xx/Include;      ../Drivers/CMSIS/Include;      ..\Drivers\BSP\STM32F4-Discovery;      ..\Drivers\CMSIS\DSP\Include</IncludePath>
+              <IncludePath>../Inc;        ../Drivers/STM32F4xx_HAL_Driver/Inc;        ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;        ../Drivers/CMSIS/Device/ST/STM32F4xx/Include;        ../Drivers/CMSIS/Include;        ..\Drivers\BSP\STM32F4-Discovery;        ..\Drivers\CMSIS\DSP\Include</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -403,6 +403,16 @@
               <FilePath>..\Src\mems.c</FilePath>
             </File>
             <File>
+              <FileName>dsp.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\dsp.c</FilePath>
+            </File>
+            <File>
+              <FileName>dsp_coeffs.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\dsp_coeffs.c</FilePath>
+            </File>
+            <File>
               <FileName>main.c</FileName>
               <FileType>1</FileType>
               <FilePath>../Src/main.c</FilePath>
@@ -418,14 +428,14 @@
               <FilePath>../Src/stm32f4xx_hal_msp.c</FilePath>
             </File>
             <File>
-              <FileName>dsp.c</FileName>
+              <FileName>fonts.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Src\dsp.c</FilePath>
+              <FilePath>..\Src\fonts.c</FilePath>
             </File>
             <File>
-              <FileName>dsp_coeffs.c</FileName>
+              <FileName>ssd1306.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Src\dsp_coeffs.c</FilePath>
+              <FilePath>..\Src\ssd1306.c</FilePath>
             </File>
           </Files>
         </Group>
