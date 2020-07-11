@@ -27,7 +27,7 @@
 extern const float Word[WORD_NUM][20*CENTROID];
 extern const float HamWindow[256];
 extern const float MelFb[20*129];
-extern const word_t  word_id[WORD_NUM];
+extern const word_t word_id[WORD_NUM];
 uint32_t AudioTotalSize;
 /* Private variables -------------------------------------------------- */
 
@@ -221,6 +221,6 @@ uint8_t voice_recognition(float *min_distance, float OutBuf[])
 		}
 		return word_id[id];		
 	}
-	return NO_VOICE;
+	return UNKNOWN;
 }
 /* End of file -------------------------------------------------------- */

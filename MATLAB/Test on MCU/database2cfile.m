@@ -16,7 +16,7 @@ fprintf(fid, '#define WORD_NUM %d\n', length(data_save));
 fprintf(fid, '#define CENTROID %d\n', centroid);
 fprintf(fid, '#define MELFB_NUM %d\n\n', 20);
 fprintf(fid, 'typedef enum\n{\n');
-fprintf(fid, 'NO_VOICE = 0,\n');
+fprintf(fid, 'UNKNOWN = 0,\n');
 fprintf(fid, '%s,\n', enum{1,:}); % day la ten cac word
 fprintf(fid, '}word_t;\n\n');
 fprintf(fid, '#endif // __DSP_COEFFS_H\n\n');
@@ -27,8 +27,11 @@ fid = fopen('dsp_coeffs.c','wt+');
 fprintf(fid, '#include <dsp_coeffs.h>\n');
 fprintf(fid, '#include <math.h>\n\n');
 fprintf(fid, '#define NaNf   NAN\n\n');
-fprintf(fid, 'word_t word_id[WORD_NUM] = {');
+fprintf(fid, 'const word_t word_id[WORD_NUM] = {');
 fprintf(fid, '%s,', word_id{1,:});
+fprintf(fid, '};');
+fprintf(fid, '\nconst char word_string[][10] = {"UNKNOWN",');
+fprintf(fid, '"%s",', enum{1,:});
 fprintf(fid, '};\n\n');
 % du lieu hamming
 fprintf(fid, 'const float HamWindow[256] = \n{\n');

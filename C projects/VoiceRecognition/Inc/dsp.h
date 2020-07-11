@@ -21,7 +21,7 @@
 #include <math.h>
 #include <stdlib.h>
 #include "main.h"
-#include "dsp_coeffs.h"
+//#include "dsp_coeffs.h"
 /* Public defines ----------------------------------------------------- */
 #define FFT_LENGTH       256
 #define FRAME_OVERLAP    100

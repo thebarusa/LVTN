@@ -60,7 +60,7 @@ __IO uint32_t PauseResumeStatus = IDLE_STATUS;
 /* Counter for User button presses*/
 uint32_t PressCount = 0;
 uint8_t  my_word;
-const char word_string[][10] = {"UNKNOWN", "TOI", "LUI", "TRAI", "PHAI", "DUNG", "MOT", "HAI", "BA", "BON", "TU DONG"};
+extern const char word_string[][10];
 float min_dist;
 float my_buf[OUT_BUFFER_SIZE];
 /* USER CODE END PV */
@@ -184,7 +184,7 @@ int main(void)
 		else oled_putchar((char*)word_string[my_word], Font_11x18, 0, logoMicro);
     UserPressButton = 0;
     while (!UserPressButton) Toggle_Leds();
-		my_word  = NO_VOICE;
+		my_word  = UNKNOWN;
     leds_off();
     /* USER CODE END WHILE */
 

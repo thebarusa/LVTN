@@ -3,7 +3,8 @@
 
 #define NaNf   NAN
 
-word_t word_id[WORD_NUM] = {TOI,TOI,LUI,LUI,TRAI,TRAI,PHAI,PHAI,DUNG,DUNG,MOT,MOT,HAI,HAI,BA,BA,BON,BON,TUDONG,TUDONG,};
+const word_t word_id[WORD_NUM] = {TOI,TOI,LUI,LUI,TRAI,TRAI,PHAI,PHAI,DUNG,DUNG,MOT,MOT,HAI,HAI,BA,BA,BON,BON,TUDONG,TUDONG,};
+const char word_string[][10] = {"UNKNOWN","TOI","LUI","TRAI","PHAI","DUNG","MOT","HAI","BA","BON","TUDONG",};
 
 const float HamWindow[256] = 
 {

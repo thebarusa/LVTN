@@ -173,7 +173,17 @@
         <Ww>
           <count>4</count>
           <WinNumber>1</WinNumber>
-          <ItemText>pre_char</ItemText>
+          <ItemText>pre_char,0x0A</ItemText>
+        </Ww>
+        <Ww>
+          <count>5</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>left_d</ItemText>
+        </Ww>
+        <Ww>
+          <count>6</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>right_d</ItemText>
         </Ww>
       </WatchWindow1>
       <Tracepoint>

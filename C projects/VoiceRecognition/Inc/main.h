@@ -34,6 +34,7 @@ extern "C" {
 /* USER CODE BEGIN Includes */
 #include "stm32f4_discovery.h"
 #include "stm32f4_discovery_audio.h"
+#include "dsp_coeffs.h"
 #include "audio_record.h"
 #include <stdio.h>
 #include "dsp.h"

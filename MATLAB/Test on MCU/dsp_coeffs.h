@@ -7,7 +7,7 @@
 
 typedef enum
 {
-NO_VOICE = 0,
+UNKNOWN = 0,
 TOI,
 LUI,
 TRAI,

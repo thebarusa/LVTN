@@ -51,8 +51,8 @@ UART_HandleTypeDef huart1;
 
 /* USER CODE BEGIN PV */
 float front_d, left_d, right_d;
-uint8_t rx_char, automatic;
-uint16_t left_speed, right_speed;
+volatile uint8_t rx_char, pre_char;
+uint16_t speed;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -99,7 +99,7 @@ float ultrasonic_read()
 		local_time++;   // measure time for which the pin is high
 		delay_us(1);
 	}
-	dist = (float)local_time * .0171f;
+	dist = (float)local_time * .034f;
 	return dist;
 }
 
@@ -112,10 +112,10 @@ void motor_control(GPIO_PinState in1, GPIO_PinState in2, GPIO_PinState in3, GPIO
   HAL_GPIO_WritePin(IN4_GPIO_Port, IN4_Pin, in4);
 }	
 
-void motor_speed(uint16_t left_speed, uint16_t right_speed)
+void motor_speed(uint16_t speed)
 {	
-	htim2.Instance->CCR2 = (uint32_t)(((float)left_speed/100.0f) * 65535.0f); 
-	htim3.Instance->CCR1 = (uint32_t)(((float)right_speed/100.0f) * 65535.0f * (0.9f));
+	htim2.Instance->CCR2 = (uint32_t)(((float)speed/100.0f) * 65535.0f); 
+	htim3.Instance->CCR1 = (uint32_t)(((float)speed/100.0f) * 65535.0f * (0.9f));
 }
 
 void robot_mover(dc_control_t dir)
@@ -216,7 +216,14 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 	{
 		HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
   }
-	HAL_UART_Receive_IT(&huart1, &rx_char, 1);
+	HAL_UART_Receive_IT(&huart1, (uint8_t*)&rx_char, 1);
+}
+
+void robot_delay(uint16_t delay)
+{
+	uint32_t milisec = (uint32_t)((float)delay * (100.0f / (float)speed));
+	while((milisec--))
+	  HAL_Delay(1);
 }
 /* USER CODE END 0 */
 
@@ -253,26 +260,25 @@ int main(void)
   MX_USART1_UART_Init();
   MX_TIM1_Init();
   /* USER CODE BEGIN 2 */
-	HAL_UART_Receive_IT(&huart1, &rx_char, 1);
+	HAL_UART_Receive_IT(&huart1, (uint8_t*)&rx_char, 1);
 	HAL_TIM_Base_Start(&htim1); // delay us
 	HAL_TIM_PWM_Start(&htim2,TIM_CHANNEL_2); // ENA
 	HAL_TIM_PWM_Start(&htim3,TIM_CHANNEL_1); // ENB
   
-	uint8_t pre_char;
-	left_speed = 50, right_speed = 50;
+	speed = 50;
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   { 			
-		motor_speed(left_speed, right_speed);
+		motor_speed(speed);
 		if((rx_char < MOT) || (rx_char > BON))
 			pre_char = rx_char;
 		
     switch (rx_char)
 		{
-			case NO_VOICE:
+			case UNKNOWN:
 				robot_mover(STOP);
 				continue;
 			case TOI:
@@ -283,35 +289,31 @@ int main(void)
 				continue;
 			case TRAI:
 				robot_mover(LEFT_STAND);
-				HAL_Delay(250);
-			  rx_char = FORWARD;
+				robot_delay(100);
+			  rx_char = UNKNOWN;
 				continue;
 			case PHAI:
 				robot_mover(RIGHT_STAND);
-			  HAL_Delay(250);
-			  rx_char = FORWARD;
+			  robot_delay(100);
+			  rx_char = UNKNOWN;
 				continue;
 			case DUNG:
 				robot_mover(STOP);
 				continue;
 			case MOT:
-				left_speed  = 25;
-			  right_speed = left_speed;
+				speed = 25;
 			  rx_char = pre_char;
 				continue;
 			case HAI:
-				left_speed  = 50;
-			  right_speed = left_speed;
+				speed = 50;
 			  rx_char = pre_char;
 				continue;
 			case BA:
-				left_speed  = 75;
-			  right_speed = left_speed;
+				speed = 75;
 			  rx_char = pre_char;
 				continue;
 			case BON:
-				left_speed  = 100;
-			  right_speed = left_speed;
+				speed = 100;
 			  rx_char = pre_char;
 				continue;
 			case TUDONG:
