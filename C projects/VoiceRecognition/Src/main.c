@@ -83,7 +83,7 @@ void oled_putchar(char *str, FontDef_t font, uint16_t x, const unsigned char *lo
 	SSD1306_Clear();
 	if(logo != NULL)
 	{
-		SSD1306_DrawBitmap(0, 0, logoMicro, 128, 32, 1);
+		SSD1306_DrawBitmap(0, 0, logo, 128, 32, 1);
 		x = (127 - 32 - font.FontWidth * strlen(str)) / 2 + 32;
 	}
 	SSD1306_GotoXY(x,(32 - font.FontHeight) / 2);
@@ -91,6 +91,13 @@ void oled_putchar(char *str, FontDef_t font, uint16_t x, const unsigned char *lo
 	SSD1306_UpdateScreen(); 
 }
 
+void leds_off(void)
+{
+	BSP_LED_Off(LED3);
+  BSP_LED_Off(LED4);
+  BSP_LED_Off(LED5);
+  BSP_LED_Off(LED6);
+}
 /* USER CODE END 0 */
 
 /**
@@ -140,26 +147,34 @@ int main(void)
     Error_Handler();
   }  
 	
-	oled_putchar("HELLO", Font_16x26, 24, NULL);
+	oled_putchar("PASSWORD", Font_11x18, 0, logoLock2);
+	while(my_word != TUDONG)
+	{  
+    while (!UserPressButton) Toggle_Leds();
+		leds_off();
+		oled_putchar("****", Font_16x26, 0, logoLock2);
+		my_word = voice_recognition(&min_dist, my_buf);
+		if(my_word == TUDONG) 
+			oled_putchar("HELLO HUNG", Font_11x18, 9, NULL);
+		else 
+		{
+			oled_putchar("WRONG PASSWORD", Font_7x10, 15, NULL);
+		  HAL_Delay(500);
+			oled_putchar("PASSWORD", Font_11x18, 0, logoLock2);
+		}
+	}
 	SSD1306_ScrollRight(0x00, 0x0f);
-  /* Toggle LEDs between each Test */
-  while (!UserPressButton)
-  {
-    Toggle_Leds();
-  }
+	while (!UserPressButton) Toggle_Leds();
+	leds_off();
 	SSD1306_Stopscroll();
-  oled_putchar("RECORDING..", Font_7x10, 0, logoMicro);
-  BSP_LED_Off(LED3);
-  BSP_LED_Off(LED4);
-  BSP_LED_Off(LED5);
-  BSP_LED_Off(LED6);
-	
+  
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+		oled_putchar("RECORDING..", Font_7x10, 0, logoMicro);
 		UserPressButton = 0;
     my_word = voice_recognition(&min_dist, my_buf);
 	  if(HAL_UART_Transmit(&huart2, &my_word, 1, 1000) != HAL_OK)
@@ -170,11 +185,7 @@ int main(void)
     UserPressButton = 0;
     while (!UserPressButton) Toggle_Leds();
 		my_word  = NO_VOICE;
-    BSP_LED_Off(LED3);
-    BSP_LED_Off(LED4);
-    BSP_LED_Off(LED5);
-    BSP_LED_Off(LED6);
-		oled_putchar("RECORDING..", Font_7x10, 0, logoMicro);
+    leds_off();
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
