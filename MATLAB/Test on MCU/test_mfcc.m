@@ -2,13 +2,12 @@
 clc
 close all
 
-size = (floor((len-256)/100) + 1);
-file = fopen('mfcc_data.bin');
-mfcc_data1 = fread(file,[size 20],'float');
-fclose(file);
-
-
-mfcc_data1 = mfcc_data1';
-%z_data = reshape(mfcc_data1, [29 20])';
-speech_id = nhandang(mfcc_data1, 30, fs);
-
+for i =1:length(data_save)
+disp(data_save{i,3});
+data_play = audioplayer(data_save{i,5},fs);
+play(data_play);
+while (isplaying(data_play))
+  disp('...')
+  pause(0.5);
+end
+end

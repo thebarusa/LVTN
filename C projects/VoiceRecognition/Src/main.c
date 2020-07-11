@@ -37,6 +37,8 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
+#define PASSWORD BON
+
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -148,21 +150,17 @@ int main(void)
   }  
 	
 	oled_putchar("PASSWORD", Font_11x18, 0, logoLock2);
-	while(my_word != TUDONG)
+	while(!UserPressButton) Toggle_Leds(); leds_off();
+	oled_putchar("****", Font_16x26, 0, logoLock2);
+	while(voice_recognition(&min_dist, my_buf) != PASSWORD)
 	{  
-    while (!UserPressButton) Toggle_Leds();
-		leds_off();
-		oled_putchar("****", Font_16x26, 0, logoLock2);
-		my_word = voice_recognition(&min_dist, my_buf);
-		if(my_word == TUDONG) 
-			oled_putchar("HELLO HUNG", Font_11x18, 9, NULL);
-		else 
-		{
 			oled_putchar("WRONG PASSWORD", Font_7x10, 15, NULL);
 		  HAL_Delay(500);
 			oled_putchar("PASSWORD", Font_11x18, 0, logoLock2);
-		}
+		  while(!UserPressButton) Toggle_Leds(); leds_off();
+	    oled_putchar("****", Font_16x26, 0, logoLock2);
 	}
+	oled_putchar("HELLO HUNG", Font_11x18, 9, NULL);
 	SSD1306_ScrollRight(0x00, 0x0f);
 	while (!UserPressButton) Toggle_Leds();
 	leds_off();
@@ -183,9 +181,9 @@ int main(void)
 		}
 		else oled_putchar((char*)word_string[my_word], Font_11x18, 0, logoMicro);
     UserPressButton = 0;
-    while (!UserPressButton) Toggle_Leds();
+    while (!UserPressButton) Toggle_Leds(); leds_off();
 		my_word  = UNKNOWN;
-    leds_off();
+    
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
