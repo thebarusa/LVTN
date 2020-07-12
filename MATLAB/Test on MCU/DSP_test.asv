@@ -54,7 +54,8 @@ title('Pre-emphasis & tach tu');
 
 subplot(2,2,2);
 plot(f,m_pho,'k');
-%hold on; plot(linspace(0, (fs/2), 129), filter_bank, 'linewidth', 1);
+hold on
+plot(linspace(0, (fs/2), 129), filter_bank, 'linewidth', 1)
 xlabel('f (Hz)')
 title('Pho tin hieu');
         

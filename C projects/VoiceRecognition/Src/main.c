@@ -150,14 +150,14 @@ int main(void)
   }  
 	
 	oled_putchar("PASSWORD", Font_11x18, 0, logoLock2);
-	while(!UserPressButton) Toggle_Leds(); leds_off();
+	while(!UserPressButton) leds_off();
 	oled_putchar("****", Font_16x26, 0, logoLock2);
 	while(voice_recognition(&min_dist, my_buf) != PASSWORD)
 	{  
 			oled_putchar("WRONG PASSWORD", Font_7x10, 15, NULL);
 		  HAL_Delay(500);
 			oled_putchar("PASSWORD", Font_11x18, 0, logoLock2);
-		  while(!UserPressButton) Toggle_Leds(); leds_off();
+		  while(!UserPressButton) leds_off();
 	    oled_putchar("****", Font_16x26, 0, logoLock2);
 	}
 	oled_putchar("HELLO HUNG", Font_11x18, 9, NULL);
