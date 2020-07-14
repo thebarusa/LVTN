@@ -157,10 +157,11 @@ void robot_mover(dc_control_t dir)
 void auto_mode(void)
 {
 	GPIO_PinState left_ir  = HAL_GPIO_ReadPin(IRL_GPIO_Port, IRL_Pin);
-	if(left_ir)
+	GPIO_PinState right_ir = HAL_GPIO_ReadPin(IRR_GPIO_Port, IRR_Pin);
+	if(left_ir && right_ir)
 	{
 	front_d = ultrasonic_read(); 	
-	if (front_d > 15.0) 
+	if (front_d > 25.0) 
 		robot_mover(FORWARD);
 	else
 	{
@@ -205,8 +206,21 @@ void auto_mode(void)
   }
 	else 
 	{
-			robot_mover(LEFT_BACK);
+		if((!left_ir) && right_ir)
+		{
+			robot_mover(RIGHT_STAND);
+			HAL_Delay(200);
+		}
+		else if(left_ir && (!right_ir))
+		{
+			robot_mover(LEFT_STAND);
+			HAL_Delay(200);
+		}
+		else if((!left_ir) && (!right_ir))
+		{
+			robot_mover(BACKWARD);
 			HAL_Delay(300);
+		}
 	}
 }
 
