@@ -81,14 +81,14 @@ void Error_Handler(void);
 #define IN3_GPIO_Port GPIOA
 #define IN4_Pin GPIO_PIN_5
 #define IN4_GPIO_Port GPIOA
-#define TRIG_Pin GPIO_PIN_11
-#define TRIG_GPIO_Port GPIOA
-#define ECHO_Pin GPIO_PIN_12
+#define ECHO_Pin GPIO_PIN_7
 #define ECHO_GPIO_Port GPIOA
-#define IRL_Pin GPIO_PIN_15
+#define TRIG_Pin GPIO_PIN_0
+#define TRIG_GPIO_Port GPIOB
+#define IRR_Pin GPIO_PIN_11
+#define IRR_GPIO_Port GPIOA
+#define IRL_Pin GPIO_PIN_12
 #define IRL_GPIO_Port GPIOA
-#define IRR_Pin GPIO_PIN_3
-#define IRR_GPIO_Port GPIOB
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
