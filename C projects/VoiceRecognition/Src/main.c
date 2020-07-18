@@ -38,7 +38,7 @@
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
 #define PASSWORD BON
-
+#define DISTANCE 8.0f
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -63,7 +63,7 @@ __IO uint32_t PauseResumeStatus = IDLE_STATUS;
 uint32_t PressCount = 0;
 uint8_t  my_word;
 extern const char word_string[][10];
-float min_dist;
+float dist_buf[WORD_NUM];
 float my_buf[OUT_BUFFER_SIZE];
 /* USER CODE END PV */
 
@@ -148,11 +148,10 @@ int main(void)
     /* Record Error */
     Error_Handler();
   }  
-	
 	oled_putchar("PASSWORD", Font_11x18, 0, logoLock2);
 	while(!UserPressButton) leds_off();
 	oled_putchar("****", Font_16x26, 0, logoLock2);
-	while(voice_recognition(&min_dist, my_buf) != PASSWORD)
+	while(voice_recognition(dist_buf, DISTANCE, my_buf) != PASSWORD)
 	{  
 			oled_putchar("WRONG PASSWORD", Font_7x10, 15, NULL);
 		  HAL_Delay(500);
@@ -174,7 +173,7 @@ int main(void)
   {
 		oled_putchar("RECORDING..", Font_7x10, 0, logoMicro);
 		UserPressButton = 0;
-    my_word = voice_recognition(&min_dist, my_buf);
+    my_word = voice_recognition(dist_buf, DISTANCE, my_buf);
 	  if(HAL_UART_Transmit(&huart2, &my_word, 1, 1000) != HAL_OK)
 		{
 			oled_putchar("ERROR", Font_16x26, 0, NULL);

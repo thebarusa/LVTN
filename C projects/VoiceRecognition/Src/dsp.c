@@ -198,13 +198,12 @@ float voice_compare(float Amat[], float Bmat[], uint32_t row, uint32_t colA, uin
 	return (min_sum / (float)colA);
 }
 
-uint8_t voice_recognition(float *min_distance, float OutBuf[])
+uint8_t voice_recognition(float *distance, float min_distance, float OutBuf[])
 {
-	float nbFrame, dist;
+	float nbFrame, internal_min;
 	float mfcc_data[MELFB_NUM*MAX_MEL_FRAME];
-	uint16_t id;
+	uint32_t id;
 	
-	*min_distance = INFINITY;
 	AudioRecord(OutBuf);
 	if( AudioTotalSize > 1000)
 	{
@@ -212,14 +211,11 @@ uint8_t voice_recognition(float *min_distance, float OutBuf[])
     dsp_return check = mfcc((float32_t*)&mfcc_data[0], (float32_t*)&OutBuf[0], HamWindow, MelFb, AudioTotalSize);
 		for(uint16_t i = 0; i < WORD_NUM; i++)
 		{
-			dist = voice_compare((float32_t*)&mfcc_data[0], (float32_t*)&Word[i], MELFB_NUM, nbFrame, CENTROID);
-			if(dist < *min_distance)
-			{
-				*min_distance = dist;
-				id = i;
-			}
+			distance[i] = voice_compare((float32_t*)&mfcc_data[0], (float32_t*)&Word[i], MELFB_NUM, nbFrame, CENTROID);
 		}
-		return word_id[id];		
+		arm_min_f32(distance, WORD_NUM, &internal_min, &id);
+		if(internal_min <= min_distance)
+		  return word_id[id];		
 	}
 	return UNKNOWN;
 }

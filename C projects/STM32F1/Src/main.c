@@ -31,6 +31,11 @@
 #define SERVO_LEFT  95//125
 #define SERVO_MID   70
 #define SERVO_RIGHT 50//20
+
+#define LEFT_TIME   75
+#define RIGHT_TIME  75
+#define STOP_TIME   50
+#define BACK_TIME   100
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -166,41 +171,41 @@ void auto_mode(void)
 	else
 	{
 		robot_mover(STOP);
-		HAL_Delay(200);
+		robot_delay(STOP_TIME);
 		
 		robot_mover(LEFT_STAND);
-		HAL_Delay(250);
+		robot_delay(LEFT_TIME);
 		robot_mover(STOP);
-		HAL_Delay(200);
+		robot_delay(STOP_TIME);
 		left_d  = ultrasonic_read(); // nhin ben trai
 		robot_mover(RIGHT_STAND);
-		HAL_Delay(250);
+		robot_delay(RIGHT_TIME);
 		robot_mover(STOP);
-		HAL_Delay(200);
+		robot_delay(STOP_TIME);
 		
 		robot_mover(RIGHT_STAND);
-		HAL_Delay(250);
+		robot_delay(RIGHT_TIME);
 		robot_mover(STOP);
-		HAL_Delay(200);
+		robot_delay(STOP_TIME);
 		right_d = ultrasonic_read(); // nhin ben phai
 		robot_mover(LEFT_STAND);
-		HAL_Delay(250);	
+		robot_delay(LEFT_TIME);	
 		robot_mover(STOP);
-		HAL_Delay(200);
+		robot_delay(STOP_TIME);
 		
 		if (left_d > right_d)
 		{
 			robot_mover(LEFT_STAND); 
-			HAL_Delay(250);
+			robot_delay(LEFT_TIME);
 			robot_mover(STOP);
-			HAL_Delay(100);
+			robot_delay(STOP_TIME);
 		}
 		else 
 		{
 			robot_mover(RIGHT_STAND);
-      HAL_Delay(250);
+      robot_delay(RIGHT_TIME);
 			robot_mover(STOP);
-			HAL_Delay(100);
+			robot_delay(STOP_TIME);
 		}
 	}	
   }
@@ -209,17 +214,17 @@ void auto_mode(void)
 		if((!left_ir) && right_ir)
 		{
 			robot_mover(RIGHT_STAND);
-			HAL_Delay(200);
+			robot_delay(RIGHT_TIME);
 		}
 		else if(left_ir && (!right_ir))
 		{
 			robot_mover(LEFT_STAND);
-			HAL_Delay(200);
+			robot_delay(LEFT_TIME);
 		}
 		else if((!left_ir) && (!right_ir))
 		{
 			robot_mover(BACKWARD);
-			HAL_Delay(300);
+			robot_delay(BACK_TIME);
 		}
 	}
 }

@@ -178,7 +178,7 @@
         <Ww>
           <count>5</count>
           <WinNumber>1</WinNumber>
-          <ItemText>min_dist</ItemText>
+          <ItemText>dist_buf</ItemText>
         </Ww>
       </WatchWindow1>
       <MemoryWindow1>

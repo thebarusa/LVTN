@@ -3,7 +3,7 @@
 <title>Static Call Graph - [STM32F1_TEST\STM32F1_TEST.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image STM32F1_TEST\STM32F1_TEST.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Tue Jul 14 17:32:23 2020
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Sat Jul 18 09:27:39 2020
 <BR><P>
 <H3>Maximum Stack Usage =        144 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -264,8 +264,8 @@ Global Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = __aeabi_fmul
 </UL>
 <BR>[Called By]<UL><LI><a href="#[83]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ultrasonic_read
-<LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;robot_delay
-<LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;motor_speed
+<LI><a href="#[87]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;robot_delay
+<LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;motor_speed
 </UL>
 
 <P><STRONG><a name="[3e]"></a>__aeabi_fdiv</STRONG> (Thumb, 124 bytes, Stack size 8 bytes, fdiv.o(.text))
@@ -273,8 +273,8 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[3f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_float_round
 </UL>
-<BR>[Called By]<UL><LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;robot_delay
-<LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;motor_speed
+<BR>[Called By]<UL><LI><a href="#[87]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;robot_delay
+<LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;motor_speed
 </UL>
 
 <P><STRONG><a name="[40]"></a>__aeabi_ui2f</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, ffltui.o(.text))
@@ -283,13 +283,13 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[41]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_float_epilogue
 </UL>
 <BR>[Called By]<UL><LI><a href="#[83]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ultrasonic_read
-<LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;robot_delay
-<LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;motor_speed
+<LI><a href="#[87]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;robot_delay
+<LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;motor_speed
 </UL>
 
 <P><STRONG><a name="[8d]"></a>__aeabi_f2uiz</STRONG> (Thumb, 40 bytes, Stack size 0 bytes, ffixui.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;robot_delay
-<LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;motor_speed
+<BR><BR>[Called By]<UL><LI><a href="#[87]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;robot_delay
+<LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;motor_speed
 </UL>
 
 <P><STRONG><a name="[84]"></a>__aeabi_f2d</STRONG> (Thumb, 38 bytes, Stack size 0 bytes, f2d.o(.text))
@@ -300,7 +300,7 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;auto_mode
 </UL>
 
-<P><STRONG><a name="[87]"></a>__aeabi_cfrcmple</STRONG> (Thumb, 20 bytes, Stack size 0 bytes, cfrcmple.o(.text))
+<P><STRONG><a name="[88]"></a>__aeabi_cfrcmple</STRONG> (Thumb, 20 bytes, Stack size 0 bytes, cfrcmple.o(.text))
 <BR><BR>[Called By]<UL><LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;auto_mode
 </UL>
 
@@ -349,8 +349,7 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[44]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
 </UL>
-<BR>[Called By]<UL><LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;robot_delay
-<LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;auto_mode
+<BR>[Called By]<UL><LI><a href="#[87]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;robot_delay
 </UL>
 
 <P><STRONG><a name="[5d]"></a>HAL_GPIO_Init</STRONG> (Thumb, 766 bytes, Stack size 36 bytes, stm32f1xx_hal_gpio.o(i.HAL_GPIO_Init))
@@ -509,7 +508,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[54]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_Base_Init
 </UL>
 
-<P><STRONG><a name="[88]"></a>HAL_TIM_Base_Start</STRONG> (Thumb, 42 bytes, Stack size 0 bytes, stm32f1xx_hal_tim.o(i.HAL_TIM_Base_Start))
+<P><STRONG><a name="[89]"></a>HAL_TIM_Base_Start</STRONG> (Thumb, 42 bytes, Stack size 0 bytes, stm32f1xx_hal_tim.o(i.HAL_TIM_Base_Start))
 <BR><BR>[Called By]<UL><LI><a href="#[35]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
@@ -703,16 +702,16 @@ Global Symbols
 
 <P><STRONG><a name="[9c]"></a>__scatterload_zeroinit</STRONG> (Thumb, 14 bytes, Stack size unknown bytes, handlers.o(i.__scatterload_zeroinit), UNUSED)
 
-<P><STRONG><a name="[81]"></a>auto_mode</STRONG> (Thumb, 322 bytes, Stack size 24 bytes, main.o(i.auto_mode))
-<BR><BR>[Stack]<UL><LI>Max Depth = 56<LI>Call Chain = auto_mode &rArr; ultrasonic_read &rArr; __aeabi_fmul
+<P><STRONG><a name="[81]"></a>auto_mode</STRONG> (Thumb, 320 bytes, Stack size 24 bytes, main.o(i.auto_mode))
+<BR><BR>[Stack]<UL><LI>Max Depth = 72<LI>Call Chain = auto_mode &rArr; robot_delay &rArr; HAL_Delay
 </UL>
 <BR>[Calls]<UL><LI><a href="#[84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2d
-<LI><a href="#[87]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_cfrcmple
+<LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_cfrcmple
 <LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_cdrcmple
 <LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_ReadPin
-<LI><a href="#[43]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Delay
 <LI><a href="#[83]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ultrasonic_read
 <LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;robot_mover
+<LI><a href="#[87]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;robot_delay
 </UL>
 <BR>[Called By]<UL><LI><a href="#[35]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
@@ -726,11 +725,11 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_Receive_IT
 <LI><a href="#[65]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_PWM_Start
-<LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_Base_Start
+<LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_Base_Start
 <LI><a href="#[45]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Init
 <LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;robot_mover
-<LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;robot_delay
-<LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;motor_speed
+<LI><a href="#[87]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;robot_delay
+<LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;motor_speed
 <LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;auto_mode
 <LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystemClock_Config
 <LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_USART1_UART_Init
@@ -749,7 +748,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;robot_mover
 </UL>
 
-<P><STRONG><a name="[89]"></a>motor_speed</STRONG> (Thumb, 86 bytes, Stack size 24 bytes, main.o(i.motor_speed))
+<P><STRONG><a name="[8a]"></a>motor_speed</STRONG> (Thumb, 86 bytes, Stack size 24 bytes, main.o(i.motor_speed))
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = motor_speed &rArr; __aeabi_fmul
 </UL>
 <BR>[Calls]<UL><LI><a href="#[40]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ui2f
@@ -760,7 +759,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[35]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[8a]"></a>robot_delay</STRONG> (Thumb, 68 bytes, Stack size 32 bytes, main.o(i.robot_delay))
+<P><STRONG><a name="[87]"></a>robot_delay</STRONG> (Thumb, 68 bytes, Stack size 32 bytes, main.o(i.robot_delay))
 <BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = robot_delay &rArr; HAL_Delay
 </UL>
 <BR>[Calls]<UL><LI><a href="#[40]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ui2f
@@ -770,6 +769,7 @@ Global Symbols
 <LI><a href="#[43]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Delay
 </UL>
 <BR>[Called By]<UL><LI><a href="#[35]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+<LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;auto_mode
 </UL>
 
 <P><STRONG><a name="[86]"></a>robot_mover</STRONG> (Thumb, 156 bytes, Stack size 8 bytes, main.o(i.robot_mover))
