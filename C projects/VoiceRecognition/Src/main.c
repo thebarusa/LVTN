@@ -173,7 +173,7 @@ int main(void)
   {
 		oled_putchar("RECORDING..", Font_7x10, 0, logoMicro);
 		UserPressButton = 0;
-    my_word = voice_recognition(dist_buf, DISTANCE, my_buf);
+    my_word = voice_recognition(dist_buf, DISTANCE*2, my_buf);
 	  if(HAL_UART_Transmit(&huart2, &my_word, 1, 1000) != HAL_OK)
 		{
 			oled_putchar("ERROR", Font_16x26, 0, NULL);

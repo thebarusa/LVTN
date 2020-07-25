@@ -107,7 +107,7 @@ void AudioRecord(float OutBuf[])
   BufferCtl.offset = BUFFER_OFFSET_NONE;
 
   /* Turn ON LED3: start record */
-  BSP_LED_On(LED3);
+  BSP_LED_On(LED6);
 
   /* Start the record */
   if (BSP_AUDIO_IN_Record((uint16_t*)&InternalBuffer[0], INTERNAL_BUFF_SIZE) != AUDIO_OK)
@@ -225,9 +225,9 @@ void AudioRecord(float OutBuf[])
   UserPressButton = 0;
 
   /* Turn OFF LED3: record stopped */
-  BSP_LED_Off(LED3);
+  BSP_LED_Off(LED6);
   /* Turn ON LED6: play recorded file */
-  BSP_LED_On(LED6);
+  BSP_LED_On(LED3);
 
 //  while(!UserPressButton)
 //  { 
